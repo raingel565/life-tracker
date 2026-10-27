@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06080c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Life">
+<title>Life Tracker</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06080c;
+  --surface:#0d1118;
+  --surface2:#121823;
+  --line:rgba(255,255,255,.07);
+  --line2:rgba(255,255,255,.13);
+  --text:#e8edf5;
+  --muted:#7d899c;
+  --dim:#4a5465;
+  --accent:#b05cff;
+  --water:#38d9ff;
+  --good:#3ee08f;
+  --warn:#ffb547;
+  --bad:#ff4d6a;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --tabbar:64px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --safe-t:env(safe-area-inset-top,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg)}
+body{
+  color:var(--text);font-family:var(--font);font-size:15px;line-height:1.4;
+  overscroll-behavior-y:none;-webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input{font:inherit;color:inherit}
+.mono{font-family:var(--mono)}
+
+/* фон */
+.bg-glow{position:fixed;inset:-25%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle at 50% 22%,var(--glow,rgba(176,92,255,.14)),transparent 50%);
+  transition:background 1.4s ease}
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:36px 36px;
+  -webkit-mask-image:radial-gradient(circle at 50% 25%,#000 15%,transparent 65%);
+  mask-image:radial-gradient(circle at 50% 25%,#000 15%,transparent 65%)}
+
+/* каркас */
+#app{position:relative;z-index:1;max-width:520px;margin:0 auto;min-height:100%;
+  padding:calc(var(--safe-t) + 14px) 16px calc(var(--tabbar) + var(--safe-b) + 24px)}
+.topbar{display:flex;align-items:flex-end;justify-content:space-between;margin:4px 2px 16px}
+.topbar h1{font-size:24px;font-weight:700;letter-spacing:-.02em}
+.topbar .date{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.screen{display:none;animation:fadeUp .35s ease}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* карточки */
+.card{position:relative;background:linear-gradient(180deg,var(--surface2),var(--surface));
+  border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px;
+  box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px}
+.card-t{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.card-t svg{width:15px;height:15px}
+.big{font-family:var(--mono);font-size:26px;font-weight:700;letter-spacing:-.02em}
+.big small{font-size:14px;color:var(--muted);font-weight:500}
+.sub{color:var(--muted);font-size:13px}
+.row{display:flex;gap:8px;align-items:center}
+.grow{flex:1}
+
+/* герой */
+.hero-card{padding:16px 16px 14px;overflow:hidden}
+.hero-card::before{content:"";position:absolute;inset:-1px;border-radius:20px;padding:1px;pointer-events:none;
+  background:linear-gradient(160deg,var(--accent),transparent 38%,transparent 62%,var(--accent));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:.5;transition:background 1.2s ease}
+.status{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 10px;border-radius:99px;border:1px solid currentColor;color:var(--accent);white-space:nowrap;transition:color 1.2s ease}
+.stage{position:relative;height:300px;display:flex;justify-content:center;cursor:pointer;margin-top:-4px}
+#hero{height:300px;width:200px;overflow:visible}
+#figWrap{transform-origin:100px 305px;animation:breathe var(--pulse,2s) ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,.988)}}
+#figGlow{transition:filter 1.2s ease}
+#hero .geo{transition:d 1.2s cubic-bezier(.2,.8,.2,1),cx 1.2s,cy 1.2s,r 1.2s,stroke-width 1.2s cubic-bezier(.2,.8,.2,1),x 1.2s,y 1.2s,width 1.2s,height 1.2s}
+#waterLevel{transition:transform 1.4s cubic-bezier(.2,.8,.2,1)}
+.wave{animation:wave 3.2s linear infinite}
+.wave.w2{animation-duration:4.6s;animation-direction:reverse;opacity:.55}
+@keyframes wave{from{transform:translateX(0)}to{transform:translateX(-100px)}}
+#aura{transition:opacity 1.2s ease;animation:auraPulse 4s ease-in-out infinite;transform-origin:100px 170px}
+@keyframes auraPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+#debtLoad{transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity 1s ease;transform-origin:100px 18px}
+.sweat{fill:#9fe3ff;opacity:0}
+.stressed .sweat{animation:drip 2.2s ease-in infinite}
+.stressed .sweat.s2{animation-delay:1.1s}
+@keyframes drip{0%{opacity:0;transform:translateY(0)}20%{opacity:.85}100%{opacity:0;transform:translateY(24px)}}
+.stage-hint{position:absolute;bottom:6px;right:4px;font-size:11px;color:var(--dim);font-family:var(--mono)}
+
+.index-row{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.index-num{font-family:var(--mono);font-size:40px;font-weight:700;line-height:1;letter-spacing:-.03em}
+.index-lbl{font-size:11px;color:var(--muted);font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.chans{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:14px}
+.chan{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 2px 7px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.015)}
+.chan svg{width:18px;height:18px}
+.chan b{font-family:var(--mono);font-size:12px;font-weight:700}
+.chan .mini{width:70%;height:3px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}
+.chan .mini i{display:block;height:100%;border-radius:9px;transition:width 1s ease}
+.chan.off{opacity:.38}
+
+/* вода */
+.glasses{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:12px 0 14px}
+.glass{height:26px;border-radius:5px 5px 7px 7px;border:1px solid rgba(56,217,255,.25);position:relative;overflow:hidden;background:rgba(56,217,255,.03)}
+.glass i{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(180deg,#bff6ff,var(--water));box-shadow:0 0 10px rgba(56,217,255,.6);transition:height .6s cubic-bezier(.2,.8,.2,1)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.chip{flex:1;min-width:64px;height:40px;border-radius:12px;border:1px solid var(--line2);
+  font-family:var(--mono);font-size:13px;font-weight:700;transition:all .2s;color:var(--text);background:rgba(255,255,255,.02)}
+.chip:active{transform:scale(.96)}
+.chip.water{border-color:rgba(56,217,255,.35);color:#9eeeff}
+.chip.water:hover{background:rgba(56,217,255,.08)}
+.chip.icon{flex:0 0 40px;min-width:40px;display:grid;place-items:center;color:var(--muted)}
+.chip.icon svg{width:17px;height:17px}
+
+/* полосы */
+.bar{height:8px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden;margin:12px 0 6px}
+.bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--accent);box-shadow:0 0 12px var(--accent);transition:width 1.2s cubic-bezier(.2,.8,.2,1),background 1.2s}
+.bar.water i{background:var(--water);box-shadow:0 0 12px var(--water)}
+.bar-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+/* кнопки */
+.btn{height:46px;padding:0 18px;border-radius:14px;font-weight:600;font-size:15px;color:#06080c;
+  background:var(--accent);box-shadow:0 8px 22px -8px var(--accent);transition:background 1.2s,box-shadow 1.2s,transform .15s;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:active{transform:scale(.97)}
+.btn.block{width:100%}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2);box-shadow:none}
+.btn.danger{background:transparent;color:var(--bad);border:1px solid rgba(255,77,106,.4);box-shadow:none}
+.btn:disabled{opacity:.4}
+.link{color:var(--muted);font-size:13px;text-decoration:underline;text-underline-offset:3px}
+
+/* баннер */
+.banner{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;margin-bottom:14px;
+  border:1px solid rgba(255,181,71,.3);background:rgba(255,181,71,.06);font-size:13px}
+.banner svg{flex:0 0 20px;width:20px;height:20px;color:var(--warn)}
+.banner .grow{color:#f3dcb4}
+.banner button{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--warn);padding:6px 4px}
+
+/* списки */
+.list{list-style:none}
+.list li{display:flex;align-items:center;justify-content:space-between;padding:11px 2px;border-bottom:1px dashed var(--line);font-size:14px;gap:10px}
+.list li:last-child{border-bottom:0}
+.list .d{color:var(--muted);font-family:var(--mono);font-size:12px}
+.list .v{font-family:var(--mono);font-weight:700}
+.x{color:var(--dim);font-size:20px;line-height:1;padding:0 4px}
+.x:hover{color:var(--bad)}
+.delta{font-family:var(--mono);font-size:12px;margin-left:8px}
+.delta.up{color:var(--warn)} .delta.down{color:var(--good)} .delta.same{color:var(--muted)}
+
+/* метрики */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.metric{padding:12px 10px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.015)}
+.metric .l{font-size:11px;color:var(--muted);font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.metric .n{font-family:var(--mono);font-size:19px;font-weight:700;margin-top:4px}
+.metric .n small{font-size:12px;color:var(--muted);font-weight:500}
+
+/* график */
+.chart-wrap{position:relative;margin-top:6px}
+.chart-wrap svg{width:100%;height:auto;display:block;touch-action:pan-y}
+.chart-tip{position:absolute;top:0;transform:translateX(-50%);pointer-events:none;background:#161d2a;border:1px solid var(--line2);
+  border-radius:10px;padding:6px 9px;font-size:12px;white-space:nowrap;opacity:0;transition:opacity .15s}
+.chart-tip b{font-family:var(--mono)}
+.chart-tip span{color:var(--muted);font-family:var(--mono);font-size:11px;display:block}
+
+/* пустые состояния */
+.soon{text-align:center;padding:30px 18px}
+.soon .ico{width:56px;height:56px;border-radius:18px;margin:0 auto 14px;display:grid;place-items:center;border:1px solid var(--line2);color:var(--accent);transition:color 1.2s}
+.soon .ico svg{width:26px;height:26px}
+.soon h3{font-size:17px;margin-bottom:6px}
+.soon p{color:var(--muted);font-size:14px;max-width:320px;margin:0 auto}
+.soon ul{list-style:none;margin:16px auto 0;max-width:300px;text-align:left}
+.soon li{font-size:13px;color:var(--muted);padding:6px 0 6px 18px;position:relative}
+.soon li::before{content:"";position:absolute;left:2px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--accent);transition:background 1.2s}
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line2);border-radius:99px;padding:3px 8px;margin-top:14px}
+
+/* настройки */
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);gap:12px}
+.set-row:last-child{border-bottom:0}
+.set-row .l{font-size:14px}
+.set-row .h{font-size:12px;color:var(--muted);margin-top:2px}
+.set-row input{width:96px;height:38px;border-radius:10px;background:#090c12;border:1px solid var(--line2);padding:0 10px;text-align:right;font-family:var(--mono);outline:none}
+.set-row input:focus{border-color:var(--accent)}
+.seg{display:flex;gap:4px}
+.seg button{width:32px;height:34px;border-radius:9px;border:1px solid var(--line2);font-family:var(--mono);font-size:13px;color:var(--muted)}
+.seg button.on{background:var(--accent);color:#06080c;border-color:transparent;font-weight:700;transition:background 1.2s}
+
+/* таббар */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding-bottom:var(--safe-b);
+  background:rgba(8,10,15,.86);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+.tabbar .in{max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);height:var(--tabbar)}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--dim);font-size:10px;font-weight:500;letter-spacing:.02em;position:relative;transition:color .2s}
+.tab svg{width:22px;height:22px}
+.tab.on{color:var(--text)}
+.tab.on svg{color:var(--accent);filter:drop-shadow(0 0 6px var(--accent));transition:color 1.2s}
+.tab.on::before{content:"";position:absolute;top:0;width:26px;height:2px;border-radius:2px;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+
+/* шторка */
+.sheet-bg{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .25s}
+.sheet-bg.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;max-width:520px;margin:0 auto;
+  background:linear-gradient(180deg,#151b27,#0d1118);border:1px solid var(--line2);border-bottom:0;border-radius:24px 24px 0 0;
+  padding:10px 18px calc(22px + var(--safe-b));transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);max-height:88vh;overflow-y:auto}
+.sheet:not(.open){visibility:hidden;transition:transform .32s cubic-bezier(.2,.8,.2,1),visibility 0s .32s}
+.sheet.open{transform:none}
+.sheet .grab{width:40px;height:4px;border-radius:4px;background:var(--line2);margin:0 auto 14px}
+.sheet h2{font-size:19px;margin-bottom:4px}
+.sheet .sub{margin-bottom:16px}
+.field{position:relative;margin-bottom:12px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.field input{width:100%;height:54px;border-radius:14px;background:#090c12;border:1px solid var(--line2);padding:0 54px 0 16px;font-family:var(--mono);font-size:22px;font-weight:700;outline:none}
+.field input[type=date]{font-size:16px;padding-right:16px;color-scheme:dark}
+.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.field .u{position:absolute;right:16px;bottom:17px;color:var(--muted);font-family:var(--mono)}
+.breakdown li{padding:12px 2px}
+.breakdown .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--line2);flex:0 0 34px}
+.breakdown .ic svg{width:17px;height:17px}
+.breakdown .t{font-size:14px;font-weight:600}
+.breakdown .h{font-size:12px;color:var(--muted)}
+.breakdown .v{white-space:nowrap;font-size:13px}
+
+/* онбординг */
+#onb{position:fixed;inset:0;z-index:60;background:var(--bg);display:none;flex-direction:column;
+  padding:calc(var(--safe-t) + 20px) 22px calc(var(--safe-b) + 22px);max-width:520px;margin:0 auto}
+#onb.open{display:flex}
+.onb-top{display:flex;justify-content:space-between;align-items:center}
+.dots{display:flex;gap:6px}
+.dots i{width:18px;height:4px;border-radius:4px;background:var(--line2);transition:all .3s}
+.dots i.on{background:var(--accent);width:30px;box-shadow:0 0 8px var(--accent)}
+.onb-body{flex:1;display:flex;flex-direction:column;justify-content:center;animation:fadeUp .35s ease}
+.onb-body h2{font-size:28px;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px}
+.onb-body p{color:var(--muted);margin-bottom:26px;font-size:15px}
+.onb-logo{width:72px;height:72px;border-radius:22px;margin-bottom:24px;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 40%,rgba(176,92,255,.35),transparent 70%);border:1px solid var(--line2)}
+.onb-logo svg{width:36px;height:36px;color:var(--accent)}
+.weekpick{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.weekpick button{height:52px;border-radius:14px;border:1px solid var(--line2);font-family:var(--mono);font-size:18px;font-weight:700;color:var(--muted)}
+.weekpick button.on{background:var(--accent);color:#06080c;border-color:transparent;box-shadow:0 6px 18px -6px var(--accent)}
+
+/* тост и частицы */
+.toast{position:fixed;left:50%;bottom:calc(var(--tabbar) + var(--safe-b) + 16px);transform:translate(-50%,16px);opacity:0;z-index:80;
+  background:#161d2a;border:1px solid var(--line2);padding:11px 16px;border-radius:12px;font-size:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);transition:all .3s ease;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.particle{position:fixed;width:6px;height:6px;border-radius:50%;pointer-events:none;z-index:70}
+
+@media (max-width:370px){
+  .index-num{font-size:34px}
+  .chan b{font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" id="bgGlow"></div>
+<div class="bg-grid"></div>
+
+<div id="app">
+  <header class="topbar">
+    <h1 id="title">Сегодня</h1>
+    <div class="date" id="todayDate"></div>
+  </header>
+
+  <!-- ================= СЕГОДНЯ ================= -->
+  <section class="screen active" data-screen="today">
+    <div id="backupBanner"></div>
+
+    <div class="card hero-card">
+      <div class="card-h">
+        <span class="card-t">// avatar.state</span>
+        <span class="status" id="status">—</span>
+      </div>
+
+      <div class="stage" id="stage" role="button" aria-label="Показать разбивку состояния">
+        <svg id="hero" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="auraG" cx="50%" cy="50%" r="50%">
+              <stop offset="0" style="stop-color:var(--accent);stop-opacity:.55"/>
+              <stop offset=".55" style="stop-color:var(--accent);stop-opacity:.12"/>
+              <stop offset="1" style="stop-color:var(--accent);stop-opacity:0"/>
+            </radialGradient>
+            <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" style="stop-color:var(--accent);stop-opacity:1"/>
+              <stop offset="1" style="stop-color:var(--accent);stop-opacity:.72"/>
+            </linearGradient>
+            <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#e6fbff" stop-opacity=".95"/>
+              <stop offset=".12" stop-color="#8ff0ff" stop-opacity=".8"/>
+              <stop offset="1" stop-color="#22b8ff" stop-opacity=".72"/>
+            </linearGradient>
+            <mask id="figMask" maskUnits="userSpaceOnUse" x="-20" y="-20" width="240" height="360">
+              <g fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+                <circle class="geo" id="mHead" cx="100" cy="46" r="21" stroke="none"/>
+                <rect class="geo" id="mNeck" x="93" y="60" width="14" height="24" rx="5" stroke="none"/>
+                <path class="geo" id="mTorso" stroke="none"/>
+                <path class="geo" id="mUpL" fill="none"/>
+                <path class="geo" id="mUpR" fill="none"/>
+                <path class="geo" id="mFoL" fill="none"/>
+                <path class="geo" id="mFoR" fill="none"/>
+                <path class="geo" id="mThL" fill="none"/>
+                <path class="geo" id="mThR" fill="none"/>
+                <path class="geo" id="mCaL" fill="none"/>
+                <path class="geo" id="mCaR" fill="none"/>
+                <path class="geo" id="mFtL" fill="none" stroke-width="9"/>
+                <path class="geo" id="mFtR" fill="none" stroke-width="9"/>
+              </g>
+            </mask>
+          </defs>
+
+          <ellipse id="aura" cx="100" cy="170" rx="98" ry="160" fill="url(#auraG)" opacity="0"/>
+          <ellipse cx="100" cy="306" rx="62" ry="7" style="fill:var(--accent);opacity:.22;filter:blur(3px)"/>
+
+          <g id="figWrap">
+            <g id="figGlow">
+              <rect x="-20" y="-20" width="240" height="360" fill="url(#bodyG)" mask="url(#figMask)"/>
+            </g>
+            <g mask="url(#figMask)">
+              <g id="waterLevel" style="transform:translateY(320px)">
+                <path class="wave" fill="url(#waterG)" d="M-100 0 Q-75 -7 -50 0 T0 0 T50 0 T100 0 T150 0 T200 0 T250 0 T300 0 T350 0 V340 H-100Z"/>
+                <path class="wave w2" fill="#9ff3ff" fill-opacity=".25" d="M-100 4 Q-75 -4 -50 4 T0 4 T50 4 T100 4 T150 4 T200 4 T250 4 T300 4 T350 4 V340 H-100Z"/>
+              </g>
+            </g>
+            <g id="debtLoad" opacity="0">
+              <rect x="62" y="-6" width="76" height="24" rx="7" fill="#1c2332" stroke="var(--line2)"/>
+              <rect x="62" y="-6" width="76" height="24" rx="7" style="fill:var(--accent)" opacity=".92"/>
+              <text id="debtLoadTxt" x="100" y="10" text-anchor="middle" style="font:700 11px var(--mono);fill:#06080c">—</text>
+            </g>
+            <circle class="sweat" cx="126" cy="40" r="3"/>
+            <circle class="sweat s2" cx="74" cy="44" r="2.5"/>
+          </g>
+        </svg>
+        <span class="stage-hint">тап → разбор</span>
+      </div>
+
+      <div class="index-row">
+        <div>
+          <div class="index-lbl">Индекс состояния</div>
+          <div class="index-num" id="indexNum">—</div>
+        </div>
+        <div style="text-align:right">
+          <div class="index-lbl">Активно</div>
+          <div class="mono" style="font-size:15px;font-weight:700" id="activeCount">—</div>
+        </div>
+      </div>
+      <div class="chans" id="chans"></div>
+    </div>
+
+    <!-- вода -->
+    <div class="card">
+      <div class="card-h">
+        <span class="card-t" style="color:#7fe6ff"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.7s6 6.6 6 11.3a6 6 0 0 1-12 0c0-4.7 6-11.3 6-11.3z"/></svg>Вода</span>
+        <span class="sub mono" id="waterPct">0%</span>
+      </div>
+      <div class="big"><span id="waterMl">0</span> <small>/ <span id="waterGoalTxt">3 000</span> мл</small></div>
+      <div class="glasses" id="glasses"></div>
+      <div class="btns">
+        <button class="chip water" data-water="250">+250</button>
+        <button class="chip water" data-water="500">+500</button>
+        <button class="chip water" data-water="750">+750</button>
+        <button class="chip icon" id="waterCustom" aria-label="Своя сумма"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg></button>
+        <button class="chip icon" id="waterUndo" aria-label="Отменить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
+      </div>
+    </div>
+
+    <!-- вес -->
+    <div class="card" id="weightCard"></div>
+
+    <!-- скоро -->
+    <div class="card" style="padding:14px 16px">
+      <div class="card-t" style="margin-bottom:8px">Скоро в приложении</div>
+      <div class="sub">Деньги, тренировки и привычки появятся на следующих этапах. Персонаж уже готов принимать их данные.</div>
+    </div>
+  </section>
+
+  <!-- ================= ДЕНЬГИ ================= -->
+  <section class="screen" data-screen="money">
+    <div class="card soon">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 15h2"/></svg></div>
+      <h3>Долги и накопления</h3>
+      <p>Модуль появится на этапе 2.</p>
+      <ul>
+        <li>Долги с суммой и сроком, долг отцу закреплён сверху</li>
+        <li>Разделение «отложил» и «вернул»</li>
+        <li>Цели накоплений и пополнения</li>
+        <li>Груз долга над головой персонажа и цвет стресса</li>
+      </ul>
+      <span class="pill">этап 2</span>
+    </div>
+  </section>
+
+  <!-- ================= ТЕЛО ================= -->
+  <section class="screen" data-screen="body">
+    <div class="card" id="bodyStats"></div>
+    <div class="card" id="bodyChart"></div>
+    <div class="card" id="bodyHistory"></div>
+    <div class="card soon">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/></svg></div>
+      <h3>Тренировки</h3>
+      <p>Конструктор упражнений и комплексов появится на этапе 3.</p>
+      <ul>
+        <li>Три типа: повторения, с весом, таймер</li>
+        <li>Сравнение с прошлой тренировкой и рекорды</li>
+        <li>Таймер планки и отдыха</li>
+      </ul>
+      <span class="pill">этап 3</span>
+    </div>
+  </section>
+
+  <!-- ================= ПРИВЫЧКИ ================= -->
+  <section class="screen" data-screen="habits">
+    <div class="card soon">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/></svg></div>
+      <h3>Привычки</h3>
+      <p>Модуль появится на этапе 4.</p>
+      <ul>
+        <li>«Отказ»: дни без срыва, например «не курю 30 дней»</li>
+        <li>«Ежедневное действие»: серия дней подряд</li>
+        <li>Календарь и лучшая серия</li>
+        <li>Аура вокруг персонажа растёт вместе с сериями</li>
+      </ul>
+      <span class="pill">этап 4</span>
+    </div>
+  </section>
+
+  <!-- ================= ЕЩЁ ================= -->
+  <section class="screen" data-screen="more">
+    <div class="card" id="installCard" style="display:none"></div>
+
+    <div class="card">
+      <div class="card-t" style="margin-bottom:6px">Тело и цели</div>
+      <div class="set-row"><div><div class="l">Рост</div><div class="h">см</div></div><input id="sHeight" inputmode="numeric"></div>
+      <div class="set-row"><div><div class="l">Стартовый вес</div><div class="h">точка отсчёта прогресса, кг</div></div><input id="sStart" inputmode="decimal"></div>
+      <div class="set-row"><div><div class="l">Цель по весу</div><div class="h">кг</div></div><input id="sGoal" inputmode="decimal"></div>
+      <div class="set-row"><div><div class="l">Норма воды</div><div class="h">мл в день</div></div><input id="sWater" inputmode="numeric"></div>
+      <div class="set-row" style="flex-wrap:wrap"><div><div class="l">Тренировок в неделю</div><div class="h">цель для осанки персонажа</div></div><div class="seg" id="sWeek"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-t" style="margin-bottom:6px">Данные</div>
+      <div class="set-row"><div><div class="l">Последний бэкап</div><div class="h" id="lastBackup">ещё не было</div></div></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn grow" id="exportBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Экспорт</button>
+        <button class="btn ghost grow" id="importBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg>Импорт</button>
+      </div>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+      <p class="sub" style="margin-top:12px;font-size:12px">Всё хранится только на этом устройстве. Очистка истории браузера данные не трогает, а вот «Удалить данные сайтов» — стирает. Бэкап — один JSON-файл.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-t" style="margin-bottom:12px">Опасная зона</div>
+      <div class="row">
+        <button class="btn ghost grow" id="reOnb">Настройка</button>
+        <button class="btn danger grow" id="resetBtn">Сбросить всё</button>
+      </div>
+    </div>
+    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · этап 1 · v0.1</p>
+  </section>
+</div>
+
+<nav class="tabbar">
+  <div class="in" id="tabs">
+    <button class="tab on" data-tab="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="6" r="3"/><path d="M12 9v6M8 13l4-2 4 2M10 21l2-6 2 6"/></svg>Сегодня</button>
+    <button class="tab" data-tab="money"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 15h2"/></svg>Деньги</button>
+    <button class="tab" data-tab="body"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/></svg>Тело</button>
+    <button class="tab" data-tab="habits"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/></svg>Привычки</button>
+    <button class="tab" data-tab="more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>Ещё</button>
+  </div>
+</nav>
+
+<div class="sheet-bg" id="sheetBg"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div id="sheetBody"></div></div>
+
+<div id="onb"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ======================= утилиты ======================= */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const fmt = (n, d = 0) => (+n).toLocaleString('ru-RU', {minimumFractionDigits: d, maximumFractionDigits: d}).replace(/ /g, ' ');
+const kg = n => fmt(n, n % 1 ? 1 : 0);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const num = v => { const n = parseFloat(String(v).replace(',', '.').replace(/\s/g, '')); return isFinite(n) ? n : null; };
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const pad = n => String(n).padStart(2, '0');
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const fromKey = k => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); };
+const shortDate = k => fromKey(k).toLocaleDateString('ru-RU', {day: 'numeric', month: 'short'}).replace('.', '');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const vibrate = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
+
+/* ======================= данные ======================= */
+const KEY = 'lifeTracker.v1';
+const SCHEMA = 1;
+const defaults = () => ({
+  v: SCHEMA,
+  profile: { height: null, startWeight: null, goalWeight: null, waterGoal: 3000, weeklyWorkouts: 3, onboarded: false, createdAt: new Date().toISOString() },
+  weights: [],    // {id, date:'YYYY-MM-DD', kg}
+  water: [],      // {id, ts, day, ml}
+  debts: [],      // этап 2
+  savings: [],    // этап 2
+  exercises: [],  // этап 3
+  complexes: [],  // этап 3
+  workouts: [],   // этап 3
+  habits: [],     // этап 4
+  meta: { lastBackup: null }
+});
+function normalize(d) {
+  const base = defaults();
+  if (!d || typeof d !== 'object') return base;
+  const out = { ...base, ...d, profile: { ...base.profile, ...(d.profile || {}) }, meta: { ...base.meta, ...(d.meta || {}) } };
+  for (const k of ['weights','water','debts','savings','exercises','complexes','workouts','habits']) if (!Array.isArray(out[k])) out[k] = [];
+  out.v = SCHEMA;
+  return out;
+}
+function load() {
+  try { return normalize(JSON.parse(localStorage.getItem(KEY))); } catch (e) { return defaults(); }
+}
+let S = load();
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); }
+  catch (e) { toast('⚠️ Не удалось сохранить. Сделайте экспорт'); }
+}
+// просим браузер не вытеснять хранилище
+try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch (e) {}
+
+/* ======================= вычисления ======================= */
+const waterToday = () => S.water.filter(w => w.day === dayKey()).reduce((s, w) => s + w.ml, 0);
+const sortedWeights = () => [...S.weights].sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+const currentWeight = () => { const w = sortedWeights(); return w.length ? w[w.length - 1].kg : null; };
+
+function weightProgress() {
+  const p = S.profile, cur = currentWeight();
+  if (p.startWeight == null || p.goalWeight == null || cur == null) return null;
+  if (p.startWeight === p.goalWeight) return 1;
+  return clamp((p.startWeight - cur) / (p.startWeight - p.goalWeight));
+}
+function debtProgress() {
+  // этап 2 подставит реальную структуру; сейчас поддерживаем общий формат
+  const ds = S.debts.filter(d => !d.archived && d.total > 0);
+  if (!ds.length) return null;
+  const total = ds.reduce((s, d) => s + d.total, 0);
+  const paid = ds.reduce((s, d) => s + Math.min(d.total, (d.returns || []).reduce((a, r) => a + r.amount, 0)), 0);
+  return { p: clamp(paid / total), left: total - paid };
+}
+function trainingProgress() {
+  if (!S.workouts.length) return null;
+  const since = Date.now() - 7 * 864e5;
+  const n = S.workouts.filter(w => new Date(w.date || w.ts).getTime() >= since).length;
+  return { p: clamp(n / (S.profile.weeklyWorkouts || 3)), n };
+}
+function habitsProgress() {
+  if (!S.habits.length) return null;
+  const vals = S.habits.map(h => clamp((h.streak || 0) / 30));
+  return clamp(vals.reduce((a, b) => a + b, 0) / vals.length);
+}
+
+const ICONS = {
+  water: '<path d="M12 2.7s6 6.6 6 11.3a6 6 0 0 1-12 0c0-4.7 6-11.3 6-11.3z"/>',
+  weight: '<path d="M5 8h14l2 12H3L5 8z"/><path d="M9 8a3 3 0 0 1 6 0"/>',
+  debt: '<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 15h2"/>',
+  train: '<path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/>',
+  habit: '<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',
+  warn: '<path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h0"/>'
+};
+const ico = (k, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICONS[k]}</svg>`;
+
+function channels() {
+  const wg = S.profile.waterGoal || 3000;
+  const wp = weightProgress(), dp = debtProgress(), tp = trainingProgress(), hp = habitsProgress();
+  return [
+    { k: 'debt',   name: 'Долги',      icon: 'debt',   on: !!dp, v: dp ? dp.p : 0, color: '#ff6b8b', fx: 'цвет и груз над головой', soon: 'этап 2' },
+    { k: 'weight', name: 'Вес',        icon: 'weight', on: wp != null, v: wp ?? 0, color: '#c58bff', fx: 'комплекция силуэта', soon: 'введите вес' },
+    { k: 'train',  name: 'Тренировки', icon: 'train',  on: !!tp, v: tp ? tp.p : 0, color: '#3ee08f', fx: 'осанка и тонус', soon: 'этап 3' },
+    { k: 'habit',  name: 'Привычки',   icon: 'habit',  on: hp != null, v: hp ?? 0, color: '#ffb547', fx: 'аура вокруг', soon: 'этап 4' },
+    { k: 'water',  name: 'Вода',       icon: 'water',  on: true, v: waterPace(), fill: clamp(waterToday() / wg), color: '#38d9ff', fx: 'наполнение · в индекс идёт темп', soon: '' }
+  ];
+}
+// темп воды: сколько выпито относительно того, сколько «положено» к этому часу (с 7:00 до 21:00)
+function waterPace() {
+  const wg = S.profile.waterGoal || 3000, ml = waterToday();
+  const now = new Date(), h = now.getHours() + now.getMinutes() / 60;
+  const expected = wg * clamp((h - 7) / 14, .1, 1);
+  return clamp(ml / expected);
+}
+function stateIndex(ch) {
+  const act = ch.filter(c => c.on);
+  if (!act.length) return null;
+  return Math.round(act.reduce((s, c) => s + c.v, 0) / act.length * 100);
+}
+function statusText(i) {
+  if (i == null) return 'Нет данных';
+  if (i >= 85) return 'На пике ✦';
+  if (i >= 65) return 'В форме';
+  if (i >= 45) return 'В балансе';
+  if (i >= 25) return 'Под нагрузкой';
+  return 'Перегружен';
+}
+
+/* ======================= цвет ======================= */
+const RED = [255, 45, 85], MID = [176, 92, 255], BLUE = [0, 229, 255];
+function colorAt(t) {
+  t = clamp(t);
+  const c = t < .5 ? RED.map((v, i) => lerp(v, MID[i], t / .5)) : MID.map((v, i) => lerp(v, BLUE[i], (t - .5) / .5));
+  return c.map(Math.round);
+}
+const rgb = c => `rgb(${c[0]},${c[1]},${c[2]})`;
+const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+/* ======================= персонаж ======================= */
+const BUILDS = {
+  heavy: { S: 50, C: 48, W: 51, H: 46, A: 17, L: 26, N: 17 },
+  fit:   { S: 48, C: 39, W: 30, H: 31, A: 13, L: 19, N: 14 },
+  thin:  { S: 38, C: 30, W: 25, H: 27, A: 9,  L: 13,   N: 11 }
+};
+const mixB = (a, b, t) => Object.fromEntries(Object.keys(a).map(k => [k, lerp(a[k], b[k], t)]));
+const r1 = n => Math.round(n * 10) / 10;
+const supportsD = window.CSS && CSS.supports && CSS.supports('d', 'path("M0 0")');
+
+function setGeo(id, attrs) {
+  const el = document.getElementById(id);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'd') {
+      el.setAttribute('d', v);
+      if (supportsD) el.style.d = `path("${v}")`;
+    } else {
+      el.setAttribute(k, v);
+      el.style.setProperty(k, k === 'stroke-width' ? v : v + 'px');
+    }
+  }
+}
+
+function drawFigure(b, slump) {
+  const cx = 100, s = slump;
+  const sy = 86 + s * 5;                // линия плеч
+  const S = b.S * (1 - .05 * s);
+  const headY = 46 + s * 7;
+  setGeo('mHead', { cx: cx, cy: r1(headY), r: 21 });
+  setGeo('mNeck', { x: r1(cx - b.N / 2), y: r1(headY + 12), width: r1(b.N), height: r1(sy - headY - 6) });
+
+  const C = b.C, W = b.W, H = b.H, tip = sy + 10 + s * 4;
+  const torso = [
+    `M${r1(cx - 9)} ${r1(sy - 5)}`,
+    `C${r1(cx - 22)} ${r1(sy - 4)} ${r1(cx - S)} ${r1(sy - 1)} ${r1(cx - S)} ${r1(tip)}`,
+    `C${r1(cx - S)} ${r1(sy + 26)} ${r1(cx - C)} 112 ${r1(cx - C)} 126`,
+    `C${r1(cx - C)} 142 ${r1(cx - W)} 152 ${r1(cx - W)} 168`,
+    `C${r1(cx - W)} 180 ${r1(cx - H)} 184 ${r1(cx - H)} 198`,
+    `Q${r1(cx - H * .92)} 214 ${r1(cx - H * .32)} 215`,
+    `L${cx} 208`,
+    `L${r1(cx + H * .32)} 215`,
+    `Q${r1(cx + H * .92)} 214 ${r1(cx + H)} 198`,
+    `C${r1(cx + H)} 184 ${r1(cx + W)} 180 ${r1(cx + W)} 168`,
+    `C${r1(cx + W)} 152 ${r1(cx + C)} 142 ${r1(cx + C)} 126`,
+    `C${r1(cx + C)} 112 ${r1(cx + S)} ${r1(sy + 26)} ${r1(cx + S)} ${r1(tip)}`,
+    `C${r1(cx + S)} ${r1(sy - 1)} ${r1(cx + 22)} ${r1(sy - 4)} ${r1(cx + 9)} ${r1(sy - 5)}Z`
+  ].join(' ');
+  setGeo('mTorso', { d: torso });
+
+  const A = b.A, side = Math.max(C, W, H);
+  for (const [dir, L, R] of [[-1, 'L', 'L'], [1, 'R', 'R']]) {
+    const sx = cx + dir * (S - A * .45), syA = tip - 1;
+    const ex = cx + dir * (Math.max(C, W * .95) + A * .55 + 2 + s * 2), ey = 152 + s * 4;
+    const hx = cx + dir * (side + A * .5 + 4 - s * 3), hy = 206 + s * 4;
+    setGeo('mUp' + L, { d: `M${r1(sx)} ${r1(syA)} L${r1(ex)} ${r1(ey)}`, 'stroke-width': r1(A) });
+    setGeo('mFo' + R, { d: `M${r1(ex)} ${r1(ey)} L${r1(hx)} ${r1(hy)}`, 'stroke-width': r1(A * .84) });
+
+    const lx = cx + dir * H * .52, kx = cx + dir * (H * .42 + 2), ax = cx + dir * 13;
+    setGeo('mTh' + L, { d: `M${r1(lx)} 196 L${r1(kx)} 250`, 'stroke-width': r1(b.L) });
+    setGeo('mCa' + L, { d: `M${r1(kx)} 250 L${r1(ax)} 296`, 'stroke-width': r1(b.L * .74) });
+    setGeo('mFt' + L, { d: `M${r1(ax)} 300 L${r1(ax + dir * 9)} 301` });
+  }
+  return headY;
+}
+
+function renderCharacter() {
+  const ch = channels(), idx = stateIndex(ch);
+  const by = Object.fromEntries(ch.map(c => [c.k, c]));
+  const dp = debtProgress();
+
+  // цвет: долги → иначе общий индекс
+  const c = colorAt(dp ? dp.p : (idx ?? 50) / 100);
+  const col = rgb(c);
+  const root = document.documentElement.style;
+  root.setProperty('--accent', col);
+  root.setProperty('--glow', rgba(c, .15));
+  document.querySelector('meta[name=theme-color]').setAttribute('content', '#06080c');
+
+  // комплекция
+  const p = S.profile, wp = weightProgress();
+  let build;
+  if (wp == null) build = mixB(BUILDS.fit, BUILDS.heavy, .2);
+  else if (p.goalWeight < p.startWeight) build = mixB(BUILDS.heavy, BUILDS.fit, wp);
+  else if (p.goalWeight > p.startWeight) build = mixB(BUILDS.thin, BUILDS.fit, wp);
+  else build = BUILDS.fit;
+
+  // осанка
+  const slump = by.train.on ? 1 - by.train.v : .35;
+  const headY = drawFigure(build, slump);
+
+  // вода
+  const top = 22, bottom = 300, wv = by.water.fill;
+  const level = wv <= 0 ? 330 : bottom - wv * (bottom - top);
+  $('#waterLevel').style.transform = `translateY(${r1(level)}px)`;
+
+  // аура
+  $('#aura').setAttribute('opacity', by.habit.on ? r1(.15 + by.habit.v * .85) : 0);
+
+  // груз долга
+  const load = $('#debtLoad');
+  if (dp && dp.p < 1) {
+    load.setAttribute('opacity', 1);
+    load.style.transform = `translateY(${r1(headY - 46 - 14)}px) scale(${r1(.55 + (1 - dp.p) * .45)})`;
+    $('#debtLoadTxt').textContent = dp.left >= 1000 ? Math.round(dp.left / 1000) + 'K ₸' : fmt(dp.left) + ' ₸';
+  } else {
+    load.setAttribute('opacity', 0);
+  }
+
+  // свечение и дыхание
+  const t = (idx ?? 50) / 100;
+  $('#figGlow').style.filter = `drop-shadow(0 0 ${r1(lerp(10, 20, t))}px ${rgba(c, .7)})`;
+  root.setProperty('--pulse', lerp(1.1, 4.2, t).toFixed(2) + 's');
+  $('#stage').classList.toggle('stressed', idx != null && idx < 30);
+
+  // тексты
+  $('#status').textContent = statusText(idx);
+  $('#indexNum').textContent = idx == null ? '—' : idx;
+  const act = ch.filter(x => x.on).length;
+  $('#activeCount').textContent = `${act} / ${ch.length}`;
+  $('#chans').innerHTML = ch.map(x => `
+    <div class="chan ${x.on ? '' : 'off'}" title="${x.name}">
+      <span style="color:${x.color}">${ico(x.icon)}</span>
+      <b>${x.on ? Math.round((x.fill ?? x.v) * 100) + '%' : '—'}</b>
+      <span class="mini"><i style="width:${x.on ? (x.fill ?? x.v) * 100 : 0}%;background:${x.color}"></i></span>
+    </div>`).join('');
+}
+
+function openBreakdown() {
+  const ch = channels(), idx = stateIndex(ch);
+  openSheet(`
+    <h2>Состояние: ${idx ?? '—'}</h2>
+    <p class="sub">Индекс — среднее по активным направлениям. Каждое управляет своей частью персонажа.</p>
+    <ul class="list breakdown">
+      ${ch.map(x => `
+        <li>
+          <div class="row" style="gap:12px">
+            <span class="ic" style="color:${x.color}">${ico(x.icon)}</span>
+            <div><div class="t">${x.name}</div><div class="h">→ ${x.fx}</div></div>
+          </div>
+          <span class="v" style="color:${x.on ? 'var(--text)' : 'var(--dim)'}">${!x.on ? x.soon : x.fill != null ? `${Math.round(x.fill * 100)}% · темп ${Math.round(x.v * 100)}%` : Math.round(x.v * 100) + '%'}</span>
+        </li>`).join('')}
+    </ul>
+    <button class="btn ghost block" style="margin-top:14px" data-close>Понятно</button>`);
+}
+
+/* ======================= экраны ======================= */
+const TITLES = { today: 'Сегодня', money: 'Деньги', body: 'Тело', habits: 'Привычки', more: 'Ещё' };
+let screen = 'today';
+function go(name) {
+  screen = name;
+  $$('.screen').forEach(s => s.classList.toggle('active', s.dataset.screen === name));
+  $$('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === name));
+  $('#title').textContent = TITLES[name];
+  window.scrollTo(0, 0);
+  renderScreen();
+}
+function renderScreen() {
+  if (screen === 'today') renderToday();
+  if (screen === 'body') renderBody();
+  if (screen === 'more') renderMore();
+}
+function renderAll() { renderCharacter(); renderScreen(); }
+
+function renderDate() {
+  $('#todayDate').textContent = new Date().toLocaleDateString('ru-RU', { weekday: 'short', day: 'numeric', month: 'long' });
+}
+
+/* ---------- сегодня ---------- */
+function renderToday() {
+  renderCharacter();
+  // вода
+  const goal = S.profile.waterGoal || 3000, ml = waterToday();
+  $('#waterMl').textContent = fmt(ml);
+  $('#waterGoalTxt').textContent = fmt(goal);
+  $('#waterPct').textContent = Math.round(ml / goal * 100) + '%';
+  const cells = 12, per = goal / cells;
+  $('#glasses').innerHTML = Array.from({ length: cells }, (_, i) => {
+    const f = clamp((ml - i * per) / per);
+    return `<div class="glass"><i style="height:${f * 100}%"></i></div>`;
+  }).join('');
+
+  // вес
+  const p = S.profile, cur = currentWeight(), wp = weightProgress();
+  let html = `<div class="card-h"><span class="card-t" style="color:#c58bff">${ico('weight')}Вес</span>`;
+  if (cur != null && p.goalWeight != null) {
+    const left = cur - p.goalWeight;
+    html += `<span class="sub mono">${Math.abs(left) < .05 ? 'цель достигнута ✦' : (left > 0 ? '−' : '+') + kg(Math.abs(r1(left))) + ' кг до цели'}</span></div>
+      <div class="big">${kg(cur)} <small>кг · цель ${kg(p.goalWeight)}</small></div>
+      <div class="bar"><i style="width:${(wp ?? 0) * 100}%"></i></div>
+      <div class="bar-meta"><span>старт ${kg(p.startWeight)}</span><span>${Math.round((wp ?? 0) * 100)}%</span><span>цель ${kg(p.goalWeight)}</span></div>`;
+  } else if (cur != null) {
+    html += `</div><div class="big">${kg(cur)} <small>кг</small></div><p class="sub" style="margin-top:6px">Задайте цель в «Ещё», чтобы персонаж менял комплекцию.</p>`;
+  } else {
+    html += `</div><p class="sub">Запишите вес, и персонаж начнёт меняться вместе с вами.</p>`;
+  }
+  html += `<button class="btn block" style="margin-top:14px" id="weighBtn">Записать вес</button>`;
+  $('#weightCard').innerHTML = html;
+  $('#weighBtn').onclick = openWeigh;
+
+  // напоминание о бэкапе
+  const hasData = S.weights.length + S.water.length + S.debts.length + S.workouts.length + S.habits.length > 0;
+  const last = S.meta.lastBackup ? new Date(S.meta.lastBackup).getTime() : 0;
+  const created = new Date(S.profile.createdAt).getTime();
+  const due = hasData && Date.now() - Math.max(last, created) > 7 * 864e5;
+  $('#backupBanner').innerHTML = due ? `
+    <div class="banner">${ico('warn')}<span class="grow">${last ? 'Бэкап не делался больше недели' : 'Вы ещё ни разу не делали бэкап'}</span><button id="bannerExport">Экспорт</button></div>` : '';
+  if (due) $('#bannerExport').onclick = exportData;
+}
+
+/* ---------- вода ---------- */
+function addWater(ml) {
+  if (!(ml > 0)) return;
+  const before = waterToday(), goal = S.profile.waterGoal || 3000;
+  S.water.push({ id: uid(), ts: new Date().toISOString(), day: dayKey(), ml: Math.round(ml) });
+  // храним историю воды за 120 дней, этого хватит для статистики
+  const cutoff = dayKey(new Date(Date.now() - 120 * 864e5));
+  S.water = S.water.filter(w => w.day >= cutoff);
+  save(); vibrate(12);
+  renderToday();
+  burstAt($('#glasses'), '#38d9ff', 10);
+  if (before < goal && waterToday() >= goal) { toast('💧 Норма воды на сегодня выполнена!'); bigBurst('#38d9ff'); }
+  else toast(`+${fmt(ml)} мл`);
+}
+function undoWater() {
+  const today = dayKey();
+  for (let i = S.water.length - 1; i >= 0; i--) {
+    if (S.water[i].day === today) { const ml = S.water[i].ml; S.water.splice(i, 1); save(); renderToday(); toast(`Отменено: −${fmt(ml)} мл`); return; }
+  }
+  toast('Сегодня ещё нечего отменять');
+}
+function openWaterCustom() {
+  openSheet(`
+    <h2>Своя порция</h2><p class="sub">Сколько выпили</p>
+    <div class="field"><input id="wcMl" inputmode="numeric" placeholder="330"><span class="u">мл</span></div>
+    <button class="btn block" id="wcOk">Добавить</button>`);
+  const inp = $('#wcMl'); setTimeout(() => inp.focus(), 250);
+  const ok = () => { const v = num(inp.value); if (!v || v <= 0 || v > 5000) return shake(inp); closeSheet(); addWater(v); };
+  $('#wcOk').onclick = ok; inp.onkeydown = e => e.key === 'Enter' && ok();
+}
+
+/* ---------- вес ---------- */
+function openWeigh() {
+  const cur = currentWeight();
+  openSheet(`
+    <h2>Записать вес</h2><p class="sub">${cur != null ? 'Прошлая запись: ' + kg(cur) + ' кг' : 'Первая запись станет стартовой точкой'}</p>
+    <div class="field"><label>Вес</label><input id="wKg" inputmode="decimal" placeholder="${cur != null ? kg(cur) : '80'}"><span class="u">кг</span></div>
+    <div class="field"><label>Дата</label><input id="wDate" type="date" value="${dayKey()}" max="${dayKey()}"></div>
+    <button class="btn block" id="wOk">Сохранить</button>`);
+  const inp = $('#wKg'); setTimeout(() => inp.focus(), 250);
+  const ok = () => {
+    const v = num(inp.value);
+    if (!v || v < 25 || v > 350) return shake(inp);
+    const date = $('#wDate').value || dayKey();
+    const prev = currentWeight();
+    // одна запись на день: перезаписываем
+    S.weights = S.weights.filter(w => w.date !== date);
+    S.weights.push({ id: uid(), date, kg: r1(v) });
+    if (S.profile.startWeight == null) S.profile.startWeight = r1(v);
+    save(); closeSheet(); vibrate(15);
+    renderAll();
+    if (prev != null) {
+      const d = r1(v - prev);
+      toast(d === 0 ? 'Вес записан, без изменений' : `Вес записан: ${d > 0 ? '+' : '−'}${kg(Math.abs(d))} кг`);
+    } else toast('Стартовый вес записан');
+    burstAt($('#stage'), getAccent(), 16);
+  };
+  $('#wOk').onclick = ok; inp.onkeydown = e => e.key === 'Enter' && ok();
+}
+
+function renderBody() {
+  const p = S.profile, cur = currentWeight();
+  const bmi = cur && p.height ? cur / Math.pow(p.height / 100, 2) : null;
+  const change = cur != null && p.startWeight != null ? r1(cur - p.startWeight) : null;
+  $('#bodyStats').innerHTML = `
+    <div class="card-h"><span class="card-t">Показатели</span><button class="link" id="bodyEdit">изменить</button></div>
+    <div class="metrics">
+      <div class="metric"><div class="l">Рост</div><div class="n">${p.height ?? '—'} <small>см</small></div></div>
+      <div class="metric"><div class="l">Вес</div><div class="n">${cur != null ? kg(cur) : '—'} <small>кг</small></div></div>
+      <div class="metric"><div class="l">ИМТ</div><div class="n">${bmi ? fmt(bmi, 1) : '—'}</div></div>
+      <div class="metric"><div class="l">Старт</div><div class="n">${p.startWeight != null ? kg(p.startWeight) : '—'} <small>кг</small></div></div>
+      <div class="metric"><div class="l">Цель</div><div class="n">${p.goalWeight != null ? kg(p.goalWeight) : '—'} <small>кг</small></div></div>
+      <div class="metric"><div class="l">С начала</div><div class="n">${change == null ? '—' : (change > 0 ? '+' : change < 0 ? '−' : '') + kg(Math.abs(change))} <small>кг</small></div></div>
+    </div>
+    <button class="btn block" style="margin-top:14px" id="bodyWeigh">Записать вес</button>`;
+  $('#bodyWeigh').onclick = openWeigh;
+  $('#bodyEdit').onclick = () => go('more');
+
+  renderWeightChart();
+
+  const ws = sortedWeights().reverse();
+  $('#bodyHistory').innerHTML = `
+    <div class="card-h"><span class="card-t">История взвешиваний</span><span class="sub mono">${ws.length}</span></div>
+    ${ws.length ? `<ul class="list">${ws.slice(0, 60).map((w, i) => {
+      const prev = ws[i + 1]; const d = prev ? r1(w.kg - prev.kg) : null;
+      const cls = d == null ? '' : d > 0 ? 'up' : d < 0 ? 'down' : 'same';
+      const goingUp = p.goalWeight != null && p.startWeight != null && p.goalWeight > p.startWeight;
+      const cls2 = goingUp && cls === 'up' ? 'down' : goingUp && cls === 'down' ? 'up' : cls; // цвет «хорошо/плохо» по направлению цели
+      return `<li><span class="d">${shortDate(w.date)}</span><span class="grow"></span>
+        <span><span class="v">${kg(w.kg)} кг</span>${d != null ? `<span class="delta ${cls2}">${d > 0 ? '+' : d < 0 ? '−' : '±'}${kg(Math.abs(d))}</span>` : ''}</span>
+        <button class="x" data-delw="${w.id}" aria-label="Удалить">×</button></li>`;
+    }).join('')}</ul>` : '<p class="sub">Пока нет записей.</p>'}`;
+}
+
+function renderWeightChart() {
+  const box = $('#bodyChart');
+  const ws = sortedWeights().slice(-60);
+  if (ws.length < 2) {
+    box.innerHTML = `<div class="card-t" style="margin-bottom:8px">Динамика веса</div><p class="sub">График появится после двух взвешиваний.</p>`;
+    return;
+  }
+  const W = 320, H = 150, pl = 34, pr = 10, pt = 12, pb = 22;
+  const goal = S.profile.goalWeight;
+  const vals = ws.map(w => w.kg).concat(goal != null ? [goal] : []);
+  let mn = Math.min(...vals), mx = Math.max(...vals);
+  if (mx - mn < 2) { mn -= 1; mx += 1; }
+  const padv = (mx - mn) * .12; mn -= padv; mx += padv;
+  const t0 = fromKey(ws[0].date).getTime(), t1 = fromKey(ws[ws.length - 1].date).getTime();
+  const X = t => pl + (t1 === t0 ? .5 : (t - t0) / (t1 - t0)) * (W - pl - pr);
+  const Y = v => pt + (1 - (v - mn) / (mx - mn)) * (H - pt - pb);
+  const pts = ws.map(w => [X(fromKey(w.date).getTime()), Y(w.kg), w]);
+  const line = pts.map((q, i) => (i ? 'L' : 'M') + r1(q[0]) + ' ' + r1(q[1])).join(' ');
+  const area = line + ` L${r1(pts[pts.length - 1][0])} ${H - pb} L${r1(pts[0][0])} ${H - pb}Z`;
+  const ticks = [mx - padv, (mx + mn) / 2, mn + padv];
+  const last = pts[pts.length - 1];
+  box.innerHTML = `
+    <div class="card-h"><span class="card-t">Динамика веса</span><span class="sub mono">${shortDate(ws[0].date)} — ${shortDate(ws[ws.length - 1].date)}</span></div>
+    <div class="chart-wrap">
+      <svg viewBox="0 0 ${W} ${H}" id="wChart" role="img" aria-label="График веса">
+        <defs><linearGradient id="wArea" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style="stop-color:#c58bff;stop-opacity:.22"/><stop offset="1" style="stop-color:#c58bff;stop-opacity:0"/>
+        </linearGradient></defs>
+        ${ticks.map(v => `<line x1="${pl}" x2="${W - pr}" y1="${r1(Y(v))}" y2="${r1(Y(v))}" stroke="rgba(255,255,255,.06)"/>
+          <text x="${pl - 6}" y="${r1(Y(v) + 3.5)}" text-anchor="end" fill="#7d899c" style="font:10px var(--mono)">${kg(r1(v))}</text>`).join('')}
+        ${goal != null ? `<line x1="${pl}" x2="${W - pr}" y1="${r1(Y(goal))}" y2="${r1(Y(goal))}" stroke="#3ee08f" stroke-width="1.2" stroke-dasharray="4 4" opacity=".75"/>
+          <text x="${W - pr}" y="${r1(Y(goal) - 5)}" text-anchor="end" fill="#3ee08f" style="font:10px var(--mono)">цель ${kg(goal)}</text>` : ''}
+        <path d="${area}" fill="url(#wArea)"/>
+        <path d="${line}" fill="none" stroke="#c58bff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="${r1(last[0])}" cy="${r1(last[1])}" r="4.5" fill="#c58bff" stroke="#0d1118" stroke-width="2"/>
+        <line id="wCross" x1="0" x2="0" y1="${pt}" y2="${H - pb}" stroke="rgba(255,255,255,.25)" opacity="0"/>
+        <circle id="wDot" r="4.5" fill="#c58bff" stroke="#0d1118" stroke-width="2" opacity="0"/>
+        <rect x="${pl}" y="0" width="${W - pl - pr}" height="${H}" fill="transparent" id="wHit"/>
+      </svg>
+      <div class="chart-tip" id="wTip"></div>
+    </div>`;
+  const svg = $('#wChart'), tip = $('#wTip'), cross = $('#wCross'), dot = $('#wDot');
+  const move = e => {
+    const r = svg.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width * W;
+    let best = pts[0]; for (const q of pts) if (Math.abs(q[0] - x) < Math.abs(best[0] - x)) best = q;
+    cross.setAttribute('x1', best[0]); cross.setAttribute('x2', best[0]); cross.setAttribute('opacity', 1);
+    dot.setAttribute('cx', best[0]); dot.setAttribute('cy', best[1]); dot.setAttribute('opacity', 1);
+    tip.innerHTML = `<b>${kg(best[2].kg)} кг</b><span>${shortDate(best[2].date)}</span>`;
+    tip.style.left = clamp(best[0] / W * r.width, 40, r.width - 40) + 'px'; tip.style.opacity = 1;
+  };
+  const leave = () => { tip.style.opacity = 0; cross.setAttribute('opacity', 0); dot.setAttribute('opacity', 0); };
+  const hit = $('#wHit');
+  hit.addEventListener('pointermove', move); hit.addEventListener('pointerdown', move); hit.addEventListener('pointerleave', leave);
+}
+
+/* ---------- ещё (настройки) ---------- */
+let deferredInstall = null;
+function renderMore() {
+  const p = S.profile;
+  $('#sHeight').value = p.height ?? '';
+  $('#sStart').value = p.startWeight ?? '';
+  $('#sGoal').value = p.goalWeight ?? '';
+  $('#sWater').value = p.waterGoal ?? 3000;
+  $('#sWeek').innerHTML = [1,2,3,4,5,6,7].map(n => `<button class="${n === p.weeklyWorkouts ? 'on' : ''}" data-week="${n}">${n}</button>`).join('');
+  $('#lastBackup').textContent = S.meta.lastBackup ? new Date(S.meta.lastBackup).toLocaleString('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) : 'ещё не было';
+
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  const ic = $('#installCard');
+  if (standalone) { ic.style.display = 'none'; return; }
+  ic.style.display = '';
+  ic.innerHTML = `
+    <div class="card-t" style="margin-bottom:8px">Установить на телефон</div>
+    ${deferredInstall
+      ? `<p class="sub" style="margin-bottom:12px">Иконка на рабочем столе, полный экран, работа без интернета.</p><button class="btn block" id="installBtn">Установить приложение</button>`
+      : `<p class="sub">Android, Chrome: меню ⋮ → «Установить приложение» или «Добавить на главный экран».<br>iPhone, Safari: «Поделиться» → «На экран Домой».</p>`}`;
+  if (deferredInstall) $('#installBtn').onclick = async () => {
+    deferredInstall.prompt();
+    const r = await deferredInstall.userChoice.catch(() => null);
+    deferredInstall = null; renderMore();
+    if (r && r.outcome === 'accepted') toast('Приложение установлено');
+  };
+}
+function bindSettings() {
+  const bind = (id, key, min, max, decimals) => {
+    $(id).addEventListener('change', e => {
+      const raw = e.target.value.trim();
+      if (raw === '' && key !== 'waterGoal') { S.profile[key] = null; save(); renderCharacter(); toast('Значение очищено'); return; }
+      const v = num(raw);
+      if (v == null || v < min || v > max) { toast(`Допустимо от ${min} до ${max}`); renderMore(); return; }
+      S.profile[key] = decimals ? r1(v) : Math.round(v);
+      save(); renderCharacter(); toast('Сохранено');
+    });
+  };
+  bind('#sHeight', 'height', 100, 250, false);
+  bind('#sStart', 'startWeight', 25, 350, true);
+  bind('#sGoal', 'goalWeight', 25, 350, true);
+  bind('#sWater', 'waterGoal', 500, 8000, false);
+  $('#sWeek').addEventListener('click', e => {
+    const b = e.target.closest('[data-week]'); if (!b) return;
+    S.profile.weeklyWorkouts = +b.dataset.week; save(); renderMore(); renderCharacter();
+  });
+}
+
+/* ---------- экспорт / импорт ---------- */
+function exportData() {
+  S.meta.lastBackup = new Date().toISOString();
+  save();
+  const data = JSON.stringify({ app: 'life-tracker', schema: SCHEMA, exportedAt: S.meta.lastBackup, data: S }, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `life-backup-${dayKey()}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast('Бэкап сохранён в загрузки');
+  renderScreen();
+}
+function importData(file) {
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const raw = JSON.parse(r.result);
+      // старый трекер долга: {payments:[...]}
+      if (Array.isArray(raw.payments) && !raw.data) {
+        toast('Это бэкап старого трекера долга. Его импорт появится на этапе 2');
+        return;
+      }
+      const d = raw.app === 'life-tracker' && raw.data ? raw.data : raw;
+      if (!d.profile && !d.weights && !d.water) throw new Error('bad');
+      const n = normalize(d);
+      const summary = `взвешиваний: ${n.weights.length}, записей воды: ${n.water.length}`;
+      if (!confirm(`Загрузить бэкап?\n${summary}\n\nТекущие данные будут заменены.`)) return;
+      n.profile.onboarded = true;
+      S = n; save(); renderAll(); toast('Данные восстановлены');
+    } catch (e) { toast('Не удалось прочитать файл'); }
+  };
+  r.readAsText(file);
+}
+
+/* ---------- онбординг ---------- */
+const onbDraft = {};
+function onbSteps() {
+  return [
+    { key: 'hi' },
+    { key: 'height', title: 'Ваш рост', text: 'Нужен для ИМТ и показателей тела.', unit: 'см', ph: '178', min: 100, max: 250 },
+    { key: 'startWeight', title: 'Текущий вес', text: 'Это стартовая точка. От неё считается прогресс.', unit: 'кг', ph: '85', min: 25, max: 350, dec: true },
+    { key: 'goalWeight', title: 'Цель по весу', text: 'К этому весу будет стремиться персонаж. Можно и набор, и снижение.', unit: 'кг', ph: '78', min: 25, max: 350, dec: true },
+    { key: 'weeklyWorkouts', title: 'Тренировок в неделю', text: 'Цель для осанки персонажа. Выполняете — он стоит ровно.', week: true },
+    { key: 'waterGoal', title: 'Норма воды', text: 'Сколько воды в день. Силуэт будет наполняться по мере выпитого.', unit: 'мл', ph: '3000', min: 500, max: 8000, def: 3000 }
+  ];
+}
+let onbI = 0;
+function openOnboarding() {
+  onbI = 0;
+  Object.assign(onbDraft, { height: S.profile.height, startWeight: S.profile.startWeight ?? currentWeight(), goalWeight: S.profile.goalWeight, weeklyWorkouts: S.profile.weeklyWorkouts || 3, waterGoal: S.profile.waterGoal || 3000 });
+  $('#onb').classList.add('open');
+  renderOnb();
+}
+function renderOnb() {
+  const steps = onbSteps(), st = steps[onbI], last = onbI === steps.length - 1;
+  const dots = steps.map((_, i) => `<i class="${i === onbI ? 'on' : ''}"></i>`).join('');
+  let body;
+  if (st.key === 'hi') {
+    body = `<div class="onb-logo">${ico('habit')}</div>
+      <h2>Life Tracker</h2>
+      <p>Долги, накопления, тело, тренировки, привычки и вода. Один персонаж отражает всё сразу. Пара вопросов, и начнём.</p>`;
+  } else if (st.week) {
+    body = `<h2>${st.title}</h2><p>${st.text}</p>
+      <div class="weekpick">${[1,2,3,4,5,6,7].map(n => `<button data-wk="${n}" class="${onbDraft.weeklyWorkouts === n ? 'on' : ''}">${n}</button>`).join('')}</div>`;
+  } else {
+    const v = onbDraft[st.key];
+    body = `<h2>${st.title}</h2><p>${st.text}</p>
+      <div class="field"><input id="onbIn" inputmode="${st.dec ? 'decimal' : 'numeric'}" placeholder="${st.ph}" value="${v ?? ''}"><span class="u">${st.unit}</span></div>`;
+  }
+  $('#onb').innerHTML = `
+    <div class="onb-top"><div class="dots">${dots}</div><button class="link" id="onbSkip">${st.key === 'hi' ? 'Пропустить всё' : 'Пропустить'}</button></div>
+    <div class="onb-body" key="${onbI}">${body}</div>
+    <div class="row">
+      ${onbI > 0 ? '<button class="btn ghost" id="onbBack" style="flex:0 0 auto">Назад</button>' : ''}
+      <button class="btn grow" id="onbNext">${st.key === 'hi' ? 'Начать' : last ? 'Готово' : 'Далее'}</button>
+    </div>`;
+  const inp = $('#onbIn');
+  if (inp) { setTimeout(() => inp.focus(), 200); inp.onkeydown = e => e.key === 'Enter' && onbNext(); }
+  $$('#onb [data-wk]').forEach(b => b.onclick = () => { onbDraft.weeklyWorkouts = +b.dataset.wk; renderOnb(); });
+  $('#onbNext').onclick = onbNext;
+  if ($('#onbBack')) $('#onbBack').onclick = () => { onbI--; renderOnb(); };
+  $('#onbSkip').onclick = () => st.key === 'hi' ? finishOnb() : (onbI++, onbI >= steps.length ? finishOnb() : renderOnb());
+}
+function onbNext() {
+  const steps = onbSteps(), st = steps[onbI];
+  const inp = $('#onbIn');
+  if (inp) {
+    const raw = inp.value.trim();
+    if (raw) {
+      const v = num(raw);
+      if (v == null || v < st.min || v > st.max) { shake(inp); toast(`Введите значение от ${st.min} до ${st.max}`); return; }
+      onbDraft[st.key] = st.dec ? r1(v) : Math.round(v);
+    }
+  }
+  if (onbI < steps.length - 1) { onbI++; renderOnb(); } else finishOnb();
+}
+function finishOnb() {
+  const p = S.profile;
+  for (const k of ['height', 'startWeight', 'goalWeight', 'weeklyWorkouts', 'waterGoal']) if (onbDraft[k] != null) p[k] = onbDraft[k];
+  if (p.startWeight != null && !S.weights.length) S.weights.push({ id: uid(), date: dayKey(), kg: p.startWeight });
+  p.onboarded = true;
+  save();
+  $('#onb').classList.remove('open');
+  go('today');
+  setTimeout(() => bigBurst(getAccent()), 300);
+}
+
+/* ======================= шторка, тост, эффекты ======================= */
+function openSheet(html) {
+  $('#sheetBody').innerHTML = html;
+  $('#sheetBg').classList.add('open'); $('#sheet').classList.add('open');
+  $$('#sheetBody [data-close]').forEach(b => b.onclick = closeSheet);
+}
+function closeSheet() { $('#sheetBg').classList.remove('open'); $('#sheet').classList.remove('open'); }
+let tt;
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2600);
+}
+function shake(el) {
+  vibrate([20, 40, 20]);
+  el.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 280 });
+}
+const getAccent = () => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+function spawn(x, y, n, spread, col) {
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement('div');
+    el.className = 'particle';
+    el.style.left = x + 'px'; el.style.top = y + 'px';
+    el.style.background = col; el.style.boxShadow = `0 0 8px ${col}`;
+    document.body.appendChild(el);
+    const a = Math.random() * Math.PI * 2, d = spread * (.4 + Math.random() * .6);
+    el.animate([
+      { transform: 'translate(0,0) scale(1)', opacity: 1 },
+      { transform: `translate(${Math.cos(a) * d}px,${Math.sin(a) * d + 30}px) scale(0)`, opacity: 0 }
+    ], { duration: 700 + Math.random() * 500, easing: 'cubic-bezier(.2,.8,.2,1)' }).onfinish = () => el.remove();
+  }
+}
+function burstAt(el, col, n = 14) {
+  if (!el) return; const r = el.getBoundingClientRect();
+  spawn(r.left + r.width / 2, r.top + r.height / 2, n, 90, col);
+}
+function bigBurst(col) {
+  const r = $('#stage').getBoundingClientRect();
+  for (let k = 0; k < 3; k++) setTimeout(() => spawn(r.left + r.width / 2, r.top + r.height / 2, 26, 200, col), k * 200);
+}
+
+/* ======================= события ======================= */
+$('#tabs').addEventListener('click', e => { const t = e.target.closest('[data-tab]'); if (t) go(t.dataset.tab); });
+$$('[data-water]').forEach(b => b.addEventListener('click', () => addWater(+b.dataset.water)));
+$('#waterCustom').onclick = openWaterCustom;
+$('#waterUndo').onclick = undoWater;
+$('#stage').onclick = openBreakdown;
+$('#sheetBg').onclick = closeSheet;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+$('#bodyHistory').addEventListener('click', e => {
+  const b = e.target.closest('[data-delw]'); if (!b) return;
+  const w = S.weights.find(x => x.id === b.dataset.delw);
+  if (!w || !confirm(`Удалить запись ${kg(w.kg)} кг за ${shortDate(w.date)}?`)) return;
+  S.weights = S.weights.filter(x => x.id !== w.id); save(); renderAll();
+});
+$('#exportBtn').onclick = exportData;
+$('#importBtn').onclick = () => $('#importFile').click();
+$('#importFile').onchange = e => { const f = e.target.files[0]; if (f) importData(f); e.target.value = ''; };
+$('#reOnb').onclick = openOnboarding;
+$('#resetBtn').onclick = () => {
+  if (!confirm('Сбросить все данные? Сначала лучше сделать экспорт.')) return;
+  if (!confirm('Точно? Это действие нельзя отменить.')) return;
+  localStorage.removeItem(KEY); S = defaults(); save(); renderAll(); openOnboarding();
+};
+bindSettings();
+
+// смена дня, возврат в приложение
+let lastDay = dayKey();
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible') return;
+  S = load(); renderDate();
+  if (dayKey() !== lastDay) { lastDay = dayKey(); toast('Новый день: счётчик воды обнулён'); }
+  renderAll();
+});
+// синхронизация между вкладками
+window.addEventListener('storage', e => { if (e.key === KEY) { S = load(); renderAll(); } });
+
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstall = e; if (screen === 'more') renderMore(); });
+
+/* ======================= старт ======================= */
+renderDate();
+renderAll();
+if (!S.profile.onboarded) openOnboarding();
+
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+})();
+</script>
+</body>
+</html>
