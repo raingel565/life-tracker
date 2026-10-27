@@ -213,9 +213,9 @@ input{font:inherit;color:inherit}
 .tab.on::before{content:"";position:absolute;top:0;width:26px;height:2px;border-radius:2px;background:var(--accent);box-shadow:0 0 10px var(--accent)}
 
 /* шторка */
-.sheet-bg{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .25s}
+.sheet-bg{position:fixed;inset:0;z-index:56;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .25s}
 .sheet-bg.open{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;max-width:520px;margin:0 auto;
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:57;max-width:520px;margin:0 auto;
   background:linear-gradient(180deg,#151b27,#0d1118);border:1px solid var(--line2);border-bottom:0;border-radius:24px 24px 0 0;
   padding:10px 18px calc(22px + var(--safe-b));transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);max-height:88vh;overflow-y:auto}
 .sheet:not(.open){visibility:hidden;transition:transform .32s cubic-bezier(.2,.8,.2,1),visibility 0s .32s}
@@ -259,6 +259,7 @@ input{font:inherit;color:inherit}
   background:#161d2a;border:1px solid var(--line2);padding:11px 16px;border-radius:12px;font-size:14px;
   box-shadow:0 10px 30px rgba(0,0,0,.5);transition:all .3s ease;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+body.wo-open .toast{bottom:calc(var(--safe-b) + 150px)}
 .particle{position:fixed;width:6px;height:6px;border-radius:50%;pointer-events:none;z-index:70}
 
 
@@ -311,6 +312,76 @@ details.closed summary::-webkit-details-marker{display:none}
 .sheet .row .btn{flex:1}
 .list .d{margin-top:2px}
 #orbitBack circle,#orbitFront circle{fill:#ffd166}
+
+
+/* тренировки */
+.btn.green{background:var(--good);box-shadow:0 8px 22px -8px var(--good)}
+.chip.on{background:var(--accent);color:#06080c;border-color:transparent;transition:background 1.2s}
+.week-dots{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:12px 0 14px}
+.wd{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--dim);font-family:var(--mono);text-transform:lowercase}
+.wd i{width:100%;height:32px;border-radius:10px;border:1px solid var(--line2);display:grid;place-items:center;font-style:normal;font-weight:700;color:#06080c}
+.wd.on i{background:var(--good);border-color:transparent;box-shadow:0 0 12px rgba(62,224,143,.45)}
+.wd.today b{color:var(--text)}
+.wd.today i{border-color:rgba(255,255,255,.35)}
+.ex-chips{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 4px}
+.ex-chip{font-size:12px;padding:4px 9px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:#c9d2df}
+.ex-chip b{font-family:var(--mono);color:var(--muted);font-weight:500;margin-left:6px}
+.ex-row{cursor:pointer}
+.ex-row .grow{min-width:0}
+.tico{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;border:1px solid rgba(62,224,143,.35);color:var(--good);flex:0 0 32px;font-family:var(--mono);font-size:12px;font-weight:700}
+.ci{border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px;background:rgba(255,255,255,.02)}
+.ci-h{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600}
+.ci-f{display:flex;gap:8px;margin-top:10px}
+.mini-f{flex:1;min-width:0}
+.mini-f label{display:block;font-size:10px;color:var(--muted);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.mini-f input{width:100%;height:40px;border-radius:10px;background:#090c12;border:1px solid var(--line2);text-align:center;font-family:var(--mono);font-weight:700;font-size:16px;outline:none}
+.mini-f input:focus{border-color:var(--good)}
+.cmp{font-family:var(--mono);font-size:11.5px;display:block;margin-top:2px}
+.cmp.up{color:var(--good)} .cmp.down{color:var(--bad)} .cmp.same{color:var(--muted)}
+.list .cmp{display:inline;margin-left:8px}
+.list li > div[style*="text-align:right"] .cmp{display:block;margin-left:0}
+.pr{color:var(--warn);font-family:var(--mono);font-size:10px;border:1px solid rgba(255,181,71,.45);border-radius:99px;padding:2px 7px;margin-left:8px;vertical-align:2px;text-transform:uppercase;letter-spacing:.06em}
+.body-tabs{margin-bottom:14px}
+
+#wo{position:fixed;inset:0;z-index:55;background:var(--bg);display:none;flex-direction:column;max-width:520px;margin:0 auto}
+#wo.open{display:flex}
+.wo-top{display:flex;align-items:center;gap:12px;padding:calc(var(--safe-t) + 12px) 16px 8px}
+.wo-top .chip.icon{font-size:16px}
+.wo-time{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--good)}
+.wo-body{flex:1;overflow-y:auto;padding:4px 16px 16px}
+.wo-bottom{padding:10px 16px calc(var(--safe-b) + 14px);border-top:1px solid var(--line);background:rgba(8,10,15,.92)}
+.exdots{display:flex;gap:5px;margin:6px 0 16px}
+.exdots i{flex:1;height:5px;border-radius:5px;background:var(--line2);cursor:pointer}
+.exdots i.done{background:var(--good)} .exdots i.half{background:rgba(62,224,143,.4)} .exdots i.cur{background:var(--text)}
+.wo-ex h2{font-size:26px;letter-spacing:-.02em;line-height:1.15}
+.prev{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6}
+.prev b{font-family:var(--mono);color:#d5dde8}
+.sets{margin-top:10px}
+.setrow{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.setrow .n{width:20px;font-family:var(--mono);color:var(--muted);font-size:13px;flex:0 0 20px}
+.setrow.next .n{color:var(--good);font-weight:700}
+.step{display:flex;align-items:center;border:1px solid var(--line2);border-radius:12px;overflow:hidden;flex:1;min-width:0;height:48px;background:#090c12}
+.step button{width:42px;height:100%;font-size:22px;color:var(--muted);flex:0 0 42px}
+.step button:active{background:rgba(255,255,255,.06)}
+.step input{flex:1;min-width:0;width:100%;height:100%;background:transparent;border:0;text-align:center;font-family:var(--mono);font-size:19px;font-weight:700;outline:none;padding:0}
+.step small{font-size:10px;color:var(--muted);font-family:var(--mono);margin-right:2px}
+.step.sm button{width:30px;flex:0 0 30px;font-size:19px}
+.step.sm input{font-size:16px}
+.chk{width:48px;height:48px;border-radius:12px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--dim);flex:0 0 48px;transition:all .2s}
+.chk svg{width:22px;height:22px}
+.setrow.next .chk{border-color:rgba(62,224,143,.5);color:var(--good)}
+.setrow.done .chk{background:var(--good);color:#06080c;border-color:transparent;box-shadow:0 0 14px rgba(62,224,143,.45)}
+.setrow.done .step{opacity:.6}
+.timer-p{text-align:center;padding:20px 0 6px}
+.timer-n{font-family:var(--mono);font-size:68px;font-weight:700;letter-spacing:-.03em;line-height:1;min-height:68px}
+.timer-n.over{color:var(--good);text-shadow:0 0 24px rgba(62,224,143,.5)}
+.timer-l{font-size:13px;color:var(--muted);margin:8px 0 14px}
+.restbar{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(56,217,255,.07);border:1px solid rgba(56,217,255,.3);margin-bottom:10px}
+.restbar .rl{font-size:12px;color:#9eeeff;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.restbar .rt{font-family:var(--mono);font-size:22px;font-weight:700;color:#cff8ff;min-width:58px}
+.restbar .rp{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden}
+.restbar .rp i{display:block;height:100%;background:var(--water);transition:width .25s linear}
+.restbar button{font-size:12px;font-family:var(--mono);font-weight:700;color:#9eeeff;padding:6px 3px}
 
 @media (max-width:370px){
   .index-num{font-size:34px}
@@ -438,10 +509,12 @@ details.closed summary::-webkit-details-marker{display:none}
 
     <div id="todaySave"></div>
 
+    <div id="todayTrain"></div>
+
     <!-- скоро -->
     <div class="card" style="padding:14px 16px">
       <div class="card-t" style="margin-bottom:8px">Скоро в приложении</div>
-      <div class="sub">Тренировки и привычки появятся на следующих этапах. Персонаж уже готов принимать их данные.</div>
+      <div class="sub">Привычки появятся на последнем этапе. Аура персонажа уже ждёт их данных.</div>
     </div>
   </section>
 
@@ -452,19 +525,12 @@ details.closed summary::-webkit-details-marker{display:none}
 
   <!-- ================= ТЕЛО ================= -->
   <section class="screen" data-screen="body">
+    <div class="stabs body-tabs" id="bodyTabs"><button data-bt="train" class="on">Тренировки</button><button data-bt="weight">Вес</button></div>
+    <div id="bodyTrain"></div>
+    <div id="bodyWeight" style="display:none">
     <div class="card" id="bodyStats"></div>
     <div class="card" id="bodyChart"></div>
     <div class="card" id="bodyHistory"></div>
-    <div class="card soon">
-      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/></svg></div>
-      <h3>Тренировки</h3>
-      <p>Конструктор упражнений и комплексов появится на этапе 3.</p>
-      <ul>
-        <li>Три типа: повторения, с весом, таймер</li>
-        <li>Сравнение с прошлой тренировкой и рекорды</li>
-        <li>Таймер планки и отдыха</li>
-      </ul>
-      <span class="pill">этап 3</span>
     </div>
   </section>
 
@@ -515,7 +581,7 @@ details.closed summary::-webkit-details-marker{display:none}
         <button class="btn danger grow" id="resetBtn">Сбросить всё</button>
       </div>
     </div>
-    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · этап 2 · v0.2.0</p>
+    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · этап 3 · v0.3.0</p>
   </section>
 </div>
 
@@ -533,6 +599,7 @@ details.closed summary::-webkit-details-marker{display:none}
 <div class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div id="sheetBody"></div></div>
 
 <div id="onb"></div>
+<div id="wo"></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -616,8 +683,7 @@ function savingsProgress() {
 }
 function trainingProgress() {
   if (!S.workouts.length) return null;
-  const since = Date.now() - 7 * 864e5;
-  const n = S.workouts.filter(w => new Date(w.date || w.ts).getTime() >= since).length;
+  const n = weekCount();
   return { p: clamp(n / (S.profile.weeklyWorkouts || 3)), n };
 }
 function habitsProgress() {
@@ -646,7 +712,7 @@ function channels() {
     { k: 'debt',   name: 'Долги',      icon: 'debt',   on: !!dp, v: dp ? dp.p : 0, color: '#ff6b8b', fx: 'цвет и груз · отложенное = ½', soon: 'нет долгов' },
     { k: 'save',   name: 'Накопления', icon: 'save',   on: sp != null, v: sp ?? 0, color: '#ffd166', fx: 'частицы на орбите', soon: 'нет целей' },
     { k: 'weight', name: 'Вес',        icon: 'weight', on: wp != null, v: wp ?? 0, color: '#c58bff', fx: 'комплекция силуэта', soon: 'введите вес' },
-    { k: 'train',  name: 'Тренировки', icon: 'train',  on: !!tp, v: tp ? tp.p : 0, color: '#3ee08f', fx: 'осанка и тонус', soon: 'этап 3' },
+    { k: 'train',  name: 'Тренировки', icon: 'train',  on: !!tp, v: tp ? tp.p : 0, color: '#3ee08f', fx: 'осанка · тренировки за 7 дней', soon: 'нет тренировок' },
     { k: 'habit',  name: 'Привычки',   icon: 'habit',  on: hp != null, v: hp ?? 0, color: '#ffb547', fx: 'аура вокруг', soon: 'этап 4' },
     { k: 'water',  name: 'Вода',       icon: 'water',  on: true, v: waterPace(), fill: clamp(waterToday() / wg), color: '#38d9ff', fx: 'наполнение · в индекс идёт темп', soon: '' }
   ];
@@ -914,9 +980,10 @@ function renderToday() {
   $('#weightCard').innerHTML = html;
   $('#weighBtn').onclick = openWeigh;
   renderTodayMoney();
+  $('#todayTrain').innerHTML = weekCardHtml();
 
   // напоминание о бэкапе
-  const hasData = S.weights.length + S.water.length + S.debts.length + S.savings.length + S.workouts.length + S.habits.length > 0;
+  const hasData = S.weights.length + S.water.length + S.debts.length + S.savings.length + S.workouts.length + S.exercises.length + S.habits.length > 0;
   const last = S.meta.lastBackup ? new Date(S.meta.lastBackup).getTime() : 0;
   const created = new Date(S.profile.createdAt).getTime();
   const due = hasData && Date.now() - Math.max(last, created) > 7 * 864e5;
@@ -985,7 +1052,15 @@ function openWeigh() {
   $('#wOk').onclick = ok; inp.onkeydown = e => { if (e.key === 'Enter') ok(); };
 }
 
+let bodyTab = 'train';
+function setBodyTab(t) { bodyTab = t; if (screen === 'body') renderBody(); }
 function renderBody() {
+  $$('#bodyTabs [data-bt]').forEach(b => b.classList.toggle('on', b.dataset.bt === bodyTab));
+  $('#bodyTrain').style.display = bodyTab === 'train' ? '' : 'none';
+  $('#bodyWeight').style.display = bodyTab === 'weight' ? '' : 'none';
+  if (bodyTab === 'train') renderTrain(); else renderWeightTab();
+}
+function renderWeightTab() {
   const p = S.profile, cur = currentWeight();
   const bmi = cur && p.height ? cur / Math.pow(p.height / 100, 2) : null;
   const change = cur != null && p.startWeight != null ? r1(cur - p.startWeight) : null;
@@ -1477,6 +1552,522 @@ function importOldDebt(raw) {
   save(); go('money'); toast('Долг импортирован. Имя и срок можно задать через ⋯ → Изменить');
 }
 
+/* ======================= тренировки ======================= */
+const TYPES = {
+  reps:   { label: 'Повторения', icon: '×',  hint: 'Подходы × повторения: отжимания, приседания, подтягивания' },
+  weight: { label: 'С весом',    icon: 'кг', hint: 'Подходы × повторения × вес: гантели, штанга, тренажёры' },
+  time:   { label: 'Таймер',     icon: '⏱',  hint: 'Подходы × время: планка, вис, стойка. Встроенный таймер со звуком' }
+};
+const secFmt = s => { s = Math.max(0, Math.round(s)); return `${Math.floor(s / 60)}:${pad(s % 60)}`; };
+const findEx = id => S.exercises.find(e => e.id === id);
+const findCx = id => S.complexes.find(c => c.id === id);
+const setStr = (st, type) => type === 'weight' ? `${kg(st.kg || 0)}×${st.reps || 0}` : type === 'time' ? secFmt(st.sec || 0) : String(st.reps || 0);
+const planStr = (it, type) => type === 'weight' ? `${it.sets}×${it.reps} · ${kg(it.kg || 0)} кг` : type === 'time' ? `${it.sets}×${secFmt(it.sec || 0)}` : `${it.sets}×${it.reps}`;
+const setVol = (st, type) => type === 'weight' ? (st.kg || 0) * (st.reps || 0) : type === 'time' ? (st.sec || 0) : (st.reps || 0);
+// лучший подход: для веса сравниваем кг, затем повторы
+const setRank = (st, type) => type === 'weight' ? (st.kg || 0) * 1000 + (st.reps || 0) : setVol(st, type);
+const volStr = (v, type) => type === 'weight' ? fmt(Math.round(v)) + ' кг' : type === 'time' ? secFmt(v) : fmt(v) + ' повт';
+const volLabel = type => type === 'weight' ? 'тоннаж' : type === 'time' ? 'время' : 'повторов';
+
+function exSessions(exId, beforeTs) {
+  const out = [];
+  for (const w of S.workouts) {
+    if (beforeTs && w.ts >= beforeTs) continue;
+    for (const e of w.ex || []) if (e.exId === exId && e.sets.length) {
+      const best = e.sets.reduce((b, x) => setRank(x, e.type) > setRank(b, e.type) ? x : b, e.sets[0]);
+      out.push({ ts: w.ts, date: w.date, wid: w.id, type: e.type, sets: e.sets, best, vol: e.sets.reduce((s, x) => s + setVol(x, e.type), 0) });
+    }
+  }
+  return out.sort((a, b) => a.ts < b.ts ? -1 : 1);
+}
+const lastSession = (exId, beforeTs) => { const s = exSessions(exId, beforeTs); return s[s.length - 1] || null; };
+function bestEver(exId, beforeTs) {
+  const ss = exSessions(exId, beforeTs); if (!ss.length) return null;
+  return ss.reduce((b, s) => setRank(s.best, s.type) > setRank(b, s.type) ? s.best : b, ss[0].best);
+}
+const weekFrom = () => dayKey(new Date(Date.now() - 6 * 864e5));
+const weekCount = () => S.workouts.filter(w => w.date >= weekFrom()).length;
+function weekDays() {
+  const out = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(Date.now() - i * 864e5), k = dayKey(d);
+    out.push({ k, l: d.toLocaleDateString('ru-RU', { weekday: 'short' }).slice(0, 2), on: S.workouts.some(w => w.date === k), today: i === 0 });
+  }
+  return out;
+}
+
+/* ---------- экраны ---------- */
+function weekCardHtml() {
+  const n = weekCount(), goal = S.profile.weeklyWorkouts || 3, A = S.activeWo;
+  return `<div class="card">
+    <div class="card-h"><span class="card-t" style="color:#3ee08f">${ico('train')}Тренировки · 7 дней</span><span class="sub mono">${n} / ${goal}${n >= goal ? ' ✦' : ''}</span></div>
+    <div class="week-dots">${weekDays().map(d => `<div class="wd ${d.on ? 'on' : ''} ${d.today ? 'today' : ''}"><i>${d.on ? '✓' : ''}</i><b>${d.l}</b></div>`).join('')}</div>
+    ${A ? `<button class="btn green block" data-tr="resume">▶ Продолжить: ${esc(A.name)}</button>`
+        : `<button class="btn green block" data-tr="start">Начать тренировку</button>`}
+  </div>`;
+}
+function cxCard(c) {
+  const ws = S.workouts.filter(w => w.complexId === c.id).sort((a, b) => a.ts < b.ts ? 1 : -1);
+  return `<div class="card">
+    <div class="card-h"><span class="debt-name">${esc(c.name)}</span><span class="tag">${ws[0] ? 'был ' + shortDate(ws[0].date) : 'ещё не было'}</span></div>
+    <div class="ex-chips">${c.items.map(it => { const e = findEx(it.exId); return e ? `<span class="ex-chip">${esc(e.name)}<b>${planStr(it, e.type)}</b></span>` : ''; }).join('')}</div>
+    <div class="legend" style="margin-top:6px"><span>${c.items.length} упр. · выполнен ${ws.length} ${plural(ws.length, 'раз', 'раза', 'раз')}</span></div>
+    <div class="acts"><button class="btn green" data-tr="go" data-id="${c.id}">Начать</button><button class="btn ghost more" data-tr="cx-edit" data-id="${c.id}" aria-label="Изменить">${ico('more')}</button></div>
+  </div>`;
+}
+function renderTrain() {
+  let h = weekCardHtml();
+  h += `<div class="sec-h"><h2>Комплексы</h2>${S.exercises.length ? '<button class="add-btn" data-tr="cx-add">+ Комплекс</button>' : ''}</div>`;
+  if (!S.exercises.length) h += `<div class="card"><p class="sub">Начните с упражнений: добавьте свои или базовый набор. Потом соберите из них комплекс.</p>
+      <div class="row" style="margin-top:12px"><button class="btn gold grow" data-tr="seed">Базовый набор</button><button class="btn grow" data-tr="ex-add">Своё упражнение</button></div></div>`;
+  else if (!S.complexes.length) h += `<div class="card"><p class="sub">Соберите комплекс из упражнений, например «Утро» или «Гантели — верх».</p><button class="btn green block" style="margin-top:12px" data-tr="cx-add">Собрать комплекс</button></div>`;
+  h += S.complexes.map(cxCard).join('');
+
+  h += `<div class="sec-h"><h2>Упражнения · ${S.exercises.length}</h2><button class="add-btn" data-tr="ex-add">+ Упражнение</button></div>`;
+  if (S.exercises.length) h += `<div class="card" style="padding:4px 16px"><ul class="list">${S.exercises.map(e => {
+      const b = bestEver(e.id), n = exSessions(e.id).length;
+      return `<li class="ex-row" data-tr="ex-open" data-id="${e.id}"><span class="tico">${TYPES[e.type].icon}</span>
+        <div class="grow"><div>${esc(e.name)}</div><div class="d">${TYPES[e.type].label}${b ? ' · рекорд ' + setStr(b, e.type) : ''}${n ? ` · ${n} ${plural(n, 'тренировка', 'тренировки', 'тренировок')}` : ''}</div></div><span class="sub">›</span></li>`;
+    }).join('')}</ul></div>`;
+
+  const hist = [...S.workouts].sort((a, b) => a.ts < b.ts ? 1 : -1).slice(0, 20);
+  if (hist.length) h += `<div class="sec-h"><h2>История</h2></div><div class="card" style="padding:4px 16px"><ul class="list">${hist.map(w => {
+      const sets = w.ex.reduce((s, e) => s + e.sets.length, 0);
+      return `<li class="ex-row" data-tr="wo-open" data-id="${w.id}"><div class="grow"><div>${esc(w.name)}</div><div class="d">${shortDate(w.date)} · ${secFmt(w.dur)} · ${sets} ${plural(sets, 'подход', 'подхода', 'подходов')}</div></div>
+        <button class="x" data-tr="wo-del" data-id="${w.id}" aria-label="Удалить">×</button></li>`;
+    }).join('')}</ul></div>`;
+  $('#bodyTrain').innerHTML = h;
+}
+
+function onTrainAct(e) {
+  const a = e.target.closest('[data-tr]'); if (!a) return;
+  const { tr, id } = a.dataset;
+  if (tr === 'start') openStartPicker();
+  if (tr === 'resume') openWo();
+  if (tr === 'go') startWorkout(id);
+  if (tr === 'seed') seedExercises();
+  if (tr === 'ex-add') openExForm(null);
+  if (tr === 'ex-open') openExDetail(id);
+  if (tr === 'cx-add') openCxEditor(null);
+  if (tr === 'cx-edit') openCxEditor(id);
+  if (tr === 'wo-open') { const w = S.workouts.find(x => x.id === id); if (w) openWoSummary(w, false); }
+  if (tr === 'wo-del') {
+    const w = S.workouts.find(x => x.id === id);
+    if (w && confirm(`Удалить тренировку «${w.name}» от ${shortDate(w.date)}?`)) { S.workouts = S.workouts.filter(x => x.id !== id); save(); renderAll(); toast('Тренировка удалена'); }
+  }
+}
+
+function seedExercises() {
+  const base = [['Отжимания', 'reps', 60], ['Приседания', 'reps', 60], ['Подтягивания', 'reps', 90], ['Выпады', 'reps', 60], ['Скручивания', 'reps', 45],
+    ['Планка', 'time', 45], ['Жим гантелей лёжа', 'weight', 90], ['Тяга гантели в наклоне', 'weight', 90], ['Гантели на бицепс', 'weight', 60]];
+  let n = 0;
+  for (const [name, type, rest] of base) if (!S.exercises.some(e => e.name === name)) { S.exercises.push({ id: uid(), name, type, rest }); n++; }
+  save(); renderAll(); toast(`Добавлено ${n} упражнений. Лишние можно удалить`);
+}
+
+/* ---------- упражнение ---------- */
+function openExForm(id, after) {
+  const e = id ? findEx(id) : null;
+  let type = e ? e.type : 'reps', rest = e ? e.rest || 60 : 60, first = true;
+  const locked = !!(e && exSessions(e.id).length);
+  const draw = () => {
+    const name = $('#efName') ? $('#efName').value : (e ? e.name : '');
+    openSheet(`
+      <h2>${e ? 'Упражнение' : 'Новое упражнение'}</h2><p class="sub">${locked ? 'Тип нельзя менять, когда есть история' : 'Как считать подходы'}</p>
+      <div class="field"><label>Название</label><input id="efName" class="txt" maxlength="40" placeholder="Отжимания" value="${esc(name)}"></div>
+      <div class="stabs">${Object.entries(TYPES).map(([k, t]) => `<button data-ty="${k}" class="${k === type ? 'on' : ''}" ${locked && k !== type ? 'disabled' : ''}>${t.label}</button>`).join('')}</div>
+      <p class="op-type">${TYPES[type].hint}</p>
+      <div class="field" style="margin:16px 0 6px"><label>Отдых между подходами</label></div>
+      <div class="btns" style="margin-bottom:18px">${[30, 45, 60, 90, 120, 180].map(v => `<button class="chip ${v === rest ? 'on' : ''}" data-rest="${v}">${v < 60 ? v + 'с' : secFmt(v)}</button>`).join('')}</div>
+      <button class="btn block" id="efOk">${e ? 'Сохранить' : 'Добавить'}</button>
+      ${e ? '<button class="btn danger block" style="margin-top:8px" id="efDel">Удалить упражнение</button>' : ''}`);
+    if (first && !e) setTimeout(() => $('#efName').focus(), 250);
+    first = false;
+    sheetHandler = ev => {
+      const t = ev.target.closest('[data-ty]'); if (t && !t.disabled) { type = t.dataset.ty; draw(); return; }
+      const r = ev.target.closest('[data-rest]'); if (r) { rest = +r.dataset.rest; draw(); }
+    };
+    $('#efOk').onclick = () => {
+      const nm = $('#efName').value.trim();
+      if (!nm) return shake($('#efName'));
+      let ex = e;
+      if (ex) Object.assign(ex, { name: nm, type, rest });
+      else { ex = { id: uid(), name: nm, type, rest }; S.exercises.push(ex); }
+      save();
+      if (after) after(ex.id); else { closeSheet(); renderAll(); toast(e ? 'Сохранено' : `«${nm}» добавлено`); }
+    };
+    if (e) $('#efDel').onclick = () => {
+      if (!confirm(`Удалить «${e.name}»? Из комплексов оно уберётся, история тренировок останется.`)) return;
+      S.exercises = S.exercises.filter(x => x.id !== e.id);
+      S.complexes.forEach(c => c.items = c.items.filter(it => it.exId !== e.id));
+      save(); closeSheet(); renderAll(); toast('Упражнение удалено');
+    };
+  };
+  draw();
+}
+
+function miniLine(vals, color) {
+  const W = 320, H = 110, pl = 6, pr = 6, pt = 12, pb = 10;
+  let mn = Math.min(...vals), mx = Math.max(...vals);
+  if (mx === mn) { mn -= 1; mx += 1; }
+  const X = i => pl + i / (vals.length - 1) * (W - pl - pr), Y = v => pt + (1 - (v - mn) / (mx - mn)) * (H - pt - pb);
+  const d = vals.map((v, i) => (i ? 'L' : 'M') + r1(X(i)) + ' ' + r1(Y(v))).join(' ');
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;margin:6px 0 4px">
+    <path d="${d} L${r1(X(vals.length - 1))} ${H} L${pl} ${H}Z" fill="${color}" fill-opacity=".1"/>
+    <path d="${d}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    ${vals.map((v, i) => `<circle cx="${r1(X(i))}" cy="${r1(Y(v))}" r="${i === vals.length - 1 ? 4.5 : 3}" fill="${color}" stroke="#0d1118" stroke-width="2"/>`).join('')}
+  </svg>`;
+}
+function openExDetail(id) {
+  const e = findEx(id); if (!e) return;
+  const ss = exSessions(id), best = bestEver(id), last = ss[ss.length - 1];
+  const rows = [...ss].reverse().slice(0, 25).map((s, i, arr) => {
+    const prev = arr[i + 1], d = prev ? s.vol - prev.vol : null;
+    const cls = d == null ? '' : d > 0 ? 'up' : d < 0 ? 'down' : 'same';
+    return `<li><div><div class="mono" style="font-size:14px">${s.sets.map(x => setStr(x, e.type)).join(' · ')}</div><div class="d">${shortDate(s.date)}</div></div><span class="grow"></span>
+      <span class="v">${volStr(s.vol, e.type)}</span>${d != null ? `<span class="cmp ${cls}">${d > 0 ? '▲' : d < 0 ? '▼' : '='}</span>` : ''}</li>`;
+  }).join('');
+  openSheet(`
+    <h2>${esc(e.name)}</h2><p class="sub">${TYPES[e.type].label} · отдых ${secFmt(e.rest || 60)}</p>
+    <div class="sum3">
+      <div class="metric"><div class="l">Рекорд</div><div class="n">${best ? setStr(best, e.type) : '—'}</div></div>
+      <div class="metric"><div class="l">Последний</div><div class="n">${last ? volStr(last.vol, e.type) : '—'}</div></div>
+      <div class="metric"><div class="l">Раз</div><div class="n">${ss.length}</div></div>
+    </div>
+    ${ss.length >= 2 ? `<div class="card-t" style="margin:16px 0 0">${volLabel(e.type)} за тренировку</div>${miniLine(ss.slice(-20).map(s => s.vol), '#3ee08f')}` : ''}
+    <div class="card-t" style="margin:16px 0 2px">История</div>
+    ${rows ? `<ul class="list">${rows}</ul>` : '<p class="sub">Ещё не выполнялось.</p>'}
+    <button class="btn ghost block" style="margin-top:14px" id="exEdit">Изменить упражнение</button>`);
+  $('#exEdit').onclick = () => openExForm(id);
+}
+
+/* ---------- комплекс ---------- */
+let cxDraft = null;
+function defaultItem(exId) {
+  const e = findEx(exId), ls = lastSession(exId);
+  const it = { exId, sets: ls ? ls.sets.length : 3 };
+  if (e.type === 'time') it.sec = ls ? Math.max(...ls.sets.map(s => s.sec || 0)) : 60;
+  else it.reps = ls ? Math.max(...ls.sets.map(s => s.reps || 0)) : (e.type === 'weight' ? 10 : 12);
+  if (e.type === 'weight') it.kg = ls ? ls.best.kg : 10;
+  return it;
+}
+function openCxEditor(id) {
+  if (id !== undefined) {
+    const c = id ? findCx(id) : null;
+    cxDraft = c ? JSON.parse(JSON.stringify(c)) : { id: null, name: '', items: [] };
+  }
+  const c = cxDraft;
+  const f = (i, k, l, v, mode) => `<div class="mini-f"><label>${l}</label><input inputmode="${mode || 'numeric'}" data-ci="${i}" data-k="${k}" value="${v ?? ''}"></div>`;
+  const items = c.items.map((it, i) => {
+    const e = findEx(it.exId); if (!e) return '';
+    return `<div class="ci"><div class="ci-h"><span class="tico">${TYPES[e.type].icon}</span><span class="grow">${esc(e.name)}</span>
+      ${i > 0 ? `<button class="x" data-cx="up" data-i="${i}" aria-label="Выше">↑</button>` : ''}<button class="x" data-cx="rm" data-i="${i}" aria-label="Убрать">×</button></div>
+      <div class="ci-f">${f(i, 'sets', 'Подходы', it.sets)}${e.type === 'time' ? f(i, 'sec', 'Секунд', it.sec) : f(i, 'reps', 'Повторы', it.reps)}${e.type === 'weight' ? f(i, 'kg', 'Вес, кг', it.kg != null ? kg(it.kg) : '', 'decimal') : ''}</div></div>`;
+  }).join('');
+  openSheet(`
+    <h2>${c.id ? 'Комплекс' : 'Новый комплекс'}</h2><p class="sub">Упражнения по порядку и план подходов</p>
+    <div class="field"><label>Название</label><input id="cxName" class="txt" maxlength="40" placeholder="Утро" value="${esc(c.name)}"></div>
+    <div>${items || '<p class="sub" style="margin:4px 0 12px">Пока пусто. Добавьте упражнения.</p>'}</div>
+    <button class="btn ghost block" data-cx="add">+ Добавить упражнение</button>
+    <button class="btn green block" style="margin-top:10px" id="cxOk">Сохранить комплекс</button>
+    ${c.id ? '<button class="btn danger block" style="margin-top:8px" data-cx="del">Удалить комплекс</button>' : ''}`);
+  if (!c.id && !c.name) setTimeout(() => $('#cxName').focus(), 250);
+  sheetInput = ev => {
+    const t = ev.target;
+    if (t.id === 'cxName') c.name = t.value;
+    if (t.dataset.ci != null) { const v = num(t.value); c.items[+t.dataset.ci][t.dataset.k] = v == null ? null : (t.dataset.k === 'kg' ? r1(v) : Math.round(v)); }
+  };
+  sheetHandler = ev => {
+    const b = ev.target.closest('[data-cx]'); if (!b) return;
+    const i = +b.dataset.i;
+    if (b.dataset.cx === 'add') openExPicker();
+    if (b.dataset.cx === 'rm') { c.items.splice(i, 1); openCxEditor(); }
+    if (b.dataset.cx === 'up') { [c.items[i - 1], c.items[i]] = [c.items[i], c.items[i - 1]]; openCxEditor(); }
+    if (b.dataset.cx === 'del' && confirm(`Удалить комплекс «${c.name}»? История тренировок останется.`)) {
+      S.complexes = S.complexes.filter(x => x.id !== c.id); save(); closeSheet(); renderAll(); toast('Комплекс удалён');
+    }
+  };
+  $('#cxOk').onclick = () => {
+    c.name = $('#cxName').value.trim();
+    if (!c.name) return shake($('#cxName'));
+    if (!c.items.length) { toast('Добавьте хотя бы одно упражнение'); return; }
+    for (const it of c.items) {
+      const e = findEx(it.exId);
+      it.sets = clamp(Math.round(it.sets || 0), 1, 20);
+      if (e.type === 'time') it.sec = Math.max(5, Math.round(it.sec || 60)); else it.reps = Math.max(1, Math.round(it.reps || 10));
+      if (e.type === 'weight') it.kg = Math.max(0, it.kg || 0);
+    }
+    if (c.id) S.complexes[S.complexes.findIndex(x => x.id === c.id)] = c;
+    else { c.id = uid(); c.createdAt = new Date().toISOString(); S.complexes.push(c); }
+    save(); closeSheet(); renderAll(); toast(`Комплекс «${c.name}» сохранён`); cxDraft = null;
+  };
+}
+function openExPicker() {
+  const used = new Set(cxDraft.items.map(i => i.exId));
+  openSheet(`
+    <h2>Добавить упражнение</h2><p class="sub">В комплекс «${esc(cxDraft.name || 'без названия')}»</p>
+    ${S.exercises.length ? `<ul class="list">${S.exercises.map(e => `<li class="ex-row" data-pick="${e.id}"><span class="tico">${TYPES[e.type].icon}</span>
+      <div class="grow"><div>${esc(e.name)}</div><div class="d">${TYPES[e.type].label}</div></div><span class="sub">${used.has(e.id) ? 'уже есть' : '+'}</span></li>`).join('')}</ul>` : ''}
+    <div class="row" style="margin-top:14px"><button class="btn ghost" data-pick="back">Назад</button><button class="btn" data-pick="new">+ Новое</button></div>`);
+  sheetHandler = ev => {
+    const p = ev.target.closest('[data-pick]'); if (!p) return;
+    const v = p.dataset.pick;
+    if (v === 'back') return openCxEditor();
+    if (v === 'new') return openExForm(null, newId => { cxDraft.items.push(defaultItem(newId)); openCxEditor(); });
+    cxDraft.items.push(defaultItem(v)); openCxEditor();
+  };
+}
+function openStartPicker() {
+  if (!S.complexes.length) { go('body'); setBodyTab('train'); toast(S.exercises.length ? 'Сначала соберите комплекс' : 'Сначала добавьте упражнения'); return; }
+  openSheet(`
+    <h2>Какую тренировку?</h2><p class="sub">Выберите комплекс</p>
+    <ul class="list">${S.complexes.map(c => {
+      const last = S.workouts.filter(w => w.complexId === c.id).sort((a, b) => a.ts < b.ts ? 1 : -1)[0];
+      return `<li class="ex-row" data-start="${c.id}"><div class="grow"><div style="font-weight:600">${esc(c.name)}</div><div class="d">${c.items.length} упр.${last ? ' · был ' + shortDate(last.date) : ''}</div></div><span class="tag good">старт ›</span></li>`;
+    }).join('')}</ul>`);
+  sheetHandler = ev => { const s = ev.target.closest('[data-start]'); if (s) startWorkout(s.dataset.start); };
+}
+
+/* ---------- режим тренировки ---------- */
+let woTick = 0, actx = null, wakeLock = null;
+function audioUnlock() { try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); } catch (e) {} }
+function beep(f = 880, d = .16, v = .3) {
+  if (!actx) return;
+  try {
+    const o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime;
+    o.type = 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
+    o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + d + .02);
+  } catch (e) {}
+}
+const beepDone = () => { beep(988, .18); setTimeout(() => beep(1319, .28), 200); vibrate([200, 80, 200]); };
+async function keepAwake(on) {
+  try {
+    if (on && 'wakeLock' in navigator && !wakeLock) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => wakeLock = null); }
+    if (!on && wakeLock) { await wakeLock.release(); wakeLock = null; }
+  } catch (e) {}
+}
+
+function startWorkout(cid) {
+  const c = findCx(cid); if (!c) return;
+  if (S.activeWo && !confirm(`Есть незавершённая тренировка «${S.activeWo.name}». Начать новую вместо неё?`)) return;
+  const ex = c.items.map(it => {
+    const e = findEx(it.exId); if (!e) return null;
+    const n = clamp(it.sets || 3, 1, 20);
+    const mk = () => e.type === 'weight' ? { kg: it.kg ?? 10, reps: it.reps ?? 10, done: false } : e.type === 'time' ? { sec: it.sec ?? 60, done: false } : { reps: it.reps ?? 10, done: false };
+    return { exId: e.id, type: e.type, name: e.name, rest: e.rest || 60, sets: Array.from({ length: n }, mk) };
+  }).filter(Boolean);
+  if (!ex.length) { toast('В комплексе нет упражнений'); return; }
+  S.activeWo = { id: uid(), complexId: c.id, name: c.name, startTs: Date.now(), idx: 0, ex, rest: null, timer: null };
+  save(); closeSheet(); openWo(); renderAll();
+}
+function openWo() {
+  if (!S.activeWo) return;
+  audioUnlock(); keepAwake(true);
+  $('#wo').classList.add('open'); document.body.style.overflow = 'hidden'; document.body.classList.add('wo-open');
+  renderWo();
+  clearInterval(woTick); woTick = setInterval(tickWo, 250);
+}
+function closeWo() {
+  $('#wo').classList.remove('open'); document.body.style.overflow = ''; document.body.classList.remove('wo-open');
+  clearInterval(woTick); woTick = 0; keepAwake(false);
+}
+
+function stepper(i, k, v, step, unit, sm) {
+  const val = k === 'kg' ? kg(v || 0) : (v ?? 0);
+  return `<div class="step ${sm ? 'sm' : ''}"><button data-wo="dec" data-i="${i}" data-k="${k}" data-s="${step}" aria-label="Меньше">−</button>
+    <input inputmode="${k === 'kg' ? 'decimal' : 'numeric'}" data-wi="${i}" data-k="${k}" value="${val}"><small>${unit}</small>
+    <button data-wo="inc" data-i="${i}" data-k="${k}" data-s="${step}" aria-label="Больше">+</button></div>`;
+}
+function renderWo() {
+  const A = S.activeWo; if (!A) return closeWo();
+  const E = A.ex[A.idx], last = A.idx === A.ex.length - 1;
+  const prev = lastSession(E.exId), rec = bestEver(E.exId);
+  const next = E.sets.findIndex(s => !s.done);
+  const allDone = next < 0;
+  const T = A.timer && A.timer.exIdx === A.idx ? A.timer : null;
+  const rows = E.sets.map((s, i) => `
+    <div class="setrow ${s.done ? 'done' : ''} ${i === next ? 'next' : ''}"><span class="n">${i + 1}</span>
+      ${E.type === 'weight' ? stepper(i, 'kg', s.kg, 2.5, 'кг', true) + stepper(i, 'reps', s.reps, 1, 'повт', true)
+        : E.type === 'time' ? stepper(i, 'sec', s.sec, 5, 'сек') : stepper(i, 'reps', s.reps, 1, 'повт')}
+      <button class="chk" data-wo="chk" data-i="${i}" aria-label="Подход выполнен"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></button>
+    </div>`).join('');
+  $('#wo').innerHTML = `
+    <div class="wo-top">
+      <button class="chip icon" data-wo="menu" aria-label="Меню">✕</button>
+      <div class="grow"><div style="font-weight:700;font-size:16px">${esc(A.name)}</div><div class="sub">Упражнение ${A.idx + 1} из ${A.ex.length}</div></div>
+      <div class="wo-time" id="woEl">${secFmt((Date.now() - A.startTs) / 1000)}</div>
+    </div>
+    <div class="wo-body">
+      <div class="exdots">${A.ex.map((x, i) => `<i class="${i === A.idx ? 'cur' : x.sets.every(s => s.done) ? 'done' : x.sets.some(s => s.done) ? 'half' : ''}" data-wo="jump" data-i="${i}"></i>`).join('')}</div>
+      <div class="wo-ex">
+        <span class="tag">${TYPES[E.type].label} · отдых ${secFmt(E.rest)}</span>
+        <h2 style="margin-top:10px">${esc(E.name)}</h2>
+        <div class="prev">${prev ? `Прошлый раз, ${shortDate(prev.date)}: <b>${prev.sets.map(s => setStr(s, E.type)).join(' · ')}</b>` : 'Первый раз: сегодня задаёте точку отсчёта'}${rec ? `<br>Рекорд: <b>${setStr(rec, E.type)}</b>` : ''}</div>
+      </div>
+      ${E.type === 'time' ? `<div class="timer-p">
+        <div class="timer-n" id="tmN">${T ? '' : secFmt(allDone ? 0 : E.sets[next].sec)}</div>
+        <div class="timer-l" id="tmL">${allDone ? 'Все подходы выполнены' : `Подход ${next + 1} · цель ${secFmt(E.sets[next].sec)}`}</div>
+        ${allDone ? '' : `<button class="btn ${T ? 'danger' : 'green'}" style="min-width:170px" data-wo="${T ? 'tstop' : 'tstart'}">${T ? '■ Стоп' : '▶ Старт'}</button>`}
+      </div>` : ''}
+      <div class="sets">${rows}</div>
+      <div class="row" style="justify-content:space-between;margin-top:10px">
+        <button class="link" data-wo="addset">+ подход</button>
+        ${E.sets.length > 1 && !E.sets[E.sets.length - 1].done ? '<button class="link" data-wo="rmset">− убрать подход</button>' : ''}
+      </div>
+    </div>
+    <div class="wo-bottom">
+      ${A.rest ? `<div class="restbar"><span class="rl">Отдых</span><span class="rt" id="rtN">${secFmt((A.rest.endAt - Date.now()) / 1000)}</span>
+        <span class="rp"><i id="rtP" style="width:${clamp((A.rest.endAt - Date.now()) / (A.rest.total * 1000)) * 100}%"></i></span>
+        <button data-wo="rest15">+15</button><button data-wo="restskip">Пропустить</button></div>` : ''}
+      <div class="row">
+        ${A.idx > 0 ? '<button class="btn ghost" data-wo="prev" style="flex:0 0 auto">←</button>' : ''}
+        ${last ? `<button class="btn green grow" data-wo="finish">Завершить тренировку</button>`
+               : `<button class="btn ${allDone ? 'green' : 'ghost'} grow" data-wo="next">Далее: ${esc(A.ex[A.idx + 1].name)} →</button>`}
+      </div>
+    </div>`;
+  tickWo();
+}
+function tickWo() {
+  const A = S.activeWo; if (!A) return;
+  const now = Date.now();
+  const el = $('#woEl'); if (el) el.textContent = secFmt((now - A.startTs) / 1000);
+  if (A.rest) {
+    const left = (A.rest.endAt - now) / 1000;
+    if (left <= 0) { A.rest = null; save(); beepDone(); renderWo(); return; }
+    const n = $('#rtN'); if (n) n.textContent = secFmt(Math.ceil(left));
+    const pr = $('#rtP'); if (pr) pr.style.width = clamp(left / A.rest.total) * 100 + '%';
+  }
+  const T = A.timer;
+  if (T && T.exIdx === A.idx) {
+    const el2 = $('#tmN'); if (!el2) return;
+    const passed = (now - T.startAt) / 1000, left = T.target - passed;
+    if (left > 0) {
+      el2.textContent = secFmt(Math.ceil(left)); el2.classList.remove('over');
+      const s = Math.ceil(left);
+      if (s <= 3 && T.lastBeep !== s) { T.lastBeep = s; beep(660, .1, .22); vibrate(40); }
+    } else {
+      el2.textContent = '+' + secFmt(-left); el2.classList.add('over');
+      if (!T.beeped) { T.beeped = true; beepDone(); toast('Цель достигнута! Можно стоять дальше или нажать «Стоп»'); }
+    }
+  }
+}
+function startRest(E) {
+  const A = S.activeWo;
+  const lastEx = A.idx === A.ex.length - 1, exDone = E.sets.every(s => s.done);
+  if (lastEx && exDone) { A.rest = null; return; }
+  A.rest = { endAt: Date.now() + E.rest * 1000, total: E.rest };
+}
+function onWoAct(ev) {
+  const A = S.activeWo; if (!A) return;
+  const b = ev.target.closest('[data-wo]'); if (!b) return;
+  const E = A.ex[A.idx], i = +b.dataset.i, act = b.dataset.wo;
+  audioUnlock();
+  if (act === 'chk') {
+    const s = E.sets[i]; s.done = !s.done;
+    if (s.done) { vibrate(25); startRest(E); if (E.sets.every(x => x.done)) toast(A.idx === A.ex.length - 1 ? 'Последнее упражнение готово ✦' : 'Упражнение готово → Далее'); }
+  }
+  if (act === 'dec' || act === 'inc') {
+    const k = b.dataset.k, st = +b.dataset.s, s = E.sets[i];
+    s[k] = Math.max(0, r1((s[k] || 0) + (act === 'inc' ? st : -st)));
+    if (k !== 'kg') s[k] = Math.round(s[k]);
+    // повторы и вес следующих невыполненных подходов подстраиваются под изменённый
+    for (let j = i + 1; j < E.sets.length; j++) if (!E.sets[j].done && !E.sets[j].touched) E.sets[j][k] = s[k];
+    s.touched = true;
+    vibrate(8);
+  }
+  if (act === 'addset') { const l = E.sets[E.sets.length - 1]; E.sets.push({ ...l, done: false, touched: false }); }
+  if (act === 'rmset') E.sets.pop();
+  if (act === 'tstart') {
+    const n = E.sets.findIndex(s => !s.done); if (n < 0) return;
+    A.rest = null;
+    A.timer = { exIdx: A.idx, setIdx: n, startAt: Date.now(), target: E.sets[n].sec || 60, beeped: false };
+    beep(880, .12, .25); vibrate(30);
+  }
+  if (act === 'tstop' && A.timer) {
+    const s = E.sets[A.timer.setIdx];
+    s.sec = Math.max(1, Math.round((Date.now() - A.timer.startAt) / 1000)); s.done = true; s.touched = true;
+    A.timer = null; vibrate(25); startRest(E);
+  }
+  if (act === 'rest15' && A.rest) { A.rest.endAt += 15000; A.rest.total += 15; }
+  if (act === 'restskip') A.rest = null;
+  if (act === 'prev' && A.idx > 0) { A.idx--; A.timer = null; }
+  if (act === 'next' && A.idx < A.ex.length - 1) { A.idx++; A.timer = null; }
+  if (act === 'jump') { A.idx = i; A.timer = null; }
+  if (act === 'finish') return finishWorkout();
+  if (act === 'menu') return openWoMenu();
+  save(); renderWo();
+  if (act === 'chk' || act === 'tstop') { const r = $$('#wo .setrow')[i ?? 0]; if (r && E.sets[i] && E.sets[i].done) burstAt(r.querySelector('.chk'), '#3ee08f', 8); }
+}
+function onWoInput(ev) {
+  const A = S.activeWo, t = ev.target; if (!A || t.dataset.wi == null) return;
+  const v = num(t.value); const s = A.ex[A.idx].sets[+t.dataset.wi];
+  if (v != null && v >= 0) { s[t.dataset.k] = t.dataset.k === 'kg' ? r1(v) : Math.round(v); s.touched = true; save(); }
+}
+function openWoMenu() {
+  const A = S.activeWo;
+  const done = A.ex.reduce((n, e) => n + e.sets.filter(s => s.done).length, 0);
+  openSheet(`
+    <h2>${esc(A.name)}</h2><p class="sub">${secFmt((Date.now() - A.startTs) / 1000)} · выполнено подходов: ${done}</p>
+    <button class="btn green block" data-wm="finish">Завершить и сохранить</button>
+    <button class="btn ghost block" style="margin-top:8px" data-wm="hide">Свернуть (продолжить позже)</button>
+    <button class="btn danger block" style="margin-top:8px" data-wm="cancel">Отменить тренировку</button>`);
+  sheetHandler = ev => {
+    const b = ev.target.closest('[data-wm]'); if (!b) return;
+    if (b.dataset.wm === 'finish') { closeSheet(); finishWorkout(); }
+    if (b.dataset.wm === 'hide') { closeSheet(); closeWo(); renderAll(); toast('Тренировка свёрнута. Вернуться: «Продолжить»'); }
+    if (b.dataset.wm === 'cancel' && confirm('Отменить тренировку? Отмеченные подходы не сохранятся.')) { S.activeWo = null; save(); closeSheet(); closeWo(); renderAll(); toast('Тренировка отменена'); }
+  };
+}
+function finishWorkout() {
+  const A = S.activeWo; if (!A) return;
+  const ex = A.ex.map(e => ({ exId: e.exId, type: e.type, sets: e.sets.filter(s => s.done).map(s => {
+    const o = {}; for (const k of ['reps', 'kg', 'sec']) if (s[k] != null) o[k] = s[k]; return o; }) })).filter(e => e.sets.length);
+  if (!ex.length) {
+    if (confirm('Ни один подход не отмечен. Отменить тренировку без сохранения?')) { S.activeWo = null; save(); closeWo(); renderAll(); }
+    return;
+  }
+  const w = { id: A.id, complexId: A.complexId, name: A.name, date: dayKey(new Date(A.startTs)), ts: new Date(A.startTs).toISOString(), dur: Math.round((Date.now() - A.startTs) / 1000), ex };
+  const beforeWeek = weekCount();
+  S.workouts.push(w); S.activeWo = null;
+  save(); closeWo(); renderAll();
+  openWoSummary(w, true);
+  bigBurst('#3ee08f'); vibrate([30, 60, 30, 60, 60]);
+  const goal = S.profile.weeklyWorkouts || 3;
+  if (beforeWeek < goal && weekCount() >= goal) setTimeout(() => toast(`✦ Недельная цель выполнена: ${goal} из ${goal}!`), 900);
+}
+function openWoSummary(w, fresh) {
+  let prs = 0;
+  const rows = w.ex.map(e => {
+    const vol = e.sets.reduce((s, x) => s + setVol(x, e.type), 0);
+    const prev = lastSession(e.exId, w.ts), rec = bestEver(e.exId, w.ts);
+    const best = e.sets.reduce((b, x) => setRank(x, e.type) > setRank(b, e.type) ? x : b, e.sets[0]);
+    const pr = rec && setRank(best, e.type) > setRank(rec, e.type);
+    if (pr) prs++;
+    let cmp = '<span class="cmp same">впервые</span>';
+    if (prev) {
+      const d = vol - prev.vol, pct = prev.vol ? Math.round(d / prev.vol * 100) : 0;
+      cmp = `<span class="cmp ${d > 0 ? 'up' : d < 0 ? 'down' : 'same'}">${d > 0 ? '▲ +' : d < 0 ? '▼ ' : '= '}${d ? pct + '%' : 'как в прошлый раз'}</span>`;
+    }
+    const name = (findEx(e.exId) || { name: 'Удалённое упражнение' }).name;
+    return `<li><div><div style="font-size:14px;font-weight:600">${esc(name)}${pr ? '<span class="pr">рекорд</span>' : ''}</div>
+      <div class="d">${e.sets.map(x => setStr(x, e.type)).join(' · ')}</div></div><span class="grow"></span>
+      <div style="text-align:right"><div class="v">${volStr(vol, e.type)}</div>${cmp}</div></li>`;
+  }).join('');
+  const sets = w.ex.reduce((s, e) => s + e.sets.length, 0);
+  openSheet(`
+    <h2>${fresh ? 'Тренировка завершена ✦' : esc(w.name)}</h2>
+    <p class="sub">${fresh ? esc(w.name) + ' · ' : ''}${longDate(w.date)}</p>
+    <div class="sum3">
+      <div class="metric"><div class="l">Время</div><div class="n">${secFmt(w.dur)}</div></div>
+      <div class="metric"><div class="l">Подходов</div><div class="n">${sets}</div></div>
+      <div class="metric"><div class="l">Рекордов</div><div class="n" style="color:${prs ? 'var(--warn)' : 'inherit'}">${prs}</div></div>
+    </div>
+    <div class="card-t" style="margin:16px 0 2px">Сравнение с прошлым разом</div>
+    <ul class="list">${rows}</ul>
+    <button class="btn ${fresh ? 'green' : 'ghost'} block" style="margin-top:14px" data-close>${fresh ? 'Отлично' : 'Закрыть'}</button>`);
+}
+
 /* ---------- экспорт / импорт ---------- */
 function exportData() {
   S.meta.lastBackup = new Date().toISOString();
@@ -1499,9 +2090,9 @@ function importData(file) {
       // старый трекер долга: {payments:[...]}
       if (Array.isArray(raw.payments) && !raw.data) { importOldDebt(raw); return; }
       const d = raw.app === 'life-tracker' && raw.data ? raw.data : raw;
-      if (!d.profile && !d.weights && !d.water) throw new Error('bad');
+      if (!d.profile && !d.weights && !d.water && !d.debts) throw new Error('bad');
       const n = normalize(d);
-      const summary = `долгов: ${n.debts.length}, целей: ${n.savings.length}, взвешиваний: ${n.weights.length}, записей воды: ${n.water.length}`;
+      const summary = `долгов: ${n.debts.length}, целей: ${n.savings.length}, тренировок: ${n.workouts.length}, упражнений: ${n.exercises.length}, взвешиваний: ${n.weights.length}`;
       if (!confirm(`Загрузить бэкап?\n${summary}\n\nТекущие данные будут заменены.`)) return;
       n.profile.onboarded = true;
       S = n; save(); renderAll(); toast('Данные восстановлены');
@@ -1584,9 +2175,9 @@ function finishOnb() {
 }
 
 /* ======================= шторка, тост, эффекты ======================= */
-let sheetHandler = null;
+let sheetHandler = null, sheetInput = null;
 function openSheet(html) {
-  sheetHandler = null;
+  sheetHandler = null; sheetInput = null;
   $('#sheetBody').innerHTML = html;
   $('#sheetBg').classList.add('open'); $('#sheet').classList.add('open');
   $$('#sheetBody [data-close]').forEach(b => b.onclick = closeSheet);
@@ -1633,6 +2224,12 @@ $('#waterUndo').onclick = undoWater;
 $('#stage').onclick = openBreakdown;
 $('#sheetBg').onclick = closeSheet;
 $('#sheetBody').addEventListener('click', e => sheetHandler && sheetHandler(e));
+$('#sheetBody').addEventListener('input', e => sheetInput && sheetInput(e));
+$('#bodyTrain').addEventListener('click', onTrainAct);
+$('#todayTrain').addEventListener('click', onTrainAct);
+$('#bodyTabs').addEventListener('click', e => { const b = e.target.closest('[data-bt]'); if (b) setBodyTab(b.dataset.bt); });
+$('#wo').addEventListener('click', onWoAct);
+$('#wo').addEventListener('input', onWoInput);
 $('#moneyBox').addEventListener('click', onMoneyAct);
 $('#todayDebt').addEventListener('click', onMoneyAct);
 $('#todaySave').addEventListener('click', onMoneyAct);
@@ -1666,10 +2263,14 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState !== 'visible') return;
   S = load(); renderDate();
   if (dayKey() !== lastDay) { lastDay = dayKey(); toast('Новый день: счётчик воды обнулён'); }
+  if ($('#wo').classList.contains('open')) {
+    // не перерисовываем поле, в котором сейчас идёт ввод
+    keepAwake(true); if (!$('#wo').contains(document.activeElement) || document.activeElement.tagName !== 'INPUT') renderWo();
+  }
   renderAll();
 });
 // синхронизация между вкладками
-window.addEventListener('storage', e => { if (e.key === KEY) { S = load(); renderAll(); } });
+window.addEventListener('storage', e => { if (e.key === KEY) { S = load(); renderAll(); if ($('#wo').classList.contains('open')) renderWo(); } });
 
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstall = e; if (screen === 'more') renderMore(); });
 
