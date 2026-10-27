@@ -1,6 +1,6 @@
 // Life Tracker — service worker
 // При каждом обновлении приложения меняйте версию, чтобы телефоны подтянули новые файлы.
-const VERSION = 'lt-v0.3.0';
+const VERSION = 'lt-v1.0.0';
 const SHELL = [
   './',
   './index.html',
