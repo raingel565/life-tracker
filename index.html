@@ -469,7 +469,7 @@ input{font:inherit;color:inherit}
         <button class="btn danger grow" id="resetBtn">Сбросить всё</button>
       </div>
     </div>
-    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · этап 1 · v0.1</p>
+    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · этап 1 · v0.1.1</p>
   </section>
 </div>
 
@@ -864,7 +864,7 @@ function openWaterCustom() {
     <button class="btn block" id="wcOk">Добавить</button>`);
   const inp = $('#wcMl'); setTimeout(() => inp.focus(), 250);
   const ok = () => { const v = num(inp.value); if (!v || v <= 0 || v > 5000) return shake(inp); closeSheet(); addWater(v); };
-  $('#wcOk').onclick = ok; inp.onkeydown = e => e.key === 'Enter' && ok();
+  $('#wcOk').onclick = ok; inp.onkeydown = e => { if (e.key === 'Enter') ok(); };
 }
 
 /* ---------- вес ---------- */
@@ -893,7 +893,7 @@ function openWeigh() {
     } else toast('Стартовый вес записан');
     burstAt($('#stage'), getAccent(), 16);
   };
-  $('#wOk').onclick = ok; inp.onkeydown = e => e.key === 'Enter' && ok();
+  $('#wOk').onclick = ok; inp.onkeydown = e => { if (e.key === 'Enter') ok(); };
 }
 
 function renderBody() {
@@ -1113,7 +1113,7 @@ function renderOnb() {
       <button class="btn grow" id="onbNext">${st.key === 'hi' ? 'Начать' : last ? 'Готово' : 'Далее'}</button>
     </div>`;
   const inp = $('#onbIn');
-  if (inp) { setTimeout(() => inp.focus(), 200); inp.onkeydown = e => e.key === 'Enter' && onbNext(); }
+  if (inp) { setTimeout(() => inp.focus(), 200); inp.onkeydown = e => { if (e.key === 'Enter') onbNext(); }; }
   $$('#onb [data-wk]').forEach(b => b.onclick = () => { onbDraft.weeklyWorkouts = +b.dataset.wk; renderOnb(); });
   $('#onbNext').onclick = onbNext;
   if ($('#onbBack')) $('#onbBack').onclick = () => { onbI--; renderOnb(); };
