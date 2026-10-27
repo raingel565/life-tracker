@@ -109,10 +109,10 @@ input{font:inherit;color:inherit}
 .index-row{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
 .index-num{font-family:var(--mono);font-size:40px;font-weight:700;line-height:1;letter-spacing:-.03em}
 .index-lbl{font-size:11px;color:var(--muted);font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
-.chans{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:14px}
+.chans{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-top:14px}
 .chan{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 2px 7px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.015)}
 .chan svg{width:18px;height:18px}
-.chan b{font-family:var(--mono);font-size:12px;font-weight:700}
+.chan b{font-family:var(--mono);font-size:11.5px;font-weight:700}
 .chan .mini{width:70%;height:3px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}
 .chan .mini i{display:block;height:100%;border-radius:9px;transition:width 1s ease}
 .chan.off{opacity:.38}
@@ -261,6 +261,57 @@ input{font:inherit;color:inherit}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .particle{position:fixed;width:6px;height:6px;border-radius:50%;pointer-events:none;z-index:70}
 
+
+/* деньги */
+.sum3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sum3 .n{font-size:17px}
+.sec-h{display:flex;align-items:center;justify-content:space-between;margin:20px 4px 10px}
+.sec-h h2{font-size:12px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.add-btn{font-size:14px;font-weight:600;color:var(--accent);padding:6px 2px;transition:color 1.2s}
+.debt-name{font-size:16px;font-weight:600;display:flex;align-items:center;gap:6px;min-width:0}
+.debt-name svg{width:15px;height:15px;color:var(--warn);flex:0 0 15px}
+.tag{font-family:var(--mono);font-size:10.5px;padding:3px 8px;border-radius:99px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
+.tag.good{color:var(--good);border-color:rgba(62,224,143,.35)}
+.tag.warn{color:var(--warn);border-color:rgba(255,181,71,.38)}
+.tag.bad{color:var(--bad);border-color:rgba(255,77,106,.42)}
+.sbar{height:10px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden;display:flex;margin:12px 0 8px}
+.sbar.thin{height:5px;margin:6px 0 10px}
+.sbar i{height:100%;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.sbar .paid{background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.sbar .res,.legend i.lres{background:repeating-linear-gradient(-45deg,#ffd166 0 4px,rgba(255,209,102,.45) 4px 8px)}
+.sbar .gold{background:#ffd166;box-shadow:0 0 12px rgba(255,209,102,.55);border-radius:99px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.plan{font-size:13px;color:var(--muted);margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);line-height:1.55}
+.plan b{color:var(--text);font-family:var(--mono);font-weight:700;white-space:nowrap;word-spacing:-.25em}
+.acts{display:flex;gap:8px;margin-top:14px}
+.acts .btn{height:42px;font-size:14px;flex:1;padding:0 10px}
+.acts .more{flex:0 0 42px;padding:0}
+.acts .more svg{width:18px;height:18px}
+.btn.gold{background:transparent;color:#ffd166;border:1px solid rgba(255,209,102,.42);box-shadow:none}
+.btn.gold-solid{background:#ffd166;box-shadow:0 8px 22px -8px #ffd166}
+.done-card{opacity:.72}
+details.closed summary{cursor:pointer;color:var(--muted);font-size:13px;padding:6px 4px 12px;list-style:none;font-family:var(--mono)}
+details.closed summary::-webkit-details-marker{display:none}
+.arch-row{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer;opacity:.7}
+.goal-mini{margin-top:4px}
+.goal-mini .grow{font-size:14px}
+.stabs{display:flex;gap:4px;margin-bottom:10px;background:rgba(255,255,255,.03);padding:4px;border-radius:12px;border:1px solid var(--line)}
+.stabs button{flex:1;height:36px;border-radius:9px;font-size:13px;font-weight:600;color:var(--muted);transition:all .2s}
+.stabs button.on{background:#1b2333;color:var(--text);box-shadow:0 0 0 1px var(--line2)}
+.op-type{font-size:13px;color:var(--muted)}
+.field input.txt{font-family:var(--font);font-size:17px;font-weight:500;padding-right:16px}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 2px 16px;font-size:14px;cursor:pointer}
+.toggle small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.toggle input{appearance:none;-webkit-appearance:none;width:46px;height:28px;border-radius:99px;background:rgba(255,255,255,.12);position:relative;cursor:pointer;transition:background .2s;flex:0 0 46px}
+.toggle input::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s}
+.toggle input:checked{background:var(--accent)}
+.toggle input:checked::after{transform:translateX(18px)}
+.sheet .row .btn{flex:1}
+.list .d{margin-top:2px}
+#orbitBack circle,#orbitFront circle{fill:#ffd166}
+
 @media (max-width:370px){
   .index-num{font-size:34px}
   .chan b{font-size:11px}
@@ -326,6 +377,7 @@ input{font:inherit;color:inherit}
           <ellipse id="aura" cx="100" cy="170" rx="98" ry="160" fill="url(#auraG)" opacity="0"/>
           <ellipse cx="100" cy="306" rx="62" ry="7" style="fill:var(--accent);opacity:.22;filter:blur(3px)"/>
 
+          <g id="orbitBack"></g>
           <g id="figWrap">
             <g id="figGlow">
               <rect x="-20" y="-20" width="240" height="360" fill="url(#bodyG)" mask="url(#figMask)"/>
@@ -344,6 +396,7 @@ input{font:inherit;color:inherit}
             <circle class="sweat" cx="126" cy="40" r="3"/>
             <circle class="sweat s2" cx="74" cy="44" r="2.5"/>
           </g>
+          <g id="orbitFront"></g>
         </svg>
         <span class="stage-hint">тап → разбор</span>
       </div>
@@ -360,6 +413,8 @@ input{font:inherit;color:inherit}
       </div>
       <div class="chans" id="chans"></div>
     </div>
+
+    <div id="todayDebt"></div>
 
     <!-- вода -->
     <div class="card">
@@ -381,27 +436,18 @@ input{font:inherit;color:inherit}
     <!-- вес -->
     <div class="card" id="weightCard"></div>
 
+    <div id="todaySave"></div>
+
     <!-- скоро -->
     <div class="card" style="padding:14px 16px">
       <div class="card-t" style="margin-bottom:8px">Скоро в приложении</div>
-      <div class="sub">Деньги, тренировки и привычки появятся на следующих этапах. Персонаж уже готов принимать их данные.</div>
+      <div class="sub">Тренировки и привычки появятся на следующих этапах. Персонаж уже готов принимать их данные.</div>
     </div>
   </section>
 
   <!-- ================= ДЕНЬГИ ================= -->
   <section class="screen" data-screen="money">
-    <div class="card soon">
-      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 15h2"/></svg></div>
-      <h3>Долги и накопления</h3>
-      <p>Модуль появится на этапе 2.</p>
-      <ul>
-        <li>Долги с суммой и сроком, долг отцу закреплён сверху</li>
-        <li>Разделение «отложил» и «вернул»</li>
-        <li>Цели накоплений и пополнения</li>
-        <li>Груз долга над головой персонажа и цвет стресса</li>
-      </ul>
-      <span class="pill">этап 2</span>
-    </div>
+    <div id="moneyBox"></div>
   </section>
 
   <!-- ================= ТЕЛО ================= -->
@@ -469,7 +515,7 @@ input{font:inherit;color:inherit}
         <button class="btn danger grow" id="resetBtn">Сбросить всё</button>
       </div>
     </div>
-    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · этап 1 · v0.1.1</p>
+    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · этап 2 · v0.2.0</p>
   </section>
 </div>
 
@@ -555,13 +601,18 @@ function weightProgress() {
   if (p.startWeight === p.goalWeight) return 1;
   return clamp((p.startWeight - cur) / (p.startWeight - p.goalWeight));
 }
+// возвращённое идёт в зачёт полностью, отложенное — наполовину (деньги ещё не переданы)
 function debtProgress() {
-  // этап 2 подставит реальную структуру; сейчас поддерживаем общий формат
   const ds = S.debts.filter(d => !d.archived && d.total > 0);
   if (!ds.length) return null;
-  const total = ds.reduce((s, d) => s + d.total, 0);
-  const paid = ds.reduce((s, d) => s + Math.min(d.total, (d.returns || []).reduce((a, r) => a + r.amount, 0)), 0);
-  return { p: clamp(paid / total), left: total - paid };
+  let total = 0, eff = 0, left = 0;
+  for (const d of ds) { const st = debtStats(d); total += d.total; eff += st.returned + st.reserved * .5; left += st.remaining; }
+  return { p: clamp(eff / total), left };
+}
+function savingsProgress() {
+  const gs = S.savings.filter(g => !g.archived && g.target > 0);
+  if (!gs.length) return null;
+  return clamp(gs.reduce((s, g) => s + goalStats(g).p, 0) / gs.length);
 }
 function trainingProgress() {
   if (!S.workouts.length) return null;
@@ -581,15 +632,19 @@ const ICONS = {
   debt: '<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 15h2"/>',
   train: '<path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/>',
   habit: '<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',
-  warn: '<path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h0"/>'
+  warn: '<path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h0"/>',
+  save: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
+  pin: '<path d="M12 17v5M8 3h8l-1 6 3 3H6l3-3-1-6z"/>',
+  more: '<circle cx="5" cy="12" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="19" cy="12" r="1.3" fill="currentColor"/>'
 };
 const ico = (k, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICONS[k]}</svg>`;
 
 function channels() {
   const wg = S.profile.waterGoal || 3000;
-  const wp = weightProgress(), dp = debtProgress(), tp = trainingProgress(), hp = habitsProgress();
+  const wp = weightProgress(), dp = debtProgress(), tp = trainingProgress(), hp = habitsProgress(), sp = savingsProgress();
   return [
-    { k: 'debt',   name: 'Долги',      icon: 'debt',   on: !!dp, v: dp ? dp.p : 0, color: '#ff6b8b', fx: 'цвет и груз над головой', soon: 'этап 2' },
+    { k: 'debt',   name: 'Долги',      icon: 'debt',   on: !!dp, v: dp ? dp.p : 0, color: '#ff6b8b', fx: 'цвет и груз · отложенное = ½', soon: 'нет долгов' },
+    { k: 'save',   name: 'Накопления', icon: 'save',   on: sp != null, v: sp ?? 0, color: '#ffd166', fx: 'частицы на орбите', soon: 'нет целей' },
     { k: 'weight', name: 'Вес',        icon: 'weight', on: wp != null, v: wp ?? 0, color: '#c58bff', fx: 'комплекция силуэта', soon: 'введите вес' },
     { k: 'train',  name: 'Тренировки', icon: 'train',  on: !!tp, v: tp ? tp.p : 0, color: '#3ee08f', fx: 'осанка и тонус', soon: 'этап 3' },
     { k: 'habit',  name: 'Привычки',   icon: 'habit',  on: hp != null, v: hp ?? 0, color: '#ffb547', fx: 'аура вокруг', soon: 'этап 4' },
@@ -692,6 +747,34 @@ function drawFigure(b, slump) {
   return headY;
 }
 
+/* частицы накоплений: эллиптическая орбита, задняя половина уходит за силуэт */
+let orbitN = 0, orbitRaf = 0;
+const ORB = 10, NS = 'http://www.w3.org/2000/svg';
+function makeOrbit() {
+  for (const id of ['orbitBack', 'orbitFront']) {
+    const g = document.getElementById(id);
+    for (let k = 0; k < ORB; k++) { const c = document.createElementNS(NS, 'circle'); c.setAttribute('r', 4); c.style.opacity = 0; g.appendChild(c); }
+  }
+}
+function orbitFrame(t) {
+  const back = $('#orbitBack').children, front = $('#orbitFront').children;
+  for (let k = 0; k < ORB; k++) {
+    const a = t / 1800 + k * 2 * Math.PI / ORB;
+    const x = 100 + 90 * Math.cos(a), y = 200 + 24 * Math.sin(a), z = (Math.sin(a) + 1) / 2;
+    const on = k < orbitN, r = r1(2.4 + z * 3);
+    for (const [el, vis] of [[back[k], on && z <= .5], [front[k], on && z > .5]]) {
+      el.setAttribute('cx', r1(x)); el.setAttribute('cy', r1(y)); el.setAttribute('r', r);
+      el.style.opacity = vis ? r1(.45 + z * .55) : 0;
+      el.style.filter = vis ? `drop-shadow(0 0 ${r1(2 + z * 4)}px #ffd166)` : 'none';
+    }
+  }
+  orbitRaf = orbitN ? requestAnimationFrame(orbitFrame) : 0;
+}
+function startOrbit() {
+  if (orbitN && !orbitRaf) orbitRaf = requestAnimationFrame(orbitFrame);
+  if (!orbitN) { cancelAnimationFrame(orbitRaf); orbitRaf = 0; $$('#orbitBack circle, #orbitFront circle').forEach(c => c.style.opacity = 0); }
+}
+
 function renderCharacter() {
   const ch = channels(), idx = stateIndex(ch);
   const by = Object.fromEntries(ch.map(c => [c.k, c]));
@@ -722,6 +805,10 @@ function renderCharacter() {
   const level = wv <= 0 ? 330 : bottom - wv * (bottom - top);
   $('#waterLevel').style.transform = `translateY(${r1(level)}px)`;
 
+  // орбита накоплений: число частиц = прогресс целей
+  orbitN = by.save.on ? Math.max(1, Math.round(by.save.v * 10)) : 0;
+  startOrbit();
+
   // аура
   $('#aura').setAttribute('opacity', by.habit.on ? r1(.15 + by.habit.v * .85) : 0);
 
@@ -730,7 +817,7 @@ function renderCharacter() {
   if (dp && dp.p < 1) {
     load.setAttribute('opacity', 1);
     load.style.transform = `translateY(${r1(headY - 46 - 14)}px) scale(${r1(.55 + (1 - dp.p) * .45)})`;
-    $('#debtLoadTxt').textContent = dp.left >= 1000 ? Math.round(dp.left / 1000) + 'K ₸' : fmt(dp.left) + ' ₸';
+    $('#debtLoadTxt').textContent = shortMoney(dp.left) + ' ₸';
   } else {
     load.setAttribute('opacity', 0);
   }
@@ -785,6 +872,7 @@ function go(name) {
 }
 function renderScreen() {
   if (screen === 'today') renderToday();
+  if (screen === 'money') renderMoney();
   if (screen === 'body') renderBody();
   if (screen === 'more') renderMore();
 }
@@ -825,9 +913,10 @@ function renderToday() {
   html += `<button class="btn block" style="margin-top:14px" id="weighBtn">Записать вес</button>`;
   $('#weightCard').innerHTML = html;
   $('#weighBtn').onclick = openWeigh;
+  renderTodayMoney();
 
   // напоминание о бэкапе
-  const hasData = S.weights.length + S.water.length + S.debts.length + S.workouts.length + S.habits.length > 0;
+  const hasData = S.weights.length + S.water.length + S.debts.length + S.savings.length + S.workouts.length + S.habits.length > 0;
   const last = S.meta.lastBackup ? new Date(S.meta.lastBackup).getTime() : 0;
   const created = new Date(S.profile.createdAt).getTime();
   const due = hasData && Date.now() - Math.max(last, created) > 7 * 864e5;
@@ -1034,6 +1123,360 @@ function bindSettings() {
   });
 }
 
+/* ======================= деньги ======================= */
+const money = n => fmt(Math.round(n)) + ' ₸';
+const shortMoney = n => n >= 1e6 ? fmt(n / 1e6, n % 1e6 ? 1 : 0) + 'M' : n >= 1000 ? Math.round(n / 1000) + 'K' : fmt(Math.round(n));
+const parseMoney = v => { const n = parseFloat(String(v).replace(/[^\d.,]/g, '').replace(',', '.')); return isFinite(n) ? Math.round(n) : null; };
+const findDebt = id => S.debts.find(d => d.id === id);
+const findGoal = id => S.savings.find(g => g.id === id);
+const byDateDesc = (a, b) => a.date === b.date ? (a.ts < b.ts ? 1 : -1) : (a.date < b.date ? 1 : -1);
+const longDate = k => fromKey(k).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }).replace(' г.', '');
+const daysTo = k => Math.round((fromKey(k) - fromKey(dayKey())) / 864e5);
+const plural = (n, a, b, c) => { n = Math.abs(n) % 100; const m = n % 10; return n > 10 && n < 20 ? c : m > 1 && m < 5 ? b : m === 1 ? a : c; };
+const dn = n => `${n} ${plural(n, 'день', 'дня', 'дней')}`;
+
+function debtStats(d) {
+  let returned = 0, reserved = 0;
+  for (const o of d.ops || []) {
+    if (o.type === 'return') { returned += o.amount; reserved -= o.fromReserve || 0; }
+    else if (o.type === 'reserve') reserved += o.amount;
+    else if (o.type === 'unreserve') reserved -= o.amount;
+  }
+  returned = Math.min(returned, d.total);
+  const remaining = Math.max(0, d.total - returned);
+  reserved = clamp(reserved, 0, remaining);
+  const toCover = Math.max(0, remaining - reserved);
+  let plan = null;
+  if (d.due && remaining > 0) {
+    const days = daysTo(d.due);
+    const start = fromKey(d.start || dayKey(new Date(d.createdAt)));
+    const span = (fromKey(d.due) - start) / 864e5;
+    const f = span > 0 ? clamp((fromKey(dayKey()) - start) / 864e5 / span) : 1;
+    plan = {
+      days, overdue: days < 0,
+      perMonth: toCover / Math.max(1, days / 30.44),
+      perWeek: toCover / Math.max(1, days / 7),
+      behind: Math.max(0, d.total * f - (returned + reserved))
+    };
+  }
+  return { returned, reserved, remaining, toCover, done: remaining <= 0, plan };
+}
+function goalStats(g) {
+  const saved = Math.max(0, (g.ops || []).reduce((s, o) => s + o.amount, 0));
+  const left = Math.max(0, g.target - saved);
+  let plan = null;
+  if (g.due && left > 0) { const days = daysTo(g.due); plan = { days, overdue: days < 0, perMonth: left / Math.max(1, days / 30.44) }; }
+  return { saved, left, p: g.target > 0 ? clamp(saved / g.target) : 0, done: saved >= g.target, plan };
+}
+const activeDebts = () => S.debts.filter(d => !d.archived).sort((a, b) =>
+  (b.pinned - a.pinned) || (debtStats(a).done - debtStats(b).done) || ((a.due || '9999') < (b.due || '9999') ? -1 : 1));
+const activeGoals = () => S.savings.filter(g => !g.archived);
+
+/* ---------- карточки ---------- */
+function debtTag(d, st) {
+  if (st.done) return '<span class="tag good">закрыт ✦</span>';
+  if (!d.due) return '<span class="tag">без срока</span>';
+  if (st.plan.overdue) return '<span class="tag bad">срок прошёл</span>';
+  if (st.plan.behind > 0) return `<span class="tag warn">до ${shortDate(d.due)} · отстаю</span>`;
+  return `<span class="tag good">до ${shortDate(d.due)} · по графику</span>`;
+}
+function debtPlan(d, st) {
+  if (st.done) return '<div class="plan">Долг полностью возвращён. Можно убрать в архив через ⋯</div>';
+  if (st.toCover <= 0) return `<div class="plan">Вся сумма отложена ✦ Осталось передать <b>${money(st.reserved)}</b></div>`;
+  if (!d.due) return `<div class="plan">Осталось найти <b>${money(st.toCover)}</b> сверх отложенного</div>`;
+  const p = st.plan;
+  if (p.overdue) return `<div class="plan">Срок прошёл ${dn(-p.days)} назад · не хватает <b>${money(st.toCover)}</b></div>`;
+  return `<div class="plan">До срока ${dn(p.days)} · нужно <b>${money(p.perMonth)}</b>/мес${p.days > 14 ? ` или <b>${money(p.perWeek)}</b>/нед` : ''}${p.behind > 0 ? `<br>Отставание от равномерного графика: <b>${money(p.behind)}</b>` : ''}</div>`;
+}
+function debtCard(d) {
+  const st = debtStats(d), w = v => clamp(v / d.total) * 100;
+  return `<div class="card ${st.done ? 'done-card' : ''}">
+    <div class="card-h"><span class="debt-name">${d.pinned ? ico('pin') : ''}${esc(d.name)}</span>${debtTag(d, st)}</div>
+    <div class="big">${fmt(st.remaining)} <small>/ ${fmt(d.total)} ₸</small></div>
+    <div class="sbar"><i class="paid" style="width:${w(st.returned)}%"></i><i class="res" style="width:${w(st.reserved)}%"></i></div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>вернул ${money(st.returned)}</span><span><i class="lres"></i>отложено ${money(st.reserved)}</span></div>
+    ${debtPlan(d, st)}
+    <div class="acts">
+      ${st.done ? '' : `<button class="btn gold" data-act="debt-op" data-type="reserve" data-id="${d.id}">Отложить</button>
+      <button class="btn" data-act="debt-op" data-type="return" data-id="${d.id}">Вернуть</button>`}
+      <button class="btn ghost more" data-act="debt-more" data-id="${d.id}" aria-label="Подробнее">${ico('more')}</button>
+    </div>
+  </div>`;
+}
+function goalCard(g) {
+  const st = goalStats(g);
+  const tag = st.done ? '<span class="tag good">цель ✦</span>' : g.due ? `<span class="tag ${st.plan && st.plan.overdue ? 'bad' : ''}">до ${shortDate(g.due)}</span>` : '';
+  const plan = st.done ? '<div class="plan">Цель достигнута. Можно поставить новую ✦</div>'
+    : st.plan ? (st.plan.overdue ? `<div class="plan">Срок прошёл · осталось <b>${money(st.left)}</b></div>` : `<div class="plan">Осталось <b>${money(st.left)}</b> · это <b>${money(st.plan.perMonth)}</b>/мес до срока</div>`)
+    : `<div class="plan">Осталось <b>${money(st.left)}</b></div>`;
+  return `<div class="card">
+    <div class="card-h"><span class="debt-name">${esc(g.name)}</span>${tag}</div>
+    <div class="big">${fmt(st.saved)} <small>/ ${fmt(g.target)} ₸</small></div>
+    <div class="sbar"><i class="gold" style="width:${st.p * 100}%"></i></div>
+    <div class="legend"><span>${Math.round(st.p * 100)}% накоплено</span></div>
+    ${plan}
+    <div class="acts">
+      <button class="btn gold" data-act="goal-op" data-type="1" data-id="${g.id}">Пополнить</button>
+      <button class="btn ghost" data-act="goal-op" data-type="-1" data-id="${g.id}">Снять</button>
+      <button class="btn ghost more" data-act="goal-more" data-id="${g.id}" aria-label="Подробнее">${ico('more')}</button>
+    </div>
+  </div>`;
+}
+
+function renderMoney() {
+  const ds = activeDebts(), arch = S.debts.filter(d => d.archived), gs = activeGoals();
+  let left = 0, res = 0;
+  for (const d of ds) { const st = debtStats(d); left += st.remaining; res += st.reserved; }
+  const saved = gs.reduce((s, g) => s + goalStats(g).saved, 0);
+  let h = `<div class="card"><div class="sum3">
+      <div class="metric"><div class="l">Долгов</div><div class="n">${shortMoney(left)}</div></div>
+      <div class="metric"><div class="l">Отложено</div><div class="n" style="color:#ffd166">${shortMoney(res)}</div></div>
+      <div class="metric"><div class="l">Накоплено</div><div class="n" style="color:#ffd166">${shortMoney(saved)}</div></div>
+    </div></div>
+    <div class="sec-h"><h2>Долги</h2><button class="add-btn" data-act="debt-add">+ Добавить</button></div>`;
+  h += ds.length ? ds.map(debtCard).join('') : `<div class="card empty-c"><p class="sub">Долгов нет. Добавьте, например, долг отцу: сумму, срок и уже возвращённую часть.</p><button class="btn block" style="margin-top:12px" data-act="debt-add">Добавить долг</button></div>`;
+  if (arch.length) h += `<details class="closed"><summary>Архив (${arch.length}) ▾</summary>${arch.map(d => `
+      <div class="card arch-row" data-act="debt-more" data-id="${d.id}"><span>${esc(d.name)}</span><span class="mono sub">${money(d.total)}</span></div>`).join('')}</details>`;
+  h += `<div class="sec-h"><h2>Накопления</h2><button class="add-btn" data-act="goal-add">+ Цель</button></div>`;
+  h += gs.length ? gs.map(goalCard).join('') : `<div class="card empty-c"><p class="sub">Поставьте цель: подушка безопасности, отпуск, техника. Пополнения двигают персонажа.</p><button class="btn gold block" style="margin-top:12px" data-act="goal-add">Создать цель</button></div>`;
+  $('#moneyBox').innerHTML = h;
+}
+
+function renderTodayMoney() {
+  const ds = activeDebts().filter(d => !debtStats(d).done);
+  const d = ds.find(x => x.pinned) || ds[0];
+  $('#todayDebt').innerHTML = d ? debtCard(d) : (S.debts.length ? '' : `<div class="card">
+      <div class="card-h"><span class="card-t" style="color:#ff6b8b">${ico('debt')}Долги</span></div>
+      <p class="sub">Добавьте долг, и над персонажем появится груз, который будет таять с каждым возвратом.</p>
+      <button class="btn block" style="margin-top:12px" data-act="debt-add">Добавить долг</button></div>`);
+  const gs = activeGoals();
+  $('#todaySave').innerHTML = gs.length ? `<div class="card" data-act="go-money" style="cursor:pointer">
+      <div class="card-h"><span class="card-t" style="color:#ffd166">${ico('save')}Накопления</span><span class="sub mono">→</span></div>
+      ${gs.slice(0, 3).map(g => { const st = goalStats(g); return `
+        <div class="goal-mini"><div class="row"><span class="grow">${esc(g.name)}</span><span class="mono sub">${shortMoney(st.saved)} / ${shortMoney(g.target)}</span></div>
+        <div class="sbar thin"><i class="gold" style="width:${st.p * 100}%"></i></div></div>`; }).join('')}
+    </div>` : '';
+}
+
+/* ---------- шторки: долг ---------- */
+function openDebtForm(id) {
+  const d = id ? findDebt(id) : null;
+  const pinDefault = d ? d.pinned : !S.debts.some(x => x.pinned && !x.archived);
+  openSheet(`
+    <h2>${d ? 'Изменить долг' : 'Новый долг'}</h2>
+    <p class="sub">${d ? esc(d.name) : 'Например «Отцу». Закреплённый долг виден на экране «Сегодня».'}</p>
+    <div class="field"><label>Кому / название</label><input id="dfName" class="txt" maxlength="40" placeholder="Отцу" value="${d ? esc(d.name) : ''}"></div>
+    <div class="field"><label>Сумма долга</label><input id="dfTotal" inputmode="numeric" data-money placeholder="600 000" value="${d ? fmt(d.total) : ''}"><span class="u">₸</span></div>
+    ${d ? '' : `<div class="field"><label>Уже возвращено (если было)</label><input id="dfPaid" inputmode="numeric" data-money placeholder="0"><span class="u">₸</span></div>`}
+    <div class="field"><label>Вернуть до (необязательно)</label><input id="dfDue" type="date" value="${d && d.due ? d.due : ''}"></div>
+    <label class="toggle"><span>Закрепить на главном<small>показывается на экране «Сегодня»</small></span><input type="checkbox" id="dfPin" ${pinDefault ? 'checked' : ''}></label>
+    <button class="btn block" id="dfOk">${d ? 'Сохранить' : 'Добавить долг'}</button>`);
+  if (!d) setTimeout(() => $('#dfName').focus(), 250);
+  $('#dfOk').onclick = () => {
+    const name = $('#dfName').value.trim() || 'Долг';
+    const total = parseMoney($('#dfTotal').value);
+    if (!total || total <= 0 || total > 1e11) return shake($('#dfTotal'));
+    const paid = d ? 0 : (parseMoney($('#dfPaid').value) || 0);
+    if (paid > total) { toast('Возвращено больше, чем сумма долга'); return shake($('#dfPaid')); }
+    if (d && debtStats(d).returned > total) { toast(`Уже возвращено ${money(debtStats(d).returned)} — сумма не может быть меньше`); return shake($('#dfTotal')); }
+    const due = $('#dfDue').value || null, pinned = $('#dfPin').checked;
+    if (pinned) S.debts.forEach(x => x.pinned = false);
+    if (d) Object.assign(d, { name, total, due, pinned });
+    else S.debts.push({ id: uid(), name, total, due, pinned, start: dayKey(), createdAt: new Date().toISOString(), archived: false,
+      ops: paid ? [{ id: uid(), type: 'return', amount: paid, date: dayKey(), ts: new Date().toISOString(), note: 'до начала учёта', fromReserve: 0 }] : [] });
+    save(); closeSheet(); renderAll(); vibrate(15);
+    toast(d ? 'Сохранено' : `Долг «${name}» добавлен`);
+  };
+}
+
+const OP_TXT = {
+  reserve: { tab: 'Отложить', hint: 'Деньги пока у вас, но выделены под этот долг', btn: 'Отложить', done: 'Отложено' },
+  return: { tab: 'Вернуть', hint: 'Передали деньги — остаток долга уменьшится', btn: 'Записать возврат', done: 'Возврат записан' },
+  unreserve: { tab: 'Снять', hint: 'Забрать часть отложенного обратно', btn: 'Снять из отложенного', done: 'Снято из отложенного' }
+};
+function openDebtOp(id, type) {
+  const d = findDebt(id); if (!d) return;
+  let cur = type, keep = { amount: '', date: dayKey(), note: '' };
+  const draw = () => {
+    const st = debtStats(d);
+    const max = cur === 'return' ? st.remaining : cur === 'reserve' ? st.toCover : st.reserved;
+    const tabs = ['reserve', 'return'].concat(st.reserved > 0 ? ['unreserve'] : []);
+    const quick = [];
+    if (cur === 'return' && st.reserved > 0) quick.push([st.reserved, 'всё отложенное']);
+    if (max > 0) quick.push([max, cur === 'unreserve' ? 'всё' : 'весь остаток']);
+    openSheet(`
+      <h2>${esc(d.name)}</h2>
+      <p class="sub">Остаток ${money(st.remaining)} · отложено ${money(st.reserved)}</p>
+      <div class="stabs">${tabs.map(t => `<button data-tab-op="${t}" class="${t === cur ? 'on' : ''}">${OP_TXT[t].tab}</button>`).join('')}</div>
+      <p class="op-type">${OP_TXT[cur].hint}</p>
+      ${max <= 0 ? `<p class="sub" style="margin:14px 0">${cur === 'reserve' ? 'Вся сумма уже отложена. Осталось её передать: вкладка «Вернуть».' : 'Нечего снимать.'}</p>` : `
+      <div class="field" style="margin-top:12px"><label>Сумма</label><input id="opAmt" inputmode="numeric" data-money placeholder="${fmt(Math.min(max, 50000))}" value="${keep.amount}"><span class="u">₸</span></div>
+      ${quick.length ? `<div class="btns" style="margin:-2px 0 12px">${quick.map(([v, l]) => `<button class="chip" data-quick="${v}">${l} · ${shortMoney(v)}</button>`).join('')}</div>` : ''}
+      ${cur === 'return' && st.reserved > 0 ? `<label class="toggle"><span>Из отложенного<small>спишется из отложенных ${money(st.reserved)}</small></span><input type="checkbox" id="opFromRes" checked></label>` : ''}
+      <div class="row"><div class="field grow"><label>Дата</label><input id="opDate" type="date" value="${keep.date}" max="${dayKey()}"></div></div>
+      <div class="field"><label>Заметка (необязательно)</label><input id="opNote" class="txt" maxlength="60" placeholder="наличными, переводом…" value="${esc(keep.note)}"></div>
+      <button class="btn block ${cur === 'reserve' ? 'gold-solid' : ''}" id="opOk">${OP_TXT[cur].btn}</button>`}`);
+    const amt = $('#opAmt');
+    if (amt) setTimeout(() => amt.focus(), 250);
+    const remember = () => { if (amt) keep = { amount: amt.value, date: $('#opDate').value, note: $('#opNote').value }; };
+    sheetHandler = e => {
+      const t = e.target.closest('[data-tab-op]'); if (t) { remember(); cur = t.dataset.tabOp; draw(); return; }
+      const q = e.target.closest('[data-quick]'); if (q && amt) { amt.value = fmt(+q.dataset.quick); amt.focus(); }
+    };
+    if (!amt) return;
+    const ok = () => {
+      let v = parseMoney(amt.value);
+      if (!v || v <= 0) return shake(amt);
+      if (v > max) { v = max; toast(`Сумма уменьшена до ${money(max)}`); }
+      const before = debtStats(d);
+      const op = { id: uid(), type: cur, amount: v, date: $('#opDate').value || dayKey(), ts: new Date().toISOString(), note: $('#opNote').value.trim() };
+      if (cur === 'return') op.fromReserve = $('#opFromRes') && $('#opFromRes').checked ? Math.min(v, before.reserved) : 0;
+      d.ops.push(op);
+      save(); closeSheet(); renderAll(); vibrate(cur === 'return' ? [15, 40, 15] : 15);
+      const after = debtStats(d);
+      if (after.done && !before.done) { toast(`🎉 Долг «${d.name}» полностью возвращён!`); bigBurst(getAccent()); }
+      else { toast(`${OP_TXT[cur].done}: ${money(v)}`); burstAt($('#stage'), cur === 'reserve' ? '#ffd166' : getAccent(), 14); }
+    };
+    $('#opOk').onclick = ok; amt.onkeydown = e => { if (e.key === 'Enter') ok(); };
+  };
+  draw();
+}
+
+function opRow(o, kind) {
+  const L = kind === 'goal'
+    ? (o.amount >= 0 ? ['Пополнение', '+', '#ffd166'] : ['Снятие', '−', 'var(--muted)'])
+    : ({ return: ['Вернул', '−', 'var(--accent)'], reserve: ['Отложил', '+', '#ffd166'], unreserve: ['Снял отложенное', '−', 'var(--muted)'] })[o.type];
+  const sub = [shortDate(o.date), o.fromReserve ? `из отложенного ${shortMoney(o.fromReserve)}` : '', o.note ? esc(o.note) : ''].filter(Boolean).join(' · ');
+  return `<li><div><div style="font-size:14px">${L[0]}</div><div class="d">${sub}</div></div><span class="grow"></span>
+    <span class="v" style="color:${L[2]}">${L[1]}${fmt(Math.abs(o.amount))} ₸</span><button class="x" data-delop="${o.id}" aria-label="Удалить">×</button></li>`;
+}
+function openDebtDetail(id) {
+  const d = findDebt(id); if (!d) return;
+  const st = debtStats(d), ops = [...d.ops].sort(byDateDesc);
+  openSheet(`
+    <h2>${d.pinned ? '📌 ' : ''}${esc(d.name)}</h2>
+    <p class="sub">${money(d.total)}${d.due ? ' · до ' + longDate(d.due) : ''} · с ${longDate(d.start || dayKey(new Date(d.createdAt)))}</p>
+    <div class="sum3">
+      <div class="metric"><div class="l">Вернул</div><div class="n">${shortMoney(st.returned)}</div></div>
+      <div class="metric"><div class="l">Отложено</div><div class="n" style="color:#ffd166">${shortMoney(st.reserved)}</div></div>
+      <div class="metric"><div class="l">Остаток</div><div class="n">${shortMoney(st.remaining)}</div></div>
+    </div>
+    <div class="card-t" style="margin:18px 0 4px">История · ${ops.length}</div>
+    ${ops.length ? `<ul class="list">${ops.map(o => opRow(o, 'debt')).join('')}</ul>` : '<p class="sub">Операций пока нет.</p>'}
+    <div class="row" style="margin-top:16px"><button class="btn ghost" data-dd="edit">Изменить</button><button class="btn ghost" data-dd="arch">${d.archived ? 'Из архива' : 'В архив'}</button></div>
+    <button class="btn danger block" style="margin-top:8px" data-dd="del">Удалить долг</button>`);
+  sheetHandler = e => {
+    const x = e.target.closest('[data-delop]');
+    if (x) {
+      const o = d.ops.find(o => o.id === x.dataset.delop);
+      if (o && confirm(`Удалить операцию ${money(o.amount)} от ${shortDate(o.date)}?`)) { d.ops = d.ops.filter(z => z.id !== o.id); save(); renderAll(); openDebtDetail(id); }
+      return;
+    }
+    const a = e.target.closest('[data-dd]'); if (!a) return;
+    if (a.dataset.dd === 'edit') openDebtForm(id);
+    if (a.dataset.dd === 'arch') { d.archived = !d.archived; if (d.archived) d.pinned = false; save(); closeSheet(); renderAll(); toast(d.archived ? 'Убрано в архив' : 'Возвращено из архива'); }
+    if (a.dataset.dd === 'del' && confirm(`Удалить долг «${d.name}» со всей историей?`)) { S.debts = S.debts.filter(z => z.id !== id); save(); closeSheet(); renderAll(); toast('Долг удалён'); }
+  };
+}
+
+/* ---------- шторки: накопления ---------- */
+function openGoalForm(id) {
+  const g = id ? findGoal(id) : null;
+  openSheet(`
+    <h2>${g ? 'Изменить цель' : 'Новая цель'}</h2><p class="sub">На что копите</p>
+    <div class="field"><label>Название</label><input id="gfName" class="txt" maxlength="40" placeholder="Подушка безопасности" value="${g ? esc(g.name) : ''}"></div>
+    <div class="field"><label>Сколько нужно</label><input id="gfTarget" inputmode="numeric" data-money placeholder="500 000" value="${g ? fmt(g.target) : ''}"><span class="u">₸</span></div>
+    ${g ? '' : `<div class="field"><label>Уже есть (если есть)</label><input id="gfHave" inputmode="numeric" data-money placeholder="0"><span class="u">₸</span></div>`}
+    <div class="field"><label>Срок (необязательно)</label><input id="gfDue" type="date" value="${g && g.due ? g.due : ''}"></div>
+    <button class="btn gold-solid block" id="gfOk">${g ? 'Сохранить' : 'Создать цель'}</button>`);
+  if (!g) setTimeout(() => $('#gfName').focus(), 250);
+  $('#gfOk').onclick = () => {
+    const name = $('#gfName').value.trim() || 'Цель';
+    const target = parseMoney($('#gfTarget').value);
+    if (!target || target <= 0 || target > 1e11) return shake($('#gfTarget'));
+    const due = $('#gfDue').value || null;
+    if (g) Object.assign(g, { name, target, due });
+    else {
+      const have = parseMoney($('#gfHave').value) || 0;
+      S.savings.push({ id: uid(), name, target, due, createdAt: new Date().toISOString(), archived: false,
+        ops: have ? [{ id: uid(), amount: have, date: dayKey(), ts: new Date().toISOString(), note: 'стартовая сумма' }] : [] });
+    }
+    save(); closeSheet(); renderAll(); vibrate(15); toast(g ? 'Сохранено' : `Цель «${name}» создана`);
+  };
+}
+function openGoalOp(id, sign) {
+  const g = findGoal(id); if (!g) return;
+  const st = goalStats(g), add = sign > 0;
+  if (!add && st.saved <= 0) { toast('Снимать пока нечего'); return; }
+  openSheet(`
+    <h2>${add ? 'Пополнить' : 'Снять'}: ${esc(g.name)}</h2><p class="sub">Накоплено ${money(st.saved)} из ${money(g.target)}</p>
+    <div class="field"><label>Сумма</label><input id="goAmt" inputmode="numeric" data-money placeholder="${add ? '20 000' : fmt(Math.min(st.saved, 10000))}"><span class="u">₸</span></div>
+    ${add && st.left > 0 ? `<div class="btns" style="margin:-2px 0 12px"><button class="chip" data-quick="${st.left}">до цели · ${shortMoney(st.left)}</button></div>` : ''}
+    <div class="field"><label>Дата</label><input id="goDate" type="date" value="${dayKey()}" max="${dayKey()}"></div>
+    <div class="field"><label>Заметка (необязательно)</label><input id="goNote" class="txt" maxlength="60" placeholder="зарплата, подработка…"></div>
+    <button class="btn block ${add ? 'gold-solid' : 'ghost'}" id="goOk">${add ? 'Пополнить' : 'Снять'}</button>`);
+  const amt = $('#goAmt'); setTimeout(() => amt.focus(), 250);
+  sheetHandler = e => { const q = e.target.closest('[data-quick]'); if (q) { amt.value = fmt(+q.dataset.quick); amt.focus(); } };
+  const ok = () => {
+    let v = parseMoney(amt.value);
+    if (!v || v <= 0) return shake(amt);
+    if (!add && v > st.saved) { v = st.saved; toast(`Сумма уменьшена до ${money(v)}`); }
+    g.ops.push({ id: uid(), amount: add ? v : -v, date: $('#goDate').value || dayKey(), ts: new Date().toISOString(), note: $('#goNote').value.trim() });
+    save(); closeSheet(); renderAll(); vibrate(15);
+    if (add && !st.done && goalStats(g).done) { toast(`🎉 Цель «${g.name}» достигнута!`); bigBurst('#ffd166'); }
+    else { toast(`${add ? '+' : '−'}${money(v)}`); if (add) burstAt($('#stage'), '#ffd166', 14); }
+  };
+  $('#goOk').onclick = ok; amt.onkeydown = e => { if (e.key === 'Enter') ok(); };
+}
+function openGoalDetail(id) {
+  const g = findGoal(id); if (!g) return;
+  const st = goalStats(g), ops = [...g.ops].sort(byDateDesc);
+  openSheet(`
+    <h2>${esc(g.name)}</h2><p class="sub">${money(st.saved)} из ${money(g.target)}${g.due ? ' · до ' + longDate(g.due) : ''}</p>
+    <div class="card-t" style="margin:14px 0 4px">История · ${ops.length}</div>
+    ${ops.length ? `<ul class="list">${ops.map(o => opRow(o, 'goal')).join('')}</ul>` : '<p class="sub">Операций пока нет.</p>'}
+    <div class="row" style="margin-top:16px"><button class="btn ghost" data-gd="edit">Изменить</button><button class="btn danger" data-gd="del">Удалить цель</button></div>`);
+  sheetHandler = e => {
+    const x = e.target.closest('[data-delop]');
+    if (x) {
+      const o = g.ops.find(o => o.id === x.dataset.delop);
+      if (o && confirm(`Удалить операцию ${money(Math.abs(o.amount))} от ${shortDate(o.date)}?`)) { g.ops = g.ops.filter(z => z.id !== o.id); save(); renderAll(); openGoalDetail(id); }
+      return;
+    }
+    const a = e.target.closest('[data-gd]'); if (!a) return;
+    if (a.dataset.gd === 'edit') openGoalForm(id);
+    if (a.dataset.gd === 'del' && confirm(`Удалить цель «${g.name}» со всей историей?`)) { S.savings = S.savings.filter(z => z.id !== id); save(); closeSheet(); renderAll(); toast('Цель удалена'); }
+  };
+}
+
+function onMoneyAct(e) {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const { act, id, type } = a.dataset;
+  if (act === 'debt-add') openDebtForm();
+  if (act === 'debt-op') openDebtOp(id, type);
+  if (act === 'debt-more') openDebtDetail(id);
+  if (act === 'goal-add') openGoalForm();
+  if (act === 'goal-op') openGoalOp(id, +type);
+  if (act === 'goal-more') openGoalDetail(id);
+  if (act === 'go-money') go('money');
+}
+
+/* старый трекер долга {payments:[...]} → долг в новом приложении */
+function importOldDebt(raw) {
+  const total = Math.round(+raw.total) || 600000;
+  const ops = raw.payments.filter(p => p && +p.amount > 0).map(p => {
+    const dt = new Date(p.date || Date.now());
+    return { id: uid(), type: 'return', amount: Math.round(+p.amount), date: dayKey(dt), ts: dt.toISOString(), note: 'из старого трекера', fromReserve: 0 };
+  });
+  const sum = ops.reduce((s, o) => s + o.amount, 0);
+  if (!confirm(`Это бэкап старого трекера долга.\n\nДобавить долг ${money(total)} и ${ops.length} возврат(ов) на ${money(sum)}?\nОстальные данные не изменятся.`)) return;
+  const start = ops.length ? ops.map(o => o.date).sort()[0] : dayKey();
+  const pinned = !S.debts.some(d => d.pinned && !d.archived);
+  S.debts.push({ id: uid(), name: 'Долг', total, due: null, pinned, start, createdAt: new Date().toISOString(), archived: false, ops });
+  S.profile.onboarded = true;
+  save(); go('money'); toast('Долг импортирован. Имя и срок можно задать через ⋯ → Изменить');
+}
+
 /* ---------- экспорт / импорт ---------- */
 function exportData() {
   S.meta.lastBackup = new Date().toISOString();
@@ -1054,14 +1497,11 @@ function importData(file) {
     try {
       const raw = JSON.parse(r.result);
       // старый трекер долга: {payments:[...]}
-      if (Array.isArray(raw.payments) && !raw.data) {
-        toast('Это бэкап старого трекера долга. Его импорт появится на этапе 2');
-        return;
-      }
+      if (Array.isArray(raw.payments) && !raw.data) { importOldDebt(raw); return; }
       const d = raw.app === 'life-tracker' && raw.data ? raw.data : raw;
       if (!d.profile && !d.weights && !d.water) throw new Error('bad');
       const n = normalize(d);
-      const summary = `взвешиваний: ${n.weights.length}, записей воды: ${n.water.length}`;
+      const summary = `долгов: ${n.debts.length}, целей: ${n.savings.length}, взвешиваний: ${n.weights.length}, записей воды: ${n.water.length}`;
       if (!confirm(`Загрузить бэкап?\n${summary}\n\nТекущие данные будут заменены.`)) return;
       n.profile.onboarded = true;
       S = n; save(); renderAll(); toast('Данные восстановлены');
@@ -1144,7 +1584,9 @@ function finishOnb() {
 }
 
 /* ======================= шторка, тост, эффекты ======================= */
+let sheetHandler = null;
 function openSheet(html) {
+  sheetHandler = null;
   $('#sheetBody').innerHTML = html;
   $('#sheetBg').classList.add('open'); $('#sheet').classList.add('open');
   $$('#sheetBody [data-close]').forEach(b => b.onclick = closeSheet);
@@ -1190,6 +1632,16 @@ $('#waterCustom').onclick = openWaterCustom;
 $('#waterUndo').onclick = undoWater;
 $('#stage').onclick = openBreakdown;
 $('#sheetBg').onclick = closeSheet;
+$('#sheetBody').addEventListener('click', e => sheetHandler && sheetHandler(e));
+$('#moneyBox').addEventListener('click', onMoneyAct);
+$('#todayDebt').addEventListener('click', onMoneyAct);
+$('#todaySave').addEventListener('click', onMoneyAct);
+// суммы с пробелами при вводе
+document.addEventListener('input', e => {
+  if (!e.target.matches('[data-money]')) return;
+  const digits = e.target.value.replace(/\D/g, '').slice(0, 11);
+  e.target.value = digits ? fmt(+digits) : '';
+});
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
 $('#bodyHistory').addEventListener('click', e => {
   const b = e.target.closest('[data-delw]'); if (!b) return;
@@ -1222,6 +1674,7 @@ window.addEventListener('storage', e => { if (e.key === KEY) { S = load(); rende
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstall = e; if (screen === 'more') renderMore(); });
 
 /* ======================= старт ======================= */
+makeOrbit();
 renderDate();
 renderAll();
 if (!S.profile.onboarded) openOnboarding();
