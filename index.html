@@ -109,7 +109,7 @@ input{font:inherit;color:inherit}
 .index-row{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
 .index-num{font-family:var(--mono);font-size:40px;font-weight:700;line-height:1;letter-spacing:-.03em}
 .index-lbl{font-size:11px;color:var(--muted);font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
-.chans{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-top:14px}
+.chans{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px}
 .chan{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 2px 7px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.015)}
 .chan svg{width:18px;height:18px}
 .chan b{font-family:var(--mono);font-size:11.5px;font-weight:700}
@@ -407,6 +407,85 @@ details.closed summary::-webkit-details-marker{display:none}
 .hb-chk{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,181,71,.55);color:#06080c;font-weight:800;font-size:17px;flex:0 0 36px;transition:all .2s}
 .hb-chk.on{background:var(--warn);border-color:transparent;box-shadow:0 0 12px rgba(255,181,71,.5)}
 
+
+/* дневник и медитация */
+.btn.teal{background:#7fd8be;box-shadow:0 8px 22px -8px #7fd8be}
+.btn.vio{background:#b9a6ff;box-shadow:0 8px 22px -8px #b9a6ff}
+.sbar .vio{background:#b9a6ff;box-shadow:0 0 12px rgba(185,166,255,.55);border-radius:99px}
+.tag.vio{color:#cbbcff;border-color:rgba(185,166,255,.4)}
+.daynav{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:12px;color:var(--text)}
+.daynav button{width:30px;height:30px;border-radius:9px;border:1px solid var(--line2);font-size:17px;color:var(--muted)}
+.daynav button:disabled{opacity:.25}
+.daynav span{min-width:84px;text-align:center}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mgrid .n{font-size:18px}
+.metric.ok .n{color:var(--good)} .metric.late .n{color:var(--bad)}
+.rng{-webkit-appearance:none;appearance:none;width:100%;height:34px;background:transparent;padding:0 !important;border:0 !important;box-shadow:none !important}
+.rng::-webkit-slider-runnable-track{height:8px;border-radius:8px;background:linear-gradient(90deg,#ff4d6a,#ffb547 45%,#3ee08f)}
+.rng::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;margin-top:-9px;box-shadow:0 2px 10px rgba(0,0,0,.5)}
+.rng::-moz-range-track{height:8px;border-radius:8px;background:linear-gradient(90deg,#ff4d6a,#ffb547 45%,#3ee08f)}
+.rng::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:0}
+.rng-v{float:right;color:var(--text);font-size:15px}
+.field input.rng{background:transparent;height:34px}
+.dchart{padding:6px 0 14px;border-bottom:1px dashed var(--line);margin-bottom:12px}
+.dchart:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.drow{display:flex;justify-content:space-between;gap:6px;font-family:var(--mono);font-size:12px;color:#c9d2df}
+.okc{color:var(--good)} .latec{color:var(--bad)}
+.day-sum{margin-top:8px}
+.day-sum li{padding:8px 2px;font-size:13px;justify-content:flex-start}
+.ladder{position:relative;margin:16px 0 4px;height:30px;border-radius:9px;background:rgba(255,255,255,.04);overflow:hidden;display:flex;justify-content:space-between;align-items:flex-end;padding:0 6px 3px;font-family:var(--mono);font-size:9.5px;color:var(--muted)}
+.ladder i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(185,166,255,.15),rgba(185,166,255,.55));border-right:2px solid #b9a6ff}
+.ladder span{position:relative;z-index:1}
+#med{position:fixed;inset:0;z-index:55;background:radial-gradient(circle at 50% 42%,#14112a,#05060a 70%);display:none;flex-direction:column;max-width:520px;margin:0 auto;transition:background 3s}
+#med.open{display:flex}
+#med.reached{background:radial-gradient(circle at 50% 42%,#1d1838,#06060c 70%)}
+.med-top{display:flex;align-items:center;padding:calc(var(--safe-t) + 16px) 20px 0}
+.med-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+.med-orb{position:relative;width:220px;height:220px;display:grid;place-items:center}
+.med-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(185,166,255,.25);animation:medBreath 10s ease-in-out infinite}
+.med-core{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(205,192,255,.55),rgba(185,166,255,.08) 70%);box-shadow:0 0 60px rgba(185,166,255,.35);animation:medBreath 10s ease-in-out infinite}
+@keyframes medBreath{0%,100%{transform:scale(.72);opacity:.55}50%{transform:scale(1.12);opacity:1}}
+.med-time{font-family:var(--mono);font-size:44px;font-weight:700;color:#e3dcff;letter-spacing:-.02em}
+.med-time.hidden{visibility:hidden}
+.med-lbl{color:#9a92c4;font-size:14px}
+.med-bot{padding:0 20px calc(var(--safe-b) + 20px)}
+.seg-row{display:flex;align-items:center;gap:6px;justify-content:center;margin-bottom:14px}
+.mini-chip{font-family:var(--mono);font-size:11px;padding:6px 9px;border-radius:99px;border:1px solid rgba(185,166,255,.25);color:#9a92c4}
+.mini-chip.on{background:rgba(185,166,255,.2);color:#e3dcff;border-color:rgba(185,166,255,.6)}
+#halo,#haloRing{transition:opacity 1.2s ease}
+#haloRing{filter:drop-shadow(0 0 5px #cbbcff)}
+body.meditating #figWrap{animation-duration:9s}
+
+
+/* уровни и реакции */
+#figJump{transform-origin:100px 305px}
+#hero.fast .geo{transition-duration:.38s}
+.lvl{display:flex;align-items:center;gap:10px;margin:8px 0 2px;padding:9px 12px;border-radius:14px;border:1px solid rgba(255,209,102,.22);background:rgba(255,209,102,.04);cursor:pointer}
+.lv-b{font-family:var(--mono);font-size:11px;color:#ffd166;letter-spacing:.08em;white-space:nowrap}
+.lv-b b{font-size:17px;margin-left:3px}
+#lvT{font-size:13px;font-weight:600;white-space:nowrap}
+.lv-bar{flex:1;height:6px;border-radius:6px;background:rgba(255,255,255,.07);overflow:hidden;min-width:40px}
+.lv-bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#ffb547,#ffd166);box-shadow:0 0 10px rgba(255,209,102,.6);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.lv-bar.big{height:10px;margin:14px 0 6px}
+#lvX{font-size:10.5px;white-space:nowrap}
+.xp-list li{padding:11px 2px}
+.xp-list .d{font-family:var(--font);font-size:12px;line-height:1.4}
+.xp-float{position:fixed;z-index:75;pointer-events:none;font-family:var(--mono);font-weight:700;font-size:20px;color:#ffd166;text-shadow:0 0 14px rgba(255,209,102,.8)}
+.coin{position:fixed;z-index:70;width:12px;height:12px;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 35% 35%,#fff3c4,#ffd166 45%,#c99a2e);box-shadow:0 0 10px rgba(255,209,102,.8)}
+
+
+/* тамагочи: запущенный персонаж */
+.z{font:700 13px var(--mono);fill:#cbd5e1;opacity:0;animation:zfloat 3.2s ease-in-out infinite}
+.z2{animation-delay:1s;font-size:15px}
+.z3{animation-delay:2s;font-size:18px}
+@keyframes zfloat{0%{opacity:0;transform:translate(0,6px)}25%{opacity:.85}100%{opacity:0;transform:translate(10px,-16px)}}
+#flies circle{fill:#20262f}
+#hero.st-3 #figJump{animation:zsway 3.6s ease-in-out infinite}
+@keyframes zsway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg) translateX(3px)}}
+.banner.ng{border-color:rgba(130,170,110,.4);background:rgba(110,150,90,.08)}
+.banner.ng .grow{color:#cfe3c2}
+.banner.ng button{color:#a8d48c}
+
 @media (max-width:370px){
   .index-num{font-size:34px}
   .chan b{font-size:11px}
@@ -437,9 +516,14 @@ details.closed summary::-webkit-details-marker{display:none}
         <svg id="hero" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="auraG" cx="50%" cy="50%" r="50%">
-              <stop offset="0" style="stop-color:var(--accent);stop-opacity:.55"/>
-              <stop offset=".55" style="stop-color:var(--accent);stop-opacity:.12"/>
-              <stop offset="1" style="stop-color:var(--accent);stop-opacity:0"/>
+              <stop offset="0" stop-color="#ffb547" stop-opacity=".5"/>
+              <stop offset=".55" stop-color="#ff8f3a" stop-opacity=".12"/>
+              <stop offset="1" stop-color="#ff8f3a" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="haloG" cx="50%" cy="50%" r="50%">
+              <stop offset="0" stop-color="#e6ddff" stop-opacity=".9"/>
+              <stop offset=".45" stop-color="#b9a6ff" stop-opacity=".35"/>
+              <stop offset="1" stop-color="#b9a6ff" stop-opacity="0"/>
             </radialGradient>
             <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" style="stop-color:var(--accent);stop-opacity:1"/>
@@ -473,7 +557,8 @@ details.closed summary::-webkit-details-marker{display:none}
           <ellipse cx="100" cy="306" rx="62" ry="7" style="fill:var(--accent);opacity:.22;filter:blur(3px)"/>
 
           <g id="orbitBack"></g>
-          <g id="figWrap">
+          <g id="figJump"><g id="figWrap">
+            <circle id="halo" cx="100" cy="46" r="44" fill="url(#haloG)" opacity="0"/>
             <g id="figGlow">
               <rect x="-20" y="-20" width="240" height="360" fill="url(#bodyG)" mask="url(#figMask)"/>
             </g>
@@ -482,20 +567,41 @@ details.closed summary::-webkit-details-marker{display:none}
                 <path class="wave" fill="url(#waterG)" d="M-100 0 Q-75 -7 -50 0 T0 0 T50 0 T100 0 T150 0 T200 0 T250 0 T300 0 T350 0 V340 H-100Z"/>
                 <path class="wave w2" fill="#9ff3ff" fill-opacity=".25" d="M-100 4 Q-75 -4 -50 4 T0 4 T50 4 T100 4 T150 4 T200 4 T250 4 T300 4 T350 4 V340 H-100Z"/>
               </g>
+              <g id="bubbles"></g>
+              <g id="decay" opacity="0">
+                <rect id="zTint" x="-20" y="-20" width="240" height="360" fill="#5c8c45" opacity="0"/>
+                <g id="blotches" fill="#17121c" opacity="0">
+                  <ellipse cx="82" cy="132" rx="9" ry="6"/><ellipse cx="119" cy="162" rx="7" ry="5"/><ellipse cx="94" cy="252" rx="5" ry="8"/>
+                  <ellipse cx="124" cy="110" rx="6" ry="4"/><ellipse cx="76" cy="190" rx="6" ry="9"/><ellipse cx="110" cy="282" rx="5" ry="4"/>
+                  <ellipse cx="62" cy="170" rx="4" ry="6"/><ellipse cx="139" cy="200" rx="4" ry="5"/><ellipse cx="108" cy="58" rx="5" ry="4"/>
+                </g>
+                <g id="stitches" stroke="#120d16" stroke-width="1.7" stroke-linecap="round" fill="none" opacity="0">
+                  <path d="M86 118 L114 128 M90 113 l-2 9 M96 115 l-2 9 M102 117 l-2 9 M108 119 l-2 9"/>
+                  <path d="M74 196 L80 226 M73 203 l7 -1 M75 211 l7 -1 M77 219 l7 -1"/>
+                  <path d="M89 40 L108 46 M93 36 l-1 8 M99 38 l-1 8 M104 40 l-1 8"/>
+                </g>
+              </g>
+              <rect id="flashR" x="-20" y="-20" width="240" height="360" fill="#fff" opacity="0"/>
             </g>
-            <g id="debtLoad" opacity="0">
+            <g id="debtLoad" opacity="0"><g id="debtShake" style="transform-origin:100px 6px">
               <rect x="62" y="-6" width="76" height="24" rx="7" fill="#1c2332" stroke="var(--line2)"/>
               <rect x="62" y="-6" width="76" height="24" rx="7" style="fill:var(--accent)" opacity=".92"/>
               <text id="debtLoadTxt" x="100" y="10" text-anchor="middle" style="font:700 11px var(--mono);fill:#06080c">—</text>
-            </g>
+            </g></g>
+            <ellipse id="haloRing" cx="100" cy="17" rx="21" ry="5.5" fill="none" stroke="#d9ceff" stroke-width="2.6" opacity="0"/>
             <circle class="sweat" cx="126" cy="40" r="3"/>
             <circle class="sweat s2" cx="74" cy="44" r="2.5"/>
-          </g>
+            <g id="zzz" opacity="0"><text class="z" x="126" y="34">z</text><text class="z z2" x="136" y="22">z</text><text class="z z3" x="147" y="8">Z</text></g>
+            <g id="flies" opacity="0" transform="translate(100 46)"><g><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="2.6s" repeatCount="indefinite"/>
+              <circle cx="30" cy="-4" r="1.9"/><circle cx="-26" cy="10" r="1.6"/></g>
+              <g><animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="3.7s" repeatCount="indefinite"/><circle cx="20" cy="22" r="1.5"/></g></g>
+          </g></g>
           <g id="orbitFront"></g>
         </svg>
         <span class="stage-hint">тап → разбор</span>
       </div>
 
+      <div class="lvl" id="lvl" role="button" aria-label="Уровень и опыт"><span class="lv-b">LVL<b id="lvN">1</b></span><span id="lvT">Новичок</span><span class="lv-bar"><i id="lvI"></i></span><span class="mono sub" id="lvX">0 / 100 XP</span></div>
       <div class="index-row">
         <div>
           <div class="index-lbl">Индекс состояния</div>
@@ -509,7 +615,9 @@ details.closed summary::-webkit-details-marker{display:none}
       <div class="chans" id="chans"></div>
     </div>
 
+    <div id="todayDiary"></div>
     <div id="todayDebt"></div>
+    <div id="todayMed"></div>
 
     <!-- вода -->
     <div class="card">
@@ -545,8 +653,9 @@ details.closed summary::-webkit-details-marker{display:none}
 
   <!-- ================= ТЕЛО ================= -->
   <section class="screen" data-screen="body">
-    <div class="stabs body-tabs" id="bodyTabs"><button data-bt="train" class="on">Тренировки</button><button data-bt="weight">Вес</button></div>
+    <div class="stabs body-tabs" id="bodyTabs"><button data-bt="train" class="on">Тренировки</button><button data-bt="weight">Вес</button><button data-bt="diary">Дневник</button></div>
     <div id="bodyTrain"></div>
+    <div id="bodyDiary" style="display:none"></div>
     <div id="bodyWeight" style="display:none">
     <div class="card" id="bodyStats"></div>
     <div class="card" id="bodyChart"></div>
@@ -573,6 +682,18 @@ details.closed summary::-webkit-details-marker{display:none}
     </div>
 
     <div class="card">
+      <div class="card-t" style="margin-bottom:6px">Сон и активность</div>
+      <div class="set-row"><div><div class="l">Цель отбоя</div><div class="h">ложиться не позже</div></div><input id="sBed" type="time" style="width:110px;color-scheme:dark"></div>
+      <div class="set-row"><div><div class="l">Цель шагов</div><div class="h">в день</div></div><input id="sSteps" inputmode="numeric"></div>
+    </div>
+
+    <div class="card" id="medSettings">
+      <div class="card-t" style="margin-bottom:6px">Медитация</div>
+      <div class="set-row"><div><div class="l">Текущий уровень</div><div class="h">мин:сек, растёт сам по лестнице</div></div><input id="sMedLvl" inputmode="numeric"></div>
+      <div class="set-row" style="flex-wrap:wrap"><div><div class="l">Шаг роста в неделю</div><div class="h">при 5+ днях на уровне</div></div><div class="seg" id="sMedStep"></div></div>
+    </div>
+
+    <div class="card">
       <div class="card-t" style="margin-bottom:6px">Данные</div>
       <div class="set-row"><div><div class="l">Последний бэкап</div><div class="h" id="lastBackup">ещё не было</div></div></div>
       <div class="row" style="margin-top:12px">
@@ -590,7 +711,7 @@ details.closed summary::-webkit-details-marker{display:none}
         <button class="btn danger grow" id="resetBtn">Сбросить всё</button>
       </div>
     </div>
-    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · v1.0.0</p>
+    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · v1.3.0</p>
   </section>
 </div>
 
@@ -609,6 +730,7 @@ details.closed summary::-webkit-details-marker{display:none}
 
 <div id="onb"></div>
 <div id="wo"></div>
+<div id="med"></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -645,13 +767,18 @@ const defaults = () => ({
   complexes: [],  // этап 3
   workouts: [],   // этап 3
   habits: [],     // этап 4
+  meditations: [],
+  days: {},       // дневник: { 'YYYY-MM-DD': { ci, battery, sleepScore, sleepMin, bedtime, steps } }
   meta: { lastBackup: null }
 });
 function normalize(d) {
   const base = defaults();
   if (!d || typeof d !== 'object') return base;
   const out = { ...base, ...d, profile: { ...base.profile, ...(d.profile || {}) }, meta: { ...base.meta, ...(d.meta || {}) } };
-  for (const k of ['weights','water','debts','savings','exercises','complexes','workouts','habits']) if (!Array.isArray(out[k])) out[k] = [];
+  for (const k of ['weights','water','debts','savings','exercises','complexes','workouts','habits','meditations']) if (!Array.isArray(out[k])) out[k] = [];
+  if (!out.days || typeof out.days !== 'object' || Array.isArray(out.days)) out.days = {};
+  if (!out.profile.bedGoal) out.profile.bedGoal = '23:00';
+  if (!out.profile.stepsGoal) out.profile.stepsGoal = 20000;
   out.v = SCHEMA;
   return out;
 }
@@ -695,11 +822,7 @@ function trainingProgress() {
   const n = weekCount();
   return { p: clamp(n / (S.profile.weeklyWorkouts || 3)), n };
 }
-function habitsProgress() {
-  const hs = S.habits.filter(h => !h.archived);
-  if (!hs.length) return null;
-  return clamp(hs.reduce((s, h) => s + habitValue(h), 0) / hs.length);
-}
+function habitsProgress() { return sphereProgress('body'); }
 
 const ICONS = {
   water: '<path d="M12 2.7s6 6.6 6 11.3a6 6 0 0 1-12 0c0-4.7 6-11.3 6-11.3z"/>',
@@ -710,19 +833,23 @@ const ICONS = {
   warn: '<path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17h0"/>',
   save: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
   pin: '<path d="M12 17v5M8 3h8l-1 6 3 3H6l3-3-1-6z"/>',
+  mind: '<path d="M12 20c-4.5 0-8-3-8-7 3.5 0 6 1.4 8 4 2-2.6 4.5-4 8-4 0 4-3.5 7-8 7z"/><path d="M12 17c-2.2-3.2-2.2-7.2 0-11 2.2 3.8 2.2 7.8 0 11z"/>',
+  rec: '<rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 11v2M7 10v4M11 10v4"/>',
   more: '<circle cx="5" cy="12" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="19" cy="12" r="1.3" fill="currentColor"/>'
 };
 const ico = (k, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICONS[k]}</svg>`;
 
 function channels() {
   const wg = S.profile.waterGoal || 3000;
-  const wp = weightProgress(), dp = debtProgress(), tp = trainingProgress(), hp = habitsProgress(), sp = savingsProgress();
+  const wp = weightProgress(), dp = debtProgress(), tp = activityProgress(), hp = habitsProgress(), sp = savingsProgress(), mp = mindProgress(), rp = recoveryParts();
   return [
     { k: 'debt',   name: 'Долги',      icon: 'debt',   on: !!dp, v: dp ? dp.p : 0, color: '#ff6b8b', fx: 'цвет и груз · отложенное = ½', soon: 'нет долгов' },
     { k: 'save',   name: 'Накопления', icon: 'save',   on: sp != null, v: sp ?? 0, color: '#ffd166', fx: 'частицы на орбите', soon: 'нет целей' },
     { k: 'weight', name: 'Вес',        icon: 'weight', on: wp != null, v: wp ?? 0, color: '#c58bff', fx: 'комплекция силуэта', soon: 'введите вес' },
-    { k: 'train',  name: 'Тренировки', icon: 'train',  on: !!tp, v: tp ? tp.p : 0, color: '#3ee08f', fx: 'осанка · тренировки за 7 дней', soon: 'нет тренировок' },
-    { k: 'habit',  name: 'Привычки',   icon: 'habit',  on: hp != null, v: hp ?? 0, color: '#ffb547', fx: 'аура · серии дней', soon: 'нет привычек' },
+    { k: 'train',  name: 'Активность', icon: 'train',  on: tp != null, v: tp ?? 0, color: '#3ee08f', fx: 'осанка · тренировки за 7 дн. + шаги', soon: 'нет данных' },
+    { k: 'habit',  name: 'Тело',       icon: 'habit',  on: hp != null, v: hp ?? 0, color: '#ffb547', fx: 'аура тела · физические привычки', soon: 'нет привычек' },
+    { k: 'mind',   name: 'Разум',      icon: 'mind',   on: mp != null, v: mp ?? 0, color: '#b9a6ff', fx: 'ореол · медитация + ментальные привычки', soon: 'нет данных' },
+    { k: 'rec',    name: 'Восстановление', icon: 'rec', on: rp != null, v: rp ?? 0, color: '#7fd8be', fx: 'яркость · сон, батарея, отбой', soon: 'нет чек-ина' },
     { k: 'water',  name: 'Вода',       icon: 'water',  on: true, v: waterPace(), fill: clamp(waterToday() / wg), color: '#38d9ff', fx: 'наполнение · в индекс идёт темп', soon: '' }
   ];
 }
@@ -780,13 +907,14 @@ function setGeo(id, attrs) {
   }
 }
 
-function drawFigure(b, slump) {
+function drawFigure(b, slump, pose = 0, opt = {}) {
   const cx = 100, s = slump;
   const sy = 86 + s * 5;                // линия плеч
   const S = b.S * (1 - .05 * s);
   const headY = 46 + s * 7;
-  setGeo('mHead', { cx: cx, cy: r1(headY), r: 21 });
-  setGeo('mNeck', { x: r1(cx - b.N / 2), y: r1(headY + 12), width: r1(b.N), height: r1(sy - headY - 6) });
+  const tilt = opt.tilt || 0;           // голова набок (потрёпанный, зомби)
+  setGeo('mHead', { cx: r1(cx + tilt * 6), cy: r1(headY + tilt * 3), r: 21 });
+  setGeo('mNeck', { x: r1(cx - b.N / 2 + tilt * 2), y: r1(headY + 12), width: r1(b.N), height: r1(sy - headY - 6) });
 
   const C = b.C, W = b.W, H = b.H, tip = sy + 10 + s * 4;
   const torso = [
@@ -809,8 +937,12 @@ function drawFigure(b, slump) {
   const A = b.A, side = Math.max(C, W, H);
   for (const [dir, L, R] of [[-1, 'L', 'L'], [1, 'R', 'R']]) {
     const sx = cx + dir * (S - A * .45), syA = tip - 1;
-    const ex = cx + dir * (Math.max(C, W * .95) + A * .55 + 2 + s * 2), ey = 152 + s * 4;
-    const hx = cx + dir * (side + A * .5 + 4 - s * 3), hy = 206 + s * 4;
+    // pose = 1 — руки вверх («сила»), между позами плавный переход
+    let ex0 = cx + dir * (Math.max(C, W * .95) + A * .55 + 2 + s * 2), ey0 = 152 + s * 4;
+    let hx0 = cx + dir * (side + A * .5 + 4 - s * 3), hy0 = 206 + s * 4;
+    if (opt.zombie) { ex0 = cx + dir * (S + 15); ey0 = sy + 6 + (dir > 0 ? 4 : 0); hx0 = cx + dir * (S + 31); hy0 = sy + 14 + (dir > 0 ? 8 : 0); }  // руки вперёд-в стороны
+    const ex = lerp(ex0, cx + dir * (S + 10), pose), ey = lerp(ey0, sy - 16, pose);
+    const hx = lerp(hx0, cx + dir * (S + 20), pose), hy = lerp(hy0, sy - 58, pose);
     setGeo('mUp' + L, { d: `M${r1(sx)} ${r1(syA)} L${r1(ex)} ${r1(ey)}`, 'stroke-width': r1(A) });
     setGeo('mFo' + R, { d: `M${r1(ex)} ${r1(ey)} L${r1(hx)} ${r1(hy)}`, 'stroke-width': r1(A * .84) });
 
@@ -872,8 +1004,13 @@ function renderCharacter() {
   else build = BUILDS.fit;
 
   // осанка
-  const slump = by.train.on ? 1 - by.train.v : .35;
-  const headY = drawFigure(build, slump);
+  const stage = neglectStage();
+  let slump = by.train.on ? 1 - by.train.v : .35;
+  if (stage) slump = Math.max(slump, [0, .75, .95, 1][stage]);
+  const fopt = { tilt: stage >= 3 ? 1 : stage === 2 ? .55 : 0, zombie: stage === 3 };
+  figState = { build, slump, opt: fopt };
+  const headY = drawFigure(build, slump, 0, fopt);
+  renderNeglect(stage, headY);
 
   // вода
   const top = 22, bottom = 300, wv = by.water.fill;
@@ -884,14 +1021,22 @@ function renderCharacter() {
   orbitN = by.save.on ? Math.max(1, Math.round(by.save.v * 10)) : 0;
   startOrbit();
 
-  // аура
+  // аура тела (физические привычки)
   $('#aura').setAttribute('opacity', by.habit.on ? r1(.15 + by.habit.v * .85) : 0);
+  // ореол разума: медитация + ментальные привычки
+  const halo = $('#halo');
+  halo.setAttribute('cy', r1(headY)); halo.style.cy = r1(headY) + 'px';
+  halo.setAttribute('opacity', by.mind.on ? r1(.12 + by.mind.v * .88) : 0);
+  const ring = $('#haloRing'), ry = r1(headY - 29);
+  ring.setAttribute('cy', ry); ring.style.cy = ry + 'px';
+  ring.setAttribute('opacity', by.mind.on ? r1(.18 + by.mind.v * .82) : 0);
+  document.body.classList.toggle('meditating', !!S.activeMed);
 
   // груз долга
   const load = $('#debtLoad');
   if (dp && dp.p < 1) {
     load.setAttribute('opacity', 1);
-    load.style.transform = `translateY(${r1(headY - 46 - 14)}px) scale(${r1(.55 + (1 - dp.p) * .45)})`;
+    load.style.transform = `translateY(${r1(headY - 46 - 24)}px) scale(${r1(.55 + (1 - dp.p) * .45)})`;
     $('#debtLoadTxt').textContent = shortMoney(dp.left) + ' ₸';
   } else {
     load.setAttribute('opacity', 0);
@@ -899,12 +1044,16 @@ function renderCharacter() {
 
   // свечение и дыхание
   const t = (idx ?? 50) / 100;
-  $('#figGlow').style.filter = `drop-shadow(0 0 ${r1(lerp(10, 20, t))}px ${rgba(c, .7)})`;
+  // восстановление: выспался — светится ярче, устал — тусклее
+  const rv = by.rec.on ? by.rec.v : .6;
+  const decayF = ['', ' grayscale(.5) brightness(.8)', ' grayscale(.8) sepia(.25) brightness(.7)', ' grayscale(.4) brightness(.8)'][neglectStage()];
+  $('#figGlow').style.filter = `drop-shadow(0 0 ${r1(lerp(5, 24, rv))}px ${rgba(c, r1(.35 + rv * .5))}) saturate(${r1(.55 + rv * .55)})${decayF}`;
+  $('#figGlow').style.opacity = r1(.62 + rv * .38);
   root.setProperty('--pulse', lerp(1.1, 4.2, t).toFixed(2) + 's');
   $('#stage').classList.toggle('stressed', idx != null && idx < 30);
 
   // тексты
-  $('#status').textContent = statusText(idx);
+  $('#status').textContent = ['', 'Устал · ' + statusText(idx), 'Потрёпан', 'Зомби 🧟'][neglectStage()] || statusText(idx);
   $('#indexNum').textContent = idx == null ? '—' : idx;
   const act = ch.filter(x => x.on).length;
   $('#activeCount').textContent = `${act} / ${ch.length}`;
@@ -920,7 +1069,7 @@ function openBreakdown() {
   const ch = channels(), idx = stateIndex(ch);
   openSheet(`
     <h2>Состояние: ${idx ?? '—'}</h2>
-    <p class="sub">Индекс — среднее по активным направлениям. Каждое управляет своей частью персонажа.</p>
+    <p class="sub">Индекс — среднее по активным направлениям. Каждое управляет своей частью персонажа.${neglectStage() ? ` Сейчас персонаж ${['', 'устал', 'потрёпан', 'зомби'][neglectStage()]}: ${neglectDays()} ${plural(neglectDays(), 'день', 'дня', 'дней')} без записей.` : ''}</p>
     <ul class="list breakdown">
       ${ch.map(x => `
         <li>
@@ -944,6 +1093,7 @@ function go(name) {
   $('#title').textContent = TITLES[name];
   window.scrollTo(0, 0);
   renderScreen();
+  setTimeout(flushReactions, 450);
 }
 function renderScreen() {
   if (screen === 'today') renderToday();
@@ -952,7 +1102,7 @@ function renderScreen() {
   if (screen === 'body') renderBody();
   if (screen === 'more') renderMore();
 }
-function renderAll() { renderCharacter(); renderScreen(); }
+function renderAll() { renderCharacter(); renderScreen(); checkXp(); }
 
 function renderDate() {
   $('#todayDate').textContent = new Date().toLocaleDateString('ru-RU', { weekday: 'short', day: 'numeric', month: 'long' });
@@ -990,17 +1140,24 @@ function renderToday() {
   $('#weightCard').innerHTML = html;
   $('#weighBtn').onclick = openWeigh;
   renderTodayMoney();
+  $('#todayDiary').innerHTML = diaryCardHtml();
+  $('#todayMed').innerHTML = medCardHtml();
   $('#todayTrain').innerHTML = weekCardHtml();
   renderTodayHabits();
 
   // напоминание о бэкапе
-  const hasData = S.weights.length + S.water.length + S.debts.length + S.savings.length + S.workouts.length + S.exercises.length + S.habits.length > 0;
+  const hasData = S.meditations.length + Object.keys(S.days).length + S.weights.length + S.water.length + S.debts.length + S.savings.length + S.workouts.length + S.exercises.length + S.habits.length > 0;
   const last = S.meta.lastBackup ? new Date(S.meta.lastBackup).getTime() : 0;
   const created = new Date(S.profile.createdAt).getTime();
   const due = hasData && Date.now() - Math.max(last, created) > 7 * 864e5;
   $('#backupBanner').innerHTML = due ? `
     <div class="banner">${ico('warn')}<span class="grow">${last ? 'Бэкап не делался больше недели' : 'Вы ещё ни разу не делали бэкап'}</span><button id="bannerExport">Экспорт</button></div>` : '';
   if (due) $('#bannerExport').onclick = exportData;
+  const nd = neglectDays(), st = neglectStage();
+  if (st) $('#backupBanner').insertAdjacentHTML('afterbegin', `
+    <div class="banner ng"><span style="font-size:20px">${['', '😪', '🥀', '🧟'][st]}</span>
+      <span class="grow">${nd} ${plural(nd, 'день', 'дня', 'дней')} без записей — персонаж ${['', 'устал', 'потрёпан', 'превратился в зомби'][st]}. Любая запись оживит его.</span>
+      <button data-ng="water">+250 мл</button></div>`);
 }
 
 /* ---------- вода ---------- */
@@ -1012,15 +1169,15 @@ function addWater(ml) {
   const cutoff = dayKey(new Date(Date.now() - 120 * 864e5));
   S.water = S.water.filter(w => w.day >= cutoff);
   save(); vibrate(12);
-  renderToday();
+  renderAll();
   burstAt($('#glasses'), '#38d9ff', 10);
-  if (before < goal && waterToday() >= goal) { toast('💧 Норма воды на сегодня выполнена!'); bigBurst('#38d9ff'); }
-  else toast(`+${fmt(ml)} мл`);
+  if (before < goal && waterToday() >= goal) { toast('💧 Норма воды на сегодня выполнена!'); bigBurst('#38d9ff'); react('waterGoal'); }
+  else { toast(`+${fmt(ml)} мл`); react('water', ml / 500); }
 }
 function undoWater() {
   const today = dayKey();
   for (let i = S.water.length - 1; i >= 0; i--) {
-    if (S.water[i].day === today) { const ml = S.water[i].ml; S.water.splice(i, 1); save(); renderToday(); toast(`Отменено: −${fmt(ml)} мл`); return; }
+    if (S.water[i].day === today) { const ml = S.water[i].ml; S.water.splice(i, 1); save(); renderAll(); toast(`Отменено: −${fmt(ml)} мл`); return; }
   }
   toast('Сегодня ещё нечего отменять');
 }
@@ -1057,6 +1214,8 @@ function openWeigh() {
     if (prev != null) {
       const d = r1(v - prev);
       toast(d === 0 ? 'Вес записан, без изменений' : `Вес записан: ${d > 0 ? '+' : '−'}${kg(Math.abs(d))} кг`);
+      const g = S.profile.goalWeight;
+      if (g != null && Math.abs(r1(v) - g) < Math.abs(prev - g)) react('weight');
     } else toast('Стартовый вес записан');
     burstAt($('#stage'), getAccent(), 16);
   };
@@ -1069,7 +1228,8 @@ function renderBody() {
   $$('#bodyTabs [data-bt]').forEach(b => b.classList.toggle('on', b.dataset.bt === bodyTab));
   $('#bodyTrain').style.display = bodyTab === 'train' ? '' : 'none';
   $('#bodyWeight').style.display = bodyTab === 'weight' ? '' : 'none';
-  if (bodyTab === 'train') renderTrain(); else renderWeightTab();
+  $('#bodyDiary').style.display = bodyTab === 'diary' ? '' : 'none';
+  if (bodyTab === 'train') renderTrain(); else if (bodyTab === 'diary') renderDiaryTab(); else renderWeightTab();
 }
 function renderWeightTab() {
   const p = S.profile, cur = currentWeight();
@@ -1169,6 +1329,10 @@ function renderMore() {
   $('#sStart').value = p.startWeight ?? '';
   $('#sGoal').value = p.goalWeight ?? '';
   $('#sWater').value = p.waterGoal ?? 3000;
+  $('#sBed').value = p.bedGoal || '23:00';
+  $('#sSteps').value = fmt(p.stepsGoal || 20000);
+  $('#sMedLvl').value = secFmt(medLevel());
+  $('#sMedStep').innerHTML = [[30, '30с'], [60, '1м'], [120, '2м'], [300, '5м']].map(([v, l]) => `<button class="${v === medStep() ? 'on' : ''}" data-ms="${v}" style="width:auto;padding:0 9px">${l}</button>`).join('');
   $('#sWeek').innerHTML = [1,2,3,4,5,6,7].map(n => `<button class="${n === p.weeklyWorkouts ? 'on' : ''}" data-week="${n}">${n}</button>`).join('');
   $('#lastBackup').textContent = S.meta.lastBackup ? new Date(S.meta.lastBackup).toLocaleString('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) : 'ещё не было';
 
@@ -1203,6 +1367,15 @@ function bindSettings() {
   bind('#sStart', 'startWeight', 25, 350, true);
   bind('#sGoal', 'goalWeight', 25, 350, true);
   bind('#sWater', 'waterGoal', 500, 8000, false);
+  $('#sBed').addEventListener('change', e => { if (e.target.value) { S.profile.bedGoal = e.target.value; save(); renderAll(); toast('Цель отбоя: ' + e.target.value); } });
+  $('#sSteps').addEventListener('change', e => { const v = parseMoney(e.target.value); if (!v || v < 500 || v > 100000) { toast('От 500 до 100 000'); renderMore(); return; } S.profile.stepsGoal = v; save(); renderAll(); toast('Сохранено'); });
+  $('#sMedLvl').addEventListener('change', e => {
+    const v = e.target.value.trim(); let sec = null;
+    if (/[:.]/.test(v)) { const [m, s2] = v.split(/[:.]/).map(Number); if (isFinite(m) && isFinite(s2) && s2 < 60) sec = m * 60 + s2; } else if (num(v) != null) sec = Math.round(num(v) * 60);
+    if (!sec || sec < 10 || sec > 3600) { toast('От 0:10 до 60:00'); renderMore(); return; }
+    S.profile.medLevel = sec; save(); renderAll(); toast('Уровень: ' + secFmt(sec));
+  });
+  $('#sMedStep').addEventListener('click', e => { const b = e.target.closest('[data-ms]'); if (!b) return; S.profile.medStep = +b.dataset.ms; save(); renderMore(); toast('Шаг: +' + secFmt(+b.dataset.ms) + ' в неделю'); });
   $('#sWeek').addEventListener('click', e => {
     const b = e.target.closest('[data-week]'); if (!b) return;
     S.profile.weeklyWorkouts = +b.dataset.week; save(); renderMore(); renderCharacter();
@@ -1420,8 +1593,11 @@ function openDebtOp(id, type) {
       d.ops.push(op);
       save(); closeSheet(); renderAll(); vibrate(cur === 'return' ? [15, 40, 15] : 15);
       const after = debtStats(d);
-      if (after.done && !before.done) { toast(`🎉 Долг «${d.name}» полностью возвращён!`); bigBurst(getAccent()); }
-      else { toast(`${OP_TXT[cur].done}: ${money(v)}`); burstAt($('#stage'), cur === 'reserve' ? '#ffd166' : getAccent(), 14); }
+      if (after.done && !before.done) { toast(`🎉 Долг «${d.name}» полностью возвращён!`); bigBurst(getAccent()); react('debtClose'); }
+      else {
+        toast(`${OP_TXT[cur].done}: ${money(v)}`); burstAt($('#stage'), cur === 'reserve' ? '#ffd166' : getAccent(), 14);
+        if (cur === 'return') react('debtReturn', v / 50000); else if (cur === 'reserve') react('coins', v / 50000);
+      }
     };
     $('#opOk').onclick = ok; amt.onkeydown = e => { if (e.key === 'Enter') ok(); };
   };
@@ -1509,8 +1685,8 @@ function openGoalOp(id, sign) {
     if (!add && v > st.saved) { v = st.saved; toast(`Сумма уменьшена до ${money(v)}`); }
     g.ops.push({ id: uid(), amount: add ? v : -v, date: $('#goDate').value || dayKey(), ts: new Date().toISOString(), note: $('#goNote').value.trim() });
     save(); closeSheet(); renderAll(); vibrate(15);
-    if (add && !st.done && goalStats(g).done) { toast(`🎉 Цель «${g.name}» достигнута!`); bigBurst('#ffd166'); }
-    else { toast(`${add ? '+' : '−'}${money(v)}`); if (add) burstAt($('#stage'), '#ffd166', 14); }
+    if (add && !st.done && goalStats(g).done) { toast(`🎉 Цель «${g.name}» достигнута!`); bigBurst('#ffd166'); react('coins', 3); react('record'); }
+    else { toast(`${add ? '+' : '−'}${money(v)}`); if (add) { burstAt($('#stage'), '#ffd166', 14); react('coins', v / 50000); } }
   };
   $('#goOk').onclick = ok; amt.onkeydown = e => { if (e.key === 'Enter') ok(); };
 }
@@ -1717,14 +1893,15 @@ function openExForm(id, after) {
   draw();
 }
 
-function miniLine(vals, color) {
+function miniLine(vals, color, goal) {
   const W = 320, H = 110, pl = 6, pr = 6, pt = 12, pb = 10;
-  let mn = Math.min(...vals), mx = Math.max(...vals);
+  let mn = Math.min(...vals, ...(goal != null ? [goal] : [])), mx = Math.max(...vals, ...(goal != null ? [goal] : []));
   if (mx === mn) { mn -= 1; mx += 1; }
   const X = i => pl + i / (vals.length - 1) * (W - pl - pr), Y = v => pt + (1 - (v - mn) / (mx - mn)) * (H - pt - pb);
   const d = vals.map((v, i) => (i ? 'L' : 'M') + r1(X(i)) + ' ' + r1(Y(v))).join(' ');
   return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;margin:6px 0 4px">
     <path d="${d} L${r1(X(vals.length - 1))} ${H} L${pl} ${H}Z" fill="${color}" fill-opacity=".1"/>
+    ${goal != null ? `<line x1="${pl}" x2="${W - pr}" y1="${r1(Y(goal))}" y2="${r1(Y(goal))}" stroke="#e8edf5" stroke-opacity=".35" stroke-width="1.2" stroke-dasharray="4 4"/>` : ''}
     <path d="${d}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
     ${vals.map((v, i) => `<circle cx="${r1(X(i))}" cy="${r1(Y(v))}" r="${i === vals.length - 1 ? 4.5 : 3}" fill="${color}" stroke="#0d1118" stroke-width="2"/>`).join('')}
   </svg>`;
@@ -2044,6 +2221,7 @@ function finishWorkout() {
   save(); closeWo(); renderAll();
   openWoSummary(w, true);
   bigBurst('#3ee08f'); vibrate([30, 60, 30, 60, 60]);
+  react('workout');
   const goal = S.profile.weeklyWorkouts || 3;
   if (beforeWeek < goal && weekCount() >= goal) setTimeout(() => toast(`✦ Недельная цель выполнена: ${goal} из ${goal}!`), 900);
 }
@@ -2086,6 +2264,7 @@ const HB_EMO = ['🚭', '🍺', '🍬', '🍔', '📱', '🎮', '☕', '💪', '
 const MS_QUIT = [1, 3, 7, 14, 21, 30, 60, 90, 180, 365, 730];
 const MS_DAILY = [3, 7, 14, 21, 30, 60, 100, 180, 365];
 const findHabit = id => S.habits.find(h => h.id === id);
+const SPH = { body: '💪', mind: '🧠', both: '💪🧠' };
 const activeHabits = () => S.habits.filter(h => !h.archived);
 
 function quitStats(h) {
@@ -2119,7 +2298,7 @@ function habitCard(h) {
   if (h.type === 'quit') {
     const st = quitStats(h), ms = milestone(st.cur, MS_QUIT);
     return `<div class="card">
-      <div class="card-h"><span class="debt-name"><span class="emo">${h.emoji || '🚭'}</span>${esc(h.name)}</span><span class="tag">отказ</span></div>
+      <div class="card-h"><span class="debt-name"><span class="emo">${h.emoji || '🚭'}</span>${esc(h.name)}</span><span class="tag">${SPH[h.sphere || 'body']} · отказ</span></div>
       <div class="big hb-big">${st.cur} <small>${plural(st.cur, 'день', 'дня', 'дней')} без срыва</small></div>
       <div class="sbar thin"><i class="grn" style="width:${ms.p * 100}%"></i></div>
       <div class="legend"><span>${ms.next ? `до ${ms.next} ${plural(ms.next, 'дня', 'дней', 'дней')}: ещё ${ms.next - st.cur}` : 'все рубежи пройдены ✦'}</span><span>лучшее: ${st.best}</span></div>
@@ -2130,7 +2309,7 @@ function habitCard(h) {
   const st = dailyStats(h);
   const last14 = Array.from({ length: 14 }, (_, i) => addDays(dayKey(), i - 13));
   return `<div class="card">
-    <div class="card-h"><span class="debt-name"><span class="emo">${h.emoji || '✅'}</span>${esc(h.name)}</span><span class="tag">каждый день</span></div>
+    <div class="card-h"><span class="debt-name"><span class="emo">${h.emoji || '✅'}</span>${esc(h.name)}</span><span class="tag">${SPH[h.sphere || 'body']} · ежедневно</span></div>
     <div class="big hb-big">${st.cur ? '🔥 ' : ''}${st.cur} <small>${plural(st.cur, 'день', 'дня', 'дней')} подряд</small></div>
     <div class="days14">${last14.map(k => `<i class="${st.set.has(k) ? 'on' : ''} ${k === dayKey() ? 'today' : ''}" title="${shortDate(k)}"></i>`).join('')}</div>
     <div class="legend"><span>лучшая серия: ${st.best}</span><span>всего: ${st.total}</span></div>
@@ -2157,7 +2336,7 @@ function renderHabits() {
       <button class="btn block" style="margin-top:14px" data-hb="add">Добавить привычку</button></div>`;
   if (arch.length) h += `<details class="closed"><summary>Архив (${arch.length}) ▾</summary>${arch.map(x => `
       <div class="card arch-row" data-hb="more" data-id="${x.id}"><span>${x.emoji || ''} ${esc(x.name)}</span><span class="mono sub">${x.type === 'quit' ? 'отказ' : 'ежедневно'}</span></div>`).join('')}</details>`;
-  $('#habitsBox').innerHTML = h;
+  $('#habitsBox').innerHTML = medCardHtml() + h;
 }
 function renderTodayHabits() {
   const hs = activeHabits();
@@ -2195,7 +2374,9 @@ function toggleCheck(id, k, el) {
     vibrate(20);
     if (el && k === dayKey()) burstAt(el, '#ffb547', 12);
     const hit = MS_DAILY.find(m => before < m && st.cur >= m);
-    if (hit) { toast(`🔥 ${hit} ${plural(hit, 'день', 'дня', 'дней')} подряд: «${h.name}»!`); bigBurst('#ffb547'); }
+    react((h.sphere || 'body') === 'mind' ? 'mind' : 'aura');
+    if (h.sphere === 'both') react('mind');
+    if (hit) { toast(`🔥 ${hit} ${plural(hit, 'день', 'дня', 'дней')} подряд: «${h.name}»!`); bigBurst('#ffb547'); react('record'); }
     else if (k === dayKey()) toast(st.cur > 1 ? `Серия: ${st.cur} ${plural(st.cur, 'день', 'дня', 'дней')}` : 'Отмечено');
   }
 }
@@ -2207,14 +2388,14 @@ function checkMilestones() {
     if (reached > (h.celebrated || 0)) {
       const first = h.celebrated == null;
       h.celebrated = reached; save();
-      if (!first) { setTimeout(() => { toast(`✦ ${reached} ${plural(reached, 'день', 'дня', 'дней')} без срыва: «${h.name}»!`); bigBurst('#ffb547'); }, 700); return; }
+      if (!first) { setTimeout(() => { toast(`✦ ${reached} ${plural(reached, 'день', 'дня', 'дней')} без срыва: «${h.name}»!`); bigBurst('#ffb547'); react('record'); react('aura'); }, 700); return; }
     }
   }
 }
 
 function openHabitForm(id) {
   const h = id ? findHabit(id) : null;
-  let type = h ? h.type : 'quit', emoji = h ? h.emoji : '🚭', first = true;
+  let type = h ? h.type : 'quit', emoji = h ? h.emoji : '🚭', sphere = h ? (h.sphere || 'body') : 'body', first = true;
   const draw = () => {
     const keep = !first && $('#hfName') ? { name: $('#hfName').value, start: $('#hfStart') ? $('#hfStart').value : null, cost: $('#hfCost') ? $('#hfCost').value : '' } : null;
     const name = keep ? keep.name : h ? h.name : '';
@@ -2226,6 +2407,9 @@ function openHabitForm(id) {
       <p class="op-type" style="margin-bottom:14px">${type === 'quit' ? 'Считает дни без срыва: курение, алкоголь, сладкое, соцсети' : 'Серия дней подряд: чтение, растяжка, практика, ранний подъём'}</p>`}
       <div class="field"><label>Название</label><input id="hfName" class="txt" maxlength="40" placeholder="${type === 'quit' ? 'Не курю' : 'Читаю 20 минут'}" value="${esc(name)}"></div>
       <div class="emo-pick">${HB_EMO.map(x => `<button data-he="${x}" class="${x === emoji ? 'on' : ''}">${x}</button>`).join('')}</div>
+      <div class="field" style="margin-bottom:6px"><label>Сфера</label></div>
+      <div class="stabs">${[['body', '💪 Физическая'], ['mind', '🧠 Ментальная'], ['both', 'Обе']].map(([k, l]) => `<button data-hs="${k}" class="${k === sphere ? 'on' : ''}">${l}</button>`).join('')}</div>
+      <p class="op-type" style="margin:-2px 0 14px">${sphere === 'body' ? 'Питает ауру вокруг тела' : sphere === 'mind' ? 'Питает ореол вокруг головы, вместе с медитацией' : 'Питает и ауру тела, и ореол разума'}</p>
       ${type === 'quit' ? `
         <div class="field"><label>Без срыва с</label><input id="hfStart" type="date" value="${start}" max="${dayKey()}"></div>
         <div class="field"><label>Экономия в день (необязательно)</label><input id="hfCost" inputmode="numeric" data-money placeholder="1 500" value="${cost}"><span class="u">₸</span></div>` : ''}
@@ -2234,6 +2418,7 @@ function openHabitForm(id) {
     first = false;
     sheetHandler = ev => {
       const t = ev.target.closest('[data-ht]'); if (t) { type = t.dataset.ht; if (!h) emoji = type === 'quit' ? '🚭' : '📖'; draw(); return; }
+      const hsb = ev.target.closest('[data-hs]'); if (hsb) { sphere = hsb.dataset.hs; draw(); return; }
       const em = ev.target.closest('[data-he]'); if (em) { emoji = em.dataset.he; $$('.emo-pick button').forEach(b => b.classList.toggle('on', b === em)); }
     };
     $('#hfOk').onclick = () => {
@@ -2243,10 +2428,10 @@ function openHabitForm(id) {
       if (st && st > dayKey()) { toast('Дата не может быть в будущем'); return; }
       const c = $('#hfCost') ? parseMoney($('#hfCost').value) : null;
       if (h) {
-        Object.assign(h, { name: nm, emoji });
+        Object.assign(h, { name: nm, emoji, sphere });
         if (h.type === 'quit') { h.start = st; h.cost = c || 0; h.relapses = (h.relapses || []).filter(r => r.date >= st); }
       } else {
-        const nh = { id: uid(), name: nm, type, emoji, createdAt: new Date().toISOString(), archived: false };
+        const nh = { id: uid(), name: nm, type, emoji, sphere, createdAt: new Date().toISOString(), archived: false };
         if (type === 'quit') Object.assign(nh, { start: st, cost: c || 0, relapses: [] });
         else nh.checks = [];
         // уже пройденные рубежи при старте в прошлом не празднуем
@@ -2276,6 +2461,7 @@ function openRelapse(id) {
     h.celebrated = 0;
     save(); closeSheet(); renderAll(); vibrate(40);
     toast('Записано. Новый отсчёт начался — ты справишься');
+    react('relapse');
   };
 }
 
@@ -2328,6 +2514,648 @@ function openHabitDetail(id) {
   };
 }
 
+/* ======================= дневник дня ======================= */
+// Сон, отбой и батарея пишутся в утро (день, когда проснулся). Шаги — в день, когда прошёл.
+const dayRec = k => S.days[k] || null;
+const hm = min => `${Math.floor(min / 60)}:${pad(Math.round(min % 60))}`;
+function parseHM(v) {
+  v = String(v).trim(); if (!v) return null;
+  let h, m;
+  if (/[:.,\s]/.test(v)) { const [a, b] = v.split(/[:.,\s]/); h = +a; m = +(b || 0); }
+  else { const d = v.replace(/\D/g, ''); if (d.length <= 2) { h = +d; m = 0; } else { h = +d.slice(0, -2); m = +d.slice(-2); } }
+  if (!isFinite(h) || !isFinite(m) || m > 59 || h > 16) return null;
+  return h * 60 + m;
+}
+const bedMin = t => { if (!t) return null; const [h, m] = t.split(':').map(Number); let x = h * 60 + m; if (x < 12 * 60) x += 1440; return x; };
+const bedLate = t => bedMin(t) - bedMin(S.profile.bedGoal || '23:00');
+const bedLabel = x => { x = Math.round(x) % 1440; return `${pad(Math.floor(x / 60))}:${pad(x % 60)}`; };
+const stepsGoal = () => S.profile.stepsGoal || 20000;
+const yesterday = () => addDays(dayKey(), -1);
+const hasCheckin = k => !!(dayRec(k) && dayRec(k).ci);
+
+function bedStreak() {
+  let k = dayKey(), n = 0;
+  if (!(dayRec(k) && dayRec(k).bedtime)) k = addDays(k, -1);
+  while (dayRec(k) && dayRec(k).bedtime && bedLate(dayRec(k).bedtime) <= 0) { n++; k = addDays(k, -1); }
+  return n;
+}
+function stepsStreak() {
+  let k = yesterday(), n = 0;
+  if (dayRec(dayKey()) && dayRec(dayKey()).steps >= stepsGoal()) k = dayKey();
+  while (dayRec(k) && dayRec(k).steps >= stepsGoal()) { n++; k = addDays(k, -1); }
+  return n;
+}
+function recoveryParts(k = dayKey()) {
+  const r = dayRec(k); if (!r || !r.ci) return null;
+  const parts = [];
+  if (r.battery != null) parts.push(r.battery / 100);
+  if (r.sleepScore != null) parts.push(r.sleepScore / 100);
+  if (r.sleepMin != null) parts.push(clamp(r.sleepMin / 480));
+  if (r.bedtime) parts.push(clamp(1 - Math.max(0, bedLate(r.bedtime)) / 120));
+  return parts.length ? parts.reduce((a, b) => a + b, 0) / parts.length : null;
+}
+function stepsValue() {
+  const r = dayRec(yesterday());
+  return r && r.steps != null ? clamp(r.steps / stepsGoal()) : null;
+}
+
+/* ---------- медитация ---------- */
+const medLevel = () => S.profile.medLevel ?? 30;
+const medStep = () => S.profile.medStep ?? 60;
+const weekStart = k => { const d = fromKey(k); return addDays(k, -((d.getDay() + 6) % 7)); };
+const medOn = k => S.meditations.filter(m => m.date === k).reduce((s, m) => s + m.sec, 0);
+function medWeekDays(level = medLevel()) {
+  const w = weekStart(dayKey()); let n = 0;
+  for (let i = 0; i < 7; i++) if (medOn(addDays(w, i)) >= level) n++;
+  return n;
+}
+function medStreak() {
+  let k = dayKey(), n = 0;
+  if (!medOn(k)) k = addDays(k, -1);
+  while (medOn(k) > 0) { n++; k = addDays(k, -1); }
+  return n;
+}
+// лестница: за каждую полностью прошедшую неделю с 5+ днями на уровне — уровень растёт на шаг
+function medEvaluate() {
+  const cur = weekStart(dayKey());
+  if (!S.meta.medWeek) { S.meta.medWeek = cur; save(); return; }
+  let w = S.meta.medWeek, up = false;
+  while (w < cur) {
+    const lvl = medLevel(); let days = 0;
+    for (let i = 0; i < 7; i++) if (medOn(addDays(w, i)) >= lvl) days++;
+    const grow = days >= 5 && lvl < 3600;
+    S.meta.medLog = (S.meta.medLog || []).concat({ week: w, level: lvl, days, up: grow }).slice(-80);
+    if (grow) { S.profile.medLevel = Math.min(3600, lvl + medStep()); up = true; }
+    w = addDays(w, 7);
+  }
+  S.meta.medWeek = cur; save();
+  if (up) setTimeout(() => { toast(`🧘 Новый уровень медитации: ${secFmt(medLevel())}`); bigBurst('#b9a6ff'); }, 900);
+}
+function medEta() {
+  const lvl = medLevel(); if (lvl >= 3600) return null;
+  const weeks = Math.ceil((3600 - lvl) / medStep());
+  const d = new Date(fromKey(weekStart(dayKey())).getTime() + weeks * 7 * 864e5);
+  return { weeks, label: d.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }).replace(' г.', '') };
+}
+function mindProgress() {
+  const parts = [];
+  if (S.meditations.length) parts.push(clamp(medOn(dayKey()) / medLevel()));
+  const mh = sphereProgress('mind'); if (mh != null) parts.push(mh);
+  return parts.length ? parts.reduce((a, b) => a + b, 0) / parts.length : null;
+}
+function sphereProgress(sp) {
+  const hs = S.habits.filter(h => !h.archived && ((h.sphere || 'body') === sp || h.sphere === 'both'));
+  return hs.length ? clamp(hs.reduce((s, h) => s + habitValue(h), 0) / hs.length) : null;
+}
+function activityProgress() {
+  const tp = trainingProgress(), st = stepsValue();
+  if (!tp && st == null) return null;
+  const parts = [];
+  if (tp) parts.push([tp.p, .65]);
+  if (st != null) parts.push([st, .35]);
+  const W = parts.reduce((s, p) => s + p[1], 0);
+  return parts.reduce((s, p) => s + p[0] * p[1], 0) / W;
+}
+
+/* ---------- карточки ---------- */
+let diaryDay = null;
+function metricTile(l, v, unit, cls = '') {
+  return `<div class="metric ${cls}"><div class="l">${l}</div><div class="n">${v ?? '—'}${v != null && unit ? ` <small>${unit}</small>` : ''}</div></div>`;
+}
+function diaryCardHtml() {
+  const k = diaryDay || dayKey(), today = k === dayKey(), r = dayRec(k) || {};
+  const stepsRec = today ? dayRec(yesterday()) : r;
+  const steps = stepsRec && stepsRec.steps != null ? stepsRec.steps : null;
+  const late = r.bedtime ? bedLate(r.bedtime) : null;
+  const label = today ? 'Сегодня' : k === yesterday() ? 'Вчера' : fromKey(k).toLocaleDateString('ru-RU', { weekday: 'short', day: 'numeric', month: 'short' }).replace('.', '');
+  let h = `<div class="card">
+    <div class="card-h"><span class="card-t" style="color:#7fd8be">${ico('rec')}Дневник</span>
+      <div class="daynav"><button data-dy="prev" aria-label="Предыдущий день">‹</button><span>${label}</span><button data-dy="next" ${today ? 'disabled' : ''} aria-label="Следующий день">›</button></div></div>`;
+  if (!r.ci && today) {
+    h += `<p class="sub">Утренний чек-ин: сон, батарея и шаги за вчера. Секунд 20.</p>
+      <button class="btn block teal" style="margin-top:12px" data-dy="ci">Заполнить чек-ин</button>`;
+  } else {
+    h += `<div class="mgrid">
+      ${metricTile('Батарея', r.battery, '')}
+      ${metricTile('Сон', r.sleepScore, '/100')}
+      ${metricTile('Спал', r.sleepMin != null ? hm(r.sleepMin) : null, 'ч')}
+      ${metricTile('Отбой', r.bedtime || null, '', late == null ? '' : late <= 0 ? 'ok' : 'late')}
+      ${metricTile(today ? 'Шаги вчера' : 'Шаги', steps != null ? shortSteps(steps) : null, '', steps == null ? '' : steps >= stepsGoal() ? 'ok' : '')}
+      ${metricTile('Восст.', recoveryParts(k) != null ? Math.round(recoveryParts(k) * 100) : null, '%')}
+    </div>`;
+    if (late != null) h += `<p class="sub" style="margin-top:10px">${late <= 0 ? `Лёг вовремя ✦ серия ${bedStreak()}` : `Отбой позже цели на ${hm(late)}`}</p>`;
+    if (!today) h += daySummary(k);
+    h += `<button class="btn ghost block" style="margin-top:12px" data-dy="ci">${r.ci ? 'Изменить' : 'Заполнить'} данные дня</button>`;
+  }
+  return h + '</div>';
+}
+const shortSteps = n => n >= 1000 ? fmt(n / 1000, n % 1000 >= 100 ? 1 : 0) + 'K' : String(n);
+function daySummary(k) {
+  const items = [];
+  const ml = S.water.filter(w => w.day === k).reduce((s, w) => s + w.ml, 0);
+  if (ml) items.push(['💧', `Вода: ${fmt(ml)} мл`]);
+  for (const w of S.workouts.filter(w => w.date === k)) items.push(['🏋', `${esc(w.name)} · ${secFmt(w.dur)}`]);
+  const med = medOn(k); if (med) items.push(['🧘', `Медитация: ${secFmt(med)}`]);
+  const checked = S.habits.filter(h => h.type === 'daily' && (h.checks || []).includes(k));
+  if (checked.length) items.push(['🔥', checked.map(h => esc(h.name)).join(', ')]);
+  const rel = S.habits.filter(h => h.type === 'quit' && (h.relapses || []).some(r => r.date === k));
+  if (rel.length) items.push(['⚠️', 'Срыв: ' + rel.map(h => esc(h.name)).join(', ')]);
+  const wt = S.weights.find(w => w.date === k); if (wt) items.push(['⚖️', `Вес: ${kg(wt.kg)} кг`]);
+  let ret = 0, res = 0, sav = 0;
+  for (const d of S.debts) for (const o of d.ops) if (o.date === k) { if (o.type === 'return') ret += o.amount; if (o.type === 'reserve') res += o.amount; }
+  for (const g of S.savings) for (const o of g.ops) if (o.date === k && o.amount > 0) sav += o.amount;
+  if (ret) items.push(['💸', `Вернул долг: ${money(ret)}`]);
+  if (res) items.push(['🪙', `Отложил: ${money(res)}`]);
+  if (sav) items.push(['🏦', `В накопления: ${money(sav)}`]);
+  return items.length ? `<ul class="list day-sum">${items.map(([i, t]) => `<li><span class="emo">${i}</span><span class="grow">${t}</span></li>`).join('')}</ul>` : '<p class="sub" style="margin-top:10px">Других записей за этот день нет.</p>';
+}
+function onDiaryAct(e) {
+  const a = e.target.closest('[data-dy]'); if (!a || a.disabled) return;
+  const k = diaryDay || dayKey();
+  if (a.dataset.dy === 'prev') { diaryDay = addDays(k, -1); renderToday(); }
+  if (a.dataset.dy === 'next') { const n = addDays(k, 1); diaryDay = n >= dayKey() ? null : n; renderToday(); }
+  if (a.dataset.dy === 'ci') openCheckin(k);
+}
+
+/* ---------- утренний чек-ин ---------- */
+function lastRec(field) {
+  const keys = Object.keys(S.days).sort().reverse();
+  for (const k of keys) if (S.days[k][field] != null) return S.days[k][field];
+  return null;
+}
+function openCheckin(k = dayKey(), auto = false) {
+  const r = dayRec(k) || {}, today = k === dayKey(), prevK = addDays(k, -1), pr = dayRec(prevK) || {};
+  const bat = r.battery ?? lastRec('battery') ?? 60, sc = r.sleepScore ?? lastRec('sleepScore') ?? 70;
+  const hr = new Date().getHours();
+  openSheet(`
+    <h2>${today ? (hr < 12 ? 'Доброе утро ☀️' : 'Чек-ин дня') : 'Данные за ' + shortDate(k)}</h2>
+    <p class="sub">Данные из Garmin за прошедшую ночь${today ? ' и шаги за вчера' : ''}</p>
+    <div class="field"><label>Body battery утром <b class="rng-v" id="ciBatV">${bat}</b></label><input type="range" id="ciBat" min="0" max="100" value="${bat}" class="rng"></div>
+    <div class="field"><label>Качество сна <b class="rng-v" id="ciScV">${sc}</b></label><input type="range" id="ciSc" min="0" max="100" value="${sc}" class="rng"></div>
+    <div class="row">
+      <div class="field grow"><label>Спал, ч:мм</label><input id="ciSleep" inputmode="numeric" placeholder="7:30" value="${r.sleepMin != null ? hm(r.sleepMin) : ''}" style="font-size:20px;padding-right:14px"></div>
+      <div class="field grow"><label>Отбой</label><input id="ciBed" type="time" value="${r.bedtime || ''}" style="font-size:20px;padding-right:14px;color-scheme:dark"></div>
+    </div>
+    <div class="field"><label>Шаги за ${today ? 'вчера' : shortDate(prevK)}</label><input id="ciSteps" inputmode="numeric" data-money placeholder="${fmt(stepsGoal())}" value="${pr.steps != null ? fmt(pr.steps) : ''}"><span class="u">шаг</span></div>
+    <button class="btn teal block" id="ciOk">Сохранить</button>
+    ${auto ? '<button class="btn ghost block" style="margin-top:8px" id="ciSkip">Позже</button>' : ''}`);
+  sheetInput = ev => {
+    if (ev.target.id === 'ciBat') $('#ciBatV').textContent = ev.target.value;
+    if (ev.target.id === 'ciSc') $('#ciScV').textContent = ev.target.value;
+  };
+  if (auto) $('#ciSkip').onclick = () => { S.meta.ciSkip = dayKey(); save(); closeSheet(); };
+  $('#ciOk').onclick = () => {
+    const sl = $('#ciSleep').value.trim() ? parseHM($('#ciSleep').value) : null;
+    if ($('#ciSleep').value.trim() && sl == null) { toast('Формат сна: 7:30'); return shake($('#ciSleep')); }
+    const steps = $('#ciSteps').value.trim() ? parseMoney($('#ciSteps').value) : null;
+    if (steps != null && steps > 150000) return shake($('#ciSteps'));
+    const before = recoveryParts(k);
+    S.days[k] = { ...(S.days[k] || {}), ci: true, battery: +$('#ciBat').value, sleepScore: +$('#ciSc').value, sleepMin: sl, bedtime: $('#ciBed').value || null };
+    if (steps != null) S.days[prevK] = { ...(S.days[prevK] || {}), steps };
+    save(); closeSheet(); renderAll(); vibrate(15);
+    const late = S.days[k].bedtime ? bedLate(S.days[k].bedtime) : null;
+    const msgs = [];
+    if (late != null && late <= 0) msgs.push(`отбой вовремя · серия ${bedStreak()}`);
+    if (steps != null && steps >= stepsGoal()) msgs.push(`${shortSteps(steps)} шагов ✦`);
+    toast(msgs.length ? 'Записано: ' + msgs.join(', ') : 'Чек-ин записан');
+    react('checkin');
+    if (before == null) burstAt($('#stage'), '#7fd8be', 14);
+  };
+}
+function maybeAutoCheckin() {
+  const k = dayKey();
+  if (!S.profile.onboarded || hasCheckin(k) || S.meta.ciSkip === k || new Date().getHours() < 4) return;
+  if ($('#onb').classList.contains('open') || $('#wo').classList.contains('open') || $('#med').classList.contains('open') || $('#sheet').classList.contains('open')) return;
+  setTimeout(() => { if (!$('#sheet').classList.contains('open')) openCheckin(k, true); }, 700);
+}
+
+/* ---------- вкладка «Дневник» в разделе «Тело» ---------- */
+function avg(a) { return a.length ? a.reduce((s, x) => s + x, 0) / a.length : null; }
+function seriesFor(field, days = 30, map = x => x) {
+  const out = [];
+  for (let i = days - 1; i >= 0; i--) { const k = addDays(dayKey(), -i), r = dayRec(k); if (r && r[field] != null) out.push({ k, v: map(r[field]) }); }
+  return out;
+}
+function chartBlock(title, ser, color, goal, fmtV, invertNote) {
+  if (ser.length < 2) return `<div class="dchart"><div class="card-t">${title}</div><p class="sub" style="margin-top:6px">Нужно хотя бы 2 дня данных</p></div>`;
+  const vals = ser.map(s => s.v);
+  return `<div class="dchart"><div class="card-h" style="margin-bottom:0"><span class="card-t">${title}</span><span class="sub mono">ср. ${fmtV(avg(vals))}${goal != null ? ` · цель ${fmtV(goal)}` : ''}</span></div>
+    ${miniLine(vals, color, goal)}
+    <div class="bar-meta"><span>${shortDate(ser[0].k)}</span>${invertNote ? `<span>${invertNote}</span>` : ''}<span>${shortDate(ser[ser.length - 1].k)}</span></div></div>`;
+}
+function renderDiaryTab() {
+  const last7 = k => { const a = []; for (let i = 0; i < 7; i++) { const r = dayRec(addDays(dayKey(), -i)); if (r && r[k] != null) a.push(k === 'bedtime' ? bedMin(r[k]) : r[k]); } return a; };
+  const bat = avg(last7('battery')), sc = avg(last7('sleepScore')), sl = avg(last7('sleepMin')), bd = avg(last7('bedtime'));
+  const stp = (() => { const a = []; for (let i = 1; i <= 7; i++) { const r = dayRec(addDays(dayKey(), -i)); if (r && r.steps != null) a.push(r.steps); } return avg(a); })();
+  let h = `<div class="card">
+    <div class="card-h"><span class="card-t">Среднее за 7 дней</span><button class="link" data-dy="ci">чек-ин</button></div>
+    <div class="mgrid">
+      ${metricTile('Батарея', bat != null ? Math.round(bat) : null, '')}
+      ${metricTile('Сон', sc != null ? Math.round(sc) : null, '/100')}
+      ${metricTile('Спал', sl != null ? hm(sl) : null, 'ч')}
+      ${metricTile('Отбой', bd != null ? bedLabel(bd) : null, '', bd == null ? '' : bd <= bedMin(S.profile.bedGoal || '23:00') ? 'ok' : 'late')}
+      ${metricTile('Шаги', stp != null ? shortSteps(Math.round(stp)) : null, '', stp != null && stp >= stepsGoal() ? 'ok' : '')}
+      ${metricTile('Серия отбоя', bedStreak(), 'дн')}
+    </div>
+    <p class="sub" style="margin-top:10px">Цели: отбой до ${S.profile.bedGoal || '23:00'}, шаги от ${fmt(stepsGoal())}. Серия шагов: ${stepsStreak()} дн.</p>
+  </div>
+  <div class="card">
+    ${chartBlock('Body battery', seriesFor('battery'), '#7fd8be', null, v => Math.round(v))}
+    ${chartBlock('Качество сна', seriesFor('sleepScore'), '#b9a6ff', null, v => Math.round(v))}
+    ${chartBlock('Длительность сна', seriesFor('sleepMin'), '#38d9ff', 480, v => hm(v))}
+    ${chartBlock('Время отбоя', seriesFor('bedtime', 30, bedMin), '#ffb547', bedMin(S.profile.bedGoal || '23:00'), v => bedLabel(v), 'выше = позже')}
+    ${chartBlock('Шаги', seriesFor('steps'), '#3ee08f', stepsGoal(), v => shortSteps(Math.round(v)))}
+  </div>`;
+  const rows = [];
+  for (let i = 0; i < 21; i++) {
+    const k = addDays(dayKey(), -i), r = dayRec(k); if (!r) continue;
+    const late = r.bedtime ? bedLate(r.bedtime) : null;
+    rows.push(`<li data-dk="${k}" class="ex-row"><span class="d" style="width:52px">${shortDate(k)}</span>
+      <span class="drow grow"><span>🔋${r.battery ?? '—'}</span><span>😴${r.sleepScore ?? '—'}</span><span>${r.sleepMin != null ? hm(r.sleepMin) : '—'}</span>
+      <span class="${late == null ? '' : late <= 0 ? 'okc' : 'latec'}">${r.bedtime || '—'}</span><span>👣${r.steps != null ? shortSteps(r.steps) : '—'}</span></span></li>`);
+  }
+  if (rows.length) h += `<div class="sec-h"><h2>По дням</h2></div><div class="card" style="padding:4px 14px"><ul class="list">${rows.join('')}</ul></div>`;
+  $('#bodyDiary').innerHTML = h;
+}
+
+/* ---------- медитация: карточка ---------- */
+function medCardHtml() {
+  const lvl = medLevel(), t = medOn(dayKey()), wd = medWeekDays(), eta = medEta(), st = medStreak(), A = S.activeMed;
+  return `<div class="card med-card">
+    <div class="card-h"><span class="card-t" style="color:#b9a6ff">${ico('mind')}Медитация</span><span class="tag vio">уровень ${secFmt(lvl)}</span></div>
+    <div class="big">${secFmt(t)} <small>/ ${secFmt(lvl)} сегодня${t >= lvl ? ' ✦' : ''}</small></div>
+    <div class="sbar thin"><i class="vio" style="width:${clamp(t / lvl) * 100}%"></i></div>
+    <div class="legend"><span>неделя: ${wd}/5 дней на уровне${wd >= 5 ? ' → уровень вырастет ✦' : ''}</span>${st ? `<span>серия ${st}</span>` : ''}</div>
+    <div class="plan">${eta ? `До часа: <b>${eta.weeks}</b> ${plural(eta.weeks, 'неделя', 'недели', 'недель')} при регулярной практике · ≈ ${eta.label}` : 'Час медитации достигнут ✦'}</div>
+    <div class="acts"><button class="btn vio" data-md="start">${A ? '▶ Продолжить' : `Начать · ${secFmt(lvl)}`}</button><button class="btn ghost more" data-md="more" aria-label="Подробнее">${ico('more')}</button></div>
+  </div>`;
+}
+function onMedAct(e) {
+  const a = e.target.closest('[data-md]'); if (!a) return;
+  if (a.dataset.md === 'start') openMed();
+  if (a.dataset.md === 'more') openMedDetail();
+}
+
+/* ---------- медитация: сессия ---------- */
+let medTick = 0;
+function gong(strong) {
+  if (!actx) return;
+  try {
+    const t = actx.currentTime, len = strong ? 7 : 4.5;
+    [[196, 1], [392.5, .5], [589, .28], [786, .16], [1183, .08]].forEach(([f, a]) => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.32 * a, t + .015); g.gain.exponentialRampToValueAtTime(.0005, t + len * (1 - a * .3));
+      o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + len + .1);
+    });
+  } catch (e) {}
+}
+const softBell = () => beep(1318, 1.4, .07);
+function openMed() {
+  audioUnlock();
+  if (!S.activeMed) { S.activeMed = { startTs: Date.now(), target: medLevel(), gonged: false, bells: 0 }; save(); setTimeout(() => gong(false), 80); }
+  keepAwake(true);
+  $('#med').classList.add('open'); document.body.style.overflow = 'hidden'; document.body.classList.add('wo-open');
+  renderMed(); clearInterval(medTick); medTick = setInterval(tickMed, 250);
+  renderCharacter();
+}
+function closeMed() {
+  $('#med').classList.remove('open'); document.body.style.overflow = ''; document.body.classList.remove('wo-open');
+  clearInterval(medTick); medTick = 0; keepAwake(false); renderCharacter();
+}
+function renderMed() {
+  const A = S.activeMed; if (!A) return closeMed();
+  const hide = !!S.profile.medHide, bell = S.profile.medBell || 0;
+  $('#med').innerHTML = `
+    <div class="med-top"><span class="sub mono">цель ${secFmt(A.target)}</span><span class="grow"></span>
+      <button class="link" data-mm="hide">${hide ? 'показать время' : 'скрыть время'}</button></div>
+    <div class="med-mid">
+      <div class="med-orb"><div class="med-ring"></div><div class="med-core"></div></div>
+      <div class="med-time ${hide ? 'hidden' : ''}" id="mdT">0:00</div>
+      <div class="med-lbl" id="mdL">${A.gonged ? 'Цель достигнута. Можно продолжать' : 'Вдох… выдох… просто наблюдай'}</div>
+    </div>
+    <div class="med-bot">
+      <div class="seg-row"><span class="sub">колокольчик</span>${[0, 60, 300, 600].map(v => `<button class="mini-chip ${v === bell ? 'on' : ''}" data-mb="${v}">${v ? (v / 60) + ' мин' : 'нет'}</button>`).join('')}</div>
+      <button class="btn vio block" data-mm="finish">Завершить</button>
+      <button class="link" style="display:block;margin:12px auto 0" data-mm="cancel">отменить без сохранения</button>
+    </div>`;
+  tickMed();
+}
+function tickMed() {
+  const A = S.activeMed; if (!A) return;
+  const el = (Date.now() - A.startTs) / 1000;
+  const t = $('#mdT'); if (t) t.textContent = secFmt(el);
+  const bell = S.profile.medBell || 0;
+  if (bell && el < A.target) { const n = Math.floor(el / bell); if (n > (A.bells || 0)) { A.bells = n; softBell(); save(); } }
+  if (!A.gonged && el >= A.target) {
+    A.gonged = true; save(); gong(true); vibrate([300, 150, 300]);
+    const l = $('#mdL'); if (l) l.textContent = 'Цель достигнута. Можно продолжать';
+    $('#med').classList.add('reached');
+  }
+}
+function onMedOverlay(e) {
+  const b = e.target.closest('[data-mm],[data-mb]'); if (!b) return;
+  if (b.dataset.mb != null) { S.profile.medBell = +b.dataset.mb; save(); renderMed(); return; }
+  const a = b.dataset.mm;
+  if (a === 'hide') { S.profile.medHide = !S.profile.medHide; save(); renderMed(); }
+  if (a === 'cancel' && confirm('Отменить медитацию без сохранения?')) { S.activeMed = null; save(); $('#med').classList.remove('reached'); closeMed(); renderAll(); }
+  if (a === 'finish') finishMed();
+}
+function finishMed(manual) {
+  const A = S.activeMed; if (!A) return;
+  const sec = Math.round((Date.now() - A.startTs) / 1000);
+  if (sec < 10 && !confirm('Меньше 10 секунд. Всё равно сохранить?')) return;
+  const beforeDay = medOn(dayKey());
+  S.meditations.push({ id: uid(), date: dayKey(new Date(A.startTs)), ts: new Date(A.startTs).toISOString(), sec, planned: A.target });
+  S.activeMed = null; save();
+  $('#med').classList.remove('reached'); closeMed(); renderAll();
+  medDone(beforeDay, sec);
+}
+function medDone(beforeDay, sec) {
+  const lvl = medLevel(), now = medOn(dayKey());
+  if (beforeDay < lvl && now >= lvl) { toast(`🧘 ${secFmt(sec)} · норма дня выполнена`); bigBurst('#b9a6ff'); }
+  else toast(`🧘 Записано: ${secFmt(sec)}`);
+  if (typeof react === 'function') react('mind', sec / Math.max(30, lvl));
+}
+function openMedManual() {
+  openSheet(`
+    <h2>Записать медитацию</h2><p class="sub">Если медитировали без таймера</p>
+    <div class="field"><label>Длительность, мин или мин:сек</label><input id="mmDur" inputmode="numeric" placeholder="${secFmt(medLevel())}"></div>
+    <div class="field"><label>Дата</label><input id="mmDate" type="date" value="${dayKey()}" max="${dayKey()}"></div>
+    <button class="btn vio block" id="mmOk">Сохранить</button>`);
+  setTimeout(() => $('#mmDur').focus(), 250);
+  const ok = () => {
+    const v = $('#mmDur').value.trim();
+    let sec = null;
+    if (/[:.]/.test(v)) { const [m, s] = v.split(/[:.]/).map(Number); if (isFinite(m) && isFinite(s) && s < 60) sec = m * 60 + s; }
+    else if (num(v) != null) sec = Math.round(num(v) * 60);
+    if (!sec || sec <= 0 || sec > 6 * 3600) return shake($('#mmDur'));
+    const date = $('#mmDate').value || dayKey(), beforeDay = medOn(dayKey());
+    S.meditations.push({ id: uid(), date, ts: new Date().toISOString(), sec, planned: medLevel(), manual: true });
+    save(); closeSheet(); renderAll();
+    if (date === dayKey()) medDone(beforeDay, sec); else toast(`Записано: ${secFmt(sec)} за ${shortDate(date)}`);
+  };
+  $('#mmOk').onclick = ok; $('#mmDur').onkeydown = e => { if (e.key === 'Enter') ok(); };
+}
+function openMedDetail() {
+  const ms = [...S.meditations].sort((a, b) => a.ts < b.ts ? 1 : -1);
+  const total = ms.reduce((s, m) => s + m.sec, 0), best = ms.reduce((b, m) => Math.max(b, m.sec), 0);
+  const byDay = {}; for (const m of S.meditations) byDay[m.date] = (byDay[m.date] || 0) + m.sec;
+  const daysSorted = Object.keys(byDay).sort().slice(-30);
+  const log = (S.meta.medLog || []).slice(-8).reverse();
+  openSheet(`
+    <h2>🧘 Медитация</h2><p class="sub">Уровень ${secFmt(medLevel())} · шаг +${secFmt(medStep())} в неделю · цель 60:00</p>
+    <div class="sum3">
+      <div class="metric"><div class="l">Серия</div><div class="n">${medStreak()}</div></div>
+      <div class="metric"><div class="l">Всего</div><div class="n">${Math.round(total / 60)} <small>мин</small></div></div>
+      <div class="metric"><div class="l">Рекорд</div><div class="n">${secFmt(best)}</div></div>
+    </div>
+    <div class="ladder">${[0, .25, .5, .75, 1].map(f => `<span>${secFmt(f * 3600)}</span>`).join('')}<i style="width:${clamp(medLevel() / 3600) * 100}%"></i></div>
+    ${daysSorted.length >= 2 ? `<div class="card-t" style="margin:16px 0 0">Минут в день</div>${miniLine(daysSorted.map(k => Math.round(byDay[k] / 6) / 10), '#b9a6ff', medLevel() / 60)}` : ''}
+    ${log.length ? `<div class="card-t" style="margin:14px 0 2px">Недели</div><ul class="list">${log.map(l => `<li><span class="d">с ${shortDate(l.week)}</span><span class="grow"></span><span class="mono" style="font-size:13px">${secFmt(l.level)} · ${l.days}/5</span><span class="cmp ${l.up ? 'up' : 'same'}">${l.up ? '▲ рост' : '='}</span></li>`).join('')}</ul>` : ''}
+    <div class="card-t" style="margin:14px 0 2px">Сессии</div>
+    ${ms.length ? `<ul class="list">${ms.slice(0, 30).map(m => `<li><div><div class="mono" style="font-size:14px;font-weight:700">${secFmt(m.sec)}</div><div class="d">${shortDate(m.date)}${m.manual ? ' · вручную' : ''}</div></div><span class="grow"></span>${m.sec >= m.planned ? '<span class="cmp up">✦ цель</span>' : ''}<button class="x" data-delmd="${m.id}" aria-label="Удалить">×</button></li>`).join('')}</ul>` : '<p class="sub">Пока нет сессий.</p>'}
+    <div class="row" style="margin-top:14px"><button class="btn ghost" data-mdd="manual">+ Вручную</button><button class="btn ghost" data-mdd="settings">Настройки</button></div>`);
+  sheetHandler = ev => {
+    const d = ev.target.closest('[data-delmd]');
+    if (d && confirm('Удалить эту сессию?')) { S.meditations = S.meditations.filter(m => m.id !== d.dataset.delmd); save(); renderAll(); openMedDetail(); return; }
+    const a = ev.target.closest('[data-mdd]'); if (!a) return;
+    if (a.dataset.mdd === 'manual') openMedManual();
+    if (a.dataset.mdd === 'settings') { closeSheet(); go('more'); setTimeout(() => $('#medSettings').scrollIntoView({ behavior: 'smooth' }), 100); }
+  };
+}
+
+/* ======================= XP и уровни ======================= */
+// XP не копится по событиям, а пересчитывается из данных: удалил запись — очки ушли, накрутить нельзя.
+const XP_CATS = [
+  ['water', '💧', 'Вода', '2 XP за 250 мл (до нормы), +20 за норму дня'],
+  ['money', '💸', 'Деньги', '1 XP за каждые 1 000 ₸ возврата, 0,5 за отложенное и накопленное, +300 за закрытый долг, +200 за цель'],
+  ['train', '🏋', 'Тренировки', '40 за тренировку, +2 за подход, +50 за выполненную недельную цель'],
+  ['body', '⚖️', 'Вес', '5 за взвешивание, до 300 за путь к цели'],
+  ['mind', '🧘', 'Медитация', '1 XP за минуту, +10 за норму дня'],
+  ['habits', '🔥', 'Привычки', '5 за отметку, 3 за каждый чистый день отказа'],
+  ['diary', '🔋', 'Дневник', '10 за чек-ин, +10 за отбой вовремя, +15 за цель шагов']
+];
+const LV_TITLES = [[1, 'Новичок'], [3, 'Ученик'], [5, 'Практик'], [8, 'Адепт'], [12, 'Мастер'], [17, 'Воин'], [23, 'Мудрец'], [30, 'Легенда'], [40, 'Просветлённый']];
+function xpBreakdown() {
+  const c = { water: 0, money: 0, train: 0, body: 0, mind: 0, habits: 0, diary: 0 };
+  const wg = S.profile.waterGoal || 3000, wd = {};
+  for (const w of S.water) wd[w.day] = (wd[w.day] || 0) + w.ml;
+  for (const ml of Object.values(wd)) c.water += Math.floor(Math.min(ml, wg) / 250) * 2 + (ml >= wg ? 20 : 0);
+  for (const d of S.debts) { const st = debtStats(d); c.money += Math.round(st.returned / 1000 + st.reserved / 2000) + (st.done ? 300 : 0); }
+  for (const g of S.savings) { const st = goalStats(g); c.money += Math.round(st.saved / 2000) + (st.done ? 200 : 0); }
+  const weeks = {};
+  for (const w of S.workouts) { c.train += 40 + w.ex.reduce((s, e) => s + e.sets.length, 0) * 2; const wk = weekStart(w.date); weeks[wk] = (weeks[wk] || 0) + 1; }
+  for (const n of Object.values(weeks)) if (n >= (S.profile.weeklyWorkouts || 3)) c.train += 50;
+  c.body += S.weights.length * 5 + Math.round((weightProgress() || 0) * 300);
+  const md = {};
+  for (const m of S.meditations) { const o = md[m.date] || (md[m.date] = { sec: 0, plan: 0 }); o.sec += m.sec; o.plan = Math.max(o.plan, m.planned || 0); }
+  for (const o of Object.values(md)) c.mind += Math.round(o.sec / 60) + (o.plan && o.sec >= o.plan ? 10 : 0);
+  for (const h of S.habits) c.habits += h.type === 'daily' ? (h.checks || []).length * 5 : quitStats(h).clean * 3;
+  for (const r of Object.values(S.days)) {
+    if (r.ci) c.diary += 10;
+    if (r.bedtime && bedLate(r.bedtime) <= 0) c.diary += 10;
+    if (r.steps != null && r.steps >= stepsGoal()) c.diary += 15;
+  }
+  return c;
+}
+const xpTotal = () => Object.values(xpBreakdown()).reduce((a, b) => a + b, 0);
+function levelInfo(xp) {
+  let lv = 1, need = 100, acc = 0;
+  while (xp >= acc + need) { acc += need; lv++; need = 100 + (lv - 1) * 50; }
+  return { lv, into: xp - acc, need, title: LV_TITLES.filter(t => t[0] <= lv).pop()[1] };
+}
+function renderLevel() {
+  const L = levelInfo(xpTotal());
+  $('#lvN').textContent = L.lv;
+  $('#lvT').textContent = L.title;
+  $('#lvI').style.width = (L.into / L.need * 100) + '%';
+  $('#lvX').textContent = `${fmt(L.into)} / ${fmt(L.need)} XP`;
+}
+function checkXp() {
+  const xp = xpTotal(), L = levelInfo(xp);
+  if (S.meta.xpSeen == null) { S.meta.xpSeen = xp; S.meta.lvSeen = L.lv; save(); renderLevel(); return; }
+  const gain = xp - S.meta.xpSeen;
+  if (gain > 0) {
+    enqueue(() => floatXp(gain));
+    if (L.lv > (S.meta.lvSeen || 1)) {
+      const lv = L.lv, title = L.title, newTitle = LV_TITLES.some(t => t[0] === lv);
+      enqueue(() => { react('levelup'); toast(`⬆ Уровень ${lv}${newTitle ? ` · новое звание «${title}»` : ''}!`); });
+    }
+  }
+  if (xp !== S.meta.xpSeen || L.lv !== S.meta.lvSeen) { S.meta.xpSeen = xp; S.meta.lvSeen = Math.max(L.lv, gain >= 0 ? L.lv : 0); save(); }
+  renderLevel();
+}
+function openXpSheet() {
+  const c = xpBreakdown(), xp = xpTotal(), L = levelInfo(xp);
+  const next = LV_TITLES.find(t => t[0] > L.lv);
+  openSheet(`
+    <h2>Уровень ${L.lv} · ${L.title}</h2>
+    <p class="sub">Всего ${fmt(xp)} XP · до следующего уровня ${fmt(L.need - L.into)}${next ? ` · звание «${next[1]}» на ${next[0]} уровне` : ''}</p>
+    <div class="lv-bar big"><i style="width:${L.into / L.need * 100}%"></i></div>
+    <ul class="list xp-list">${XP_CATS.map(([k, e, n, how]) => `
+      <li><span class="emo">${e}</span><div class="grow"><div style="font-size:14px;font-weight:600">${n}</div><div class="d">${how}</div></div><span class="v">${fmt(c[k])}</span></li>`).join('')}
+    </ul>
+    <p class="sub" style="margin-top:12px;font-size:12px">Очки считаются по вашим данным. Удалили запись, и её XP пропадают, так что всё честно.</p>
+    <button class="btn ghost block" style="margin-top:12px" data-close>Понятно</button>`);
+}
+
+/* ======================= тамагочи ======================= */
+// Пропущенный день = полный день без единой записи. Сегодняшний не считается, пока не закончился.
+function lastEntryDay() {
+  const today = dayKey();
+  let m = dayKey(new Date(S.profile.createdAt || Date.now()));
+  const up = k => { if (k && k > m && k <= today) m = k; };
+  S.water.forEach(w => up(w.day)); S.weights.forEach(w => up(w.date));
+  S.debts.forEach(d => { up(dayKey(new Date(d.createdAt))); d.ops.forEach(o => up(o.date)); });
+  S.savings.forEach(g => (g.ops || []).forEach(o => up(o.date)));
+  S.workouts.forEach(w => up(w.date)); S.meditations.forEach(x => up(x.date));
+  S.habits.forEach(h => { (h.checks || []).forEach(up); (h.relapses || []).forEach(r => up(r.date)); if (h.createdAt) up(dayKey(new Date(h.createdAt))); });
+  Object.keys(S.days).forEach(k => { if (S.days[k].ci) up(k); });
+  return m;
+}
+const neglectDays = () => Math.max(0, dayDiff(lastEntryDay(), dayKey()) - 1);
+const neglectStage = () => { const n = neglectDays(); return n >= 4 ? 3 : n >= 2 ? 2 : n >= 1 ? 1 : 0; };
+let lastStage = null;
+function renderNeglect(st, headY) {
+  $('#hero').classList.remove('st-1', 'st-2', 'st-3');
+  if (st) $('#hero').classList.add('st-' + st);
+  $('#decay').setAttribute('opacity', st >= 2 ? 1 : 0);
+  $('#blotches').setAttribute('opacity', st >= 2 ? (st === 3 ? .6 : .45) : 0);
+  $('#stitches').setAttribute('opacity', st === 3 ? .85 : 0);
+  $('#zTint').setAttribute('opacity', st === 3 ? .5 : 0);
+  $('#zzz').setAttribute('opacity', st === 1 || st === 2 ? 1 : 0);
+  $('#zzz').setAttribute('transform', `translate(0 ${r1(headY - 46)})`);
+  $('#flies').setAttribute('opacity', st >= 2 ? .9 : 0);
+  $('#flies').setAttribute('transform', `translate(${100 + (st >= 2 ? 6 : 0)} ${r1(headY - 4)})`);
+  if (lastStage != null && lastStage > 0 && st === 0) { react('revive'); setTimeout(() => toast('✦ Персонаж ожил! Спасибо, что вернулся'), 300); }
+  lastStage = st;
+}
+
+/* ======================= реакции персонажа ======================= */
+// Реакция играется сразу, если персонаж на экране; иначе ждёт, пока вы его увидите.
+const rq = [];
+let rqBusy = false;
+function stageVisible() {
+  if (screen !== 'today' || document.hidden || $('#sheet').classList.contains('open') || $('#wo').classList.contains('open') || $('#med').classList.contains('open')) return false;
+  const r = $('#stage').getBoundingClientRect();
+  return r.bottom > 80 && r.top < innerHeight - 80;
+}
+function enqueue(fn) { rq.push(fn); flushReactions(); }
+function flushReactions() {
+  if (rqBusy || !rq.length || !stageVisible()) return;
+  rqBusy = true;
+  const fn = rq.shift();
+  try { fn(); } catch (e) {}
+  setTimeout(() => { rqBusy = false; flushReactions(); }, 900);
+}
+setInterval(flushReactions, 700);
+window.addEventListener('scroll', () => flushReactions(), { passive: true });
+
+let figState = { build: null, slump: .35 };
+function react(type, strength = 1) { enqueue(() => playReaction(type, clamp(strength, .3, 3))); }
+const anim = (el, frames, opt) => { try { return el && el.animate(frames, opt); } catch (e) {} };
+function jump(h = 14, dur = 700) {
+  anim($('#figJump'), [{ transform: 'translateY(0) scale(1,1)' }, { transform: 'translateY(4px) scale(1.04,.94)', offset: .15 },
+    { transform: `translateY(-${h}px) scale(.97,1.04)`, offset: .45 }, { transform: 'translateY(2px) scale(1.03,.97)', offset: .8 }, { transform: 'translateY(0) scale(1,1)' }],
+    { duration: dur, easing: 'ease-out' });
+}
+function flash(color, peak = .55, dur = 900) {
+  const f = $('#flashR'); f.setAttribute('fill', color);
+  anim(f, [{ opacity: 0 }, { opacity: peak, offset: .25 }, { opacity: 0 }], { duration: dur, easing: 'ease-out' });
+}
+function bubbles(n) {
+  const g = $('#bubbles'), NS2 = 'http://www.w3.org/2000/svg';
+  for (let i = 0; i < n; i++) {
+    const c = document.createElementNS(NS2, 'circle');
+    const x = 72 + Math.random() * 56, r = 1.5 + Math.random() * 3;
+    c.setAttribute('cx', r1(x)); c.setAttribute('cy', 296); c.setAttribute('r', r1(r));
+    c.setAttribute('fill', '#e9fdff'); c.setAttribute('fill-opacity', '.85');
+    g.appendChild(c);
+    const a = anim(c, [{ transform: 'translate(0,0)', opacity: 0 }, { opacity: 1, offset: .15 },
+      { transform: `translate(${r1((Math.random() - .5) * 18)}px,-${r1(120 + Math.random() * 120)}px)`, opacity: 0 }],
+      { duration: 1100 + Math.random() * 900, delay: i * 60, easing: 'ease-out', fill: 'forwards' });
+    if (a) a.onfinish = () => c.remove(); else setTimeout(() => c.remove(), 2500);
+  }
+}
+function flare(el, peak = 1, scale = 1.18, dur = 1400) {
+  if (!el) return;
+  const base = +(el.getAttribute('opacity') || 0);
+  anim(el, [{ opacity: base, transform: 'scale(1)' }, { opacity: peak, transform: `scale(${scale})`, offset: .35 }, { opacity: base, transform: 'scale(1)' }],
+    { duration: dur, easing: 'ease-out' });
+}
+function stagePoint(fx, fy) { const r = $('#hero').getBoundingClientRect(); return [r.left + r.width * fx, r.top + r.height * fy]; }
+function floatXp(n) {
+  const r = $('#stage').getBoundingClientRect();
+  const el = document.createElement('div');
+  el.className = 'xp-float'; el.textContent = `+${fmt(n)} XP`;
+  el.style.left = (r.left + r.width / 2) + 'px'; el.style.top = (r.top + r.height * .32) + 'px';
+  document.body.appendChild(el);
+  const a = el.animate([{ transform: 'translate(-50%,0) scale(.7)', opacity: 0 }, { transform: 'translate(-50%,-14px) scale(1.08)', opacity: 1, offset: .2 },
+    { transform: 'translate(-50%,-60px) scale(1)', opacity: 0 }], { duration: 1500, easing: 'ease-out' });
+  a.onfinish = () => el.remove();
+  anim($('#lvI'), [{ filter: 'brightness(1)' }, { filter: 'brightness(2.2)' }, { filter: 'brightness(1)' }], { duration: 900 });
+}
+function armsUp(hold = 1500) {
+  if (!figState.build) return;
+  $('#hero').classList.add('fast');
+  drawFigure(figState.build, 0, 1, figState.opt || {});
+  setTimeout(() => { drawFigure(figState.build, figState.slump, 0, figState.opt || {}); setTimeout(() => $('#hero').classList.remove('fast'), 500); }, hold);
+}
+function playReaction(type, s) {
+  vibrate(12);
+  if (type === 'water') bubbles(Math.round(6 + s * 8));
+  if (type === 'waterGoal') { bubbles(22); flash('#7fe9ff', .6, 1200); jump(10); }
+  if (type === 'debtReturn') {
+    anim($('#debtShake'), [{ transform: 'translate(0,0) rotate(0)' }, { transform: 'translate(-3px,1px) rotate(-4deg)' }, { transform: 'translate(3px,-1px) rotate(4deg)' },
+      { transform: 'translate(-2px,0) rotate(-2deg)' }, { transform: 'translate(0,0) rotate(0)' }], { duration: 450 });
+    const [x, y] = stagePoint(.5, .06); spawn(x, y, Math.round(8 + s * 14), 70 + s * 50, getAccent());
+    setTimeout(() => jump(6 + s * 6, 650), 350);
+  }
+  if (type === 'debtClose') {
+    const [x, y] = stagePoint(.5, .06);
+    for (let i = 0; i < 3; i++) setTimeout(() => spawn(x, y, 30, 180, i % 2 ? '#ffffff' : getAccent()), i * 150);
+    flash('#ffffff', .7, 1300); setTimeout(() => { jump(22, 800); armsUp(1600); }, 300);
+  }
+  if (type === 'coins') {
+    const [x, y] = stagePoint(.5, .95);
+    for (let i = 0; i < Math.round(6 + s * 6); i++) {
+      const el = document.createElement('div'); el.className = 'coin'; el.style.left = (x + (Math.random() - .5) * 120) + 'px'; el.style.top = y + 'px';
+      document.body.appendChild(el);
+      el.animate([{ transform: 'translateY(0) scale(.6)', opacity: 0 }, { opacity: 1, offset: .2 }, { transform: `translateY(-${r1(90 + Math.random() * 70)}px) scale(1)`, opacity: 0 }],
+        { duration: 1000 + Math.random() * 500, delay: i * 70, easing: 'ease-out', fill: 'forwards' }).onfinish = () => el.remove();
+    }
+  }
+  if (type === 'record') { jump(20, 800); const [x, y] = stagePoint(.5, .3); ['#ffd166', '#3ee08f', '#38d9ff', '#ff6b8b'].forEach((c, i) => setTimeout(() => spawn(x, y, 22, 170, c), i * 160)); }
+  if (type === 'workout') { flash('#3ee08f', .45, 1100); armsUp(1700); setTimeout(() => jump(10 + s * 4), 200); }
+  if (type === 'weight') {
+    anim($('#figJump'), [{ transform: 'scale(1,1)' }, { transform: 'scale(.94,1.03)', offset: .4 }, { transform: 'scale(1,1)' }], { duration: 800, easing: 'ease-out' });
+    const [x, y] = stagePoint(.5, .5); spawn(x, y, 14, 90, '#c58bff');
+  }
+  if (type === 'aura') { flare($('#aura'), 1, 1.12); }
+  if (type === 'mind') { flare($('#halo'), 1, 1.3, 1800); flare($('#haloRing'), 1, 1.25, 1800); }
+  if (type === 'checkin') { flash('#7fd8be', .35, 1000); }
+  if (type === 'relapse') {
+    anim($('#figGlow'), [{ opacity: 1 }, { opacity: .25, offset: .3 }, { opacity: 1 }], { duration: 1600, easing: 'ease-in-out' });
+    anim($('#figJump'), [{ transform: 'translateY(0)' }, { transform: 'translateY(6px) scale(1,.97)', offset: .3 }, { transform: 'translateY(0)' }], { duration: 1600 });
+  }
+  if (type === 'revive') {
+    anim($('#figJump'), [{ transform: 'translateX(0)' }, { transform: 'translateX(-7px) rotate(-3deg)' }, { transform: 'translateX(7px) rotate(3deg)' },
+      { transform: 'translateX(-5px) rotate(-2deg)' }, { transform: 'translateX(4px)' }, { transform: 'translateX(0)' }], { duration: 650 });
+    const [x, y] = stagePoint(.5, .5);
+    spawn(x, y, 22, 140, '#6b7a5c'); setTimeout(() => { flash('#ffffff', .75, 1200); jump(18, 800); spawn(x, y, 20, 160, getAccent()); }, 600);
+    vibrate([30, 40, 30, 40, 80]);
+  }
+  if (type === 'levelup') {
+    flash('#ffffff', .75, 1400); armsUp(2000);
+    setTimeout(() => jump(26, 900), 200);
+    const [x, y] = stagePoint(.5, .25);
+    ['#ffd166', '#b9a6ff', '#3ee08f', '#38d9ff', '#ff6b8b'].forEach((c, i) => setTimeout(() => spawn(x, y, 26, 210, c), i * 180));
+    anim($('.lvl'), [{ boxShadow: '0 0 0 0 rgba(255,209,102,0)' }, { boxShadow: '0 0 24px 4px rgba(255,209,102,.55)' }, { boxShadow: '0 0 0 0 rgba(255,209,102,0)' }], { duration: 1800 });
+    vibrate([40, 60, 40, 60, 120]);
+  }
+}
+
 /* ---------- экспорт / импорт ---------- */
 function exportData() {
   S.meta.lastBackup = new Date().toISOString();
@@ -2352,7 +3180,7 @@ function importData(file) {
       const d = raw.app === 'life-tracker' && raw.data ? raw.data : raw;
       if (!d.profile && !d.weights && !d.water && !d.debts) throw new Error('bad');
       const n = normalize(d);
-      const summary = `долгов: ${n.debts.length}, целей: ${n.savings.length}, тренировок: ${n.workouts.length}, привычек: ${n.habits.length}, взвешиваний: ${n.weights.length}`;
+      const summary = `долгов: ${n.debts.length}, целей: ${n.savings.length}, тренировок: ${n.workouts.length}, привычек: ${n.habits.length}, медитаций: ${n.meditations.length}, дней дневника: ${Object.keys(n.days).length}, взвешиваний: ${n.weights.length}`;
       if (!confirm(`Загрузить бэкап?\n${summary}\n\nТекущие данные будут заменены.`)) return;
       n.profile.onboarded = true;
       S = n; save(); renderAll(); toast('Данные восстановлены');
@@ -2442,7 +3270,7 @@ function openSheet(html) {
   $('#sheetBg').classList.add('open'); $('#sheet').classList.add('open');
   $$('#sheetBody [data-close]').forEach(b => b.onclick = closeSheet);
 }
-function closeSheet() { $('#sheetBg').classList.remove('open'); $('#sheet').classList.remove('open'); }
+function closeSheet() { $('#sheetBg').classList.remove('open'); $('#sheet').classList.remove('open'); setTimeout(flushReactions, 380); }
 let tt;
 function toast(msg) {
   const t = $('#toast'); t.textContent = msg; t.classList.add('show');
@@ -2487,6 +3315,13 @@ $('#sheetBody').addEventListener('click', e => sheetHandler && sheetHandler(e));
 $('#sheetBody').addEventListener('input', e => sheetInput && sheetInput(e));
 $('#bodyTrain').addEventListener('click', onTrainAct);
 $('#habitsBox').addEventListener('click', onHabitAct);
+$('#habitsBox').addEventListener('click', onMedAct);
+$('#todayMed').addEventListener('click', onMedAct);
+$('#todayDiary').addEventListener('click', onDiaryAct);
+$('#bodyDiary').addEventListener('click', e => { const r = e.target.closest('[data-dk]'); if (r) { openCheckin(r.dataset.dk); return; } onDiaryAct(e); });
+$('#med').addEventListener('click', onMedOverlay);
+$('#lvl').addEventListener('click', openXpSheet);
+$('#backupBanner').addEventListener('click', e => { if (e.target.closest('[data-ng="water"]')) addWater(250); });
 $('#todayHabits').addEventListener('click', onHabitAct);
 $('#todayTrain').addEventListener('click', onTrainAct);
 $('#bodyTabs').addEventListener('click', e => { const b = e.target.closest('[data-bt]'); if (b) setBodyTab(b.dataset.bt); });
@@ -2529,7 +3364,10 @@ document.addEventListener('visibilitychange', () => {
     // не перерисовываем поле, в котором сейчас идёт ввод
     keepAwake(true); if (!$('#wo').contains(document.activeElement) || document.activeElement.tagName !== 'INPUT') renderWo();
   }
-  renderAll(); checkMilestones();
+  medEvaluate();
+  if ($('#med').classList.contains('open')) { keepAwake(true); renderMed(); }
+  if (dayKey() !== (diaryDay || dayKey()) && diaryDay > dayKey()) diaryDay = null;
+  renderAll(); checkMilestones(); maybeAutoCheckin();
 });
 // синхронизация между вкладками
 window.addEventListener('storage', e => { if (e.key === KEY) { S = load(); renderAll(); if ($('#wo').classList.contains('open')) renderWo(); } });
@@ -2539,9 +3377,12 @@ window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferr
 /* ======================= старт ======================= */
 makeOrbit();
 renderDate();
+medEvaluate();
 renderAll();
 checkMilestones();
 if (!S.profile.onboarded) openOnboarding();
+else if (S.activeMed) openMed();
+else maybeAutoCheckin();
 
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
