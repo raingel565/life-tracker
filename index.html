@@ -383,6 +383,30 @@ details.closed summary::-webkit-details-marker{display:none}
 .restbar .rp i{display:block;height:100%;background:var(--water);transition:width .25s linear}
 .restbar button{font-size:12px;font-family:var(--mono);font-weight:700;color:#9eeeff;padding:6px 3px}
 
+
+/* привычки */
+.emo{font-size:18px;line-height:1;margin-right:2px}
+.hb-big small{font-size:14px}
+.sbar .grn{background:var(--good);box-shadow:0 0 12px rgba(62,224,143,.5);border-radius:99px}
+.days14{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;margin:12px 0 8px}
+.days14 i{height:18px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.days14 i.on{background:var(--warn);border-color:transparent;box-shadow:0 0 8px rgba(255,181,71,.45)}
+.days14 i.today{border-color:rgba(255,255,255,.4)}
+.heat{display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;grid-auto-columns:1fr;gap:3px}
+.heat i{aspect-ratio:1;border-radius:3px;background:rgba(255,255,255,.05);cursor:default}
+.heat i[data-day]{cursor:pointer}
+.heat i.on{background:var(--good)}
+.heat i.bad{background:var(--bad)}
+.heat i.fut{background:transparent}
+.heat i.today{outline:1.5px solid rgba(255,255,255,.7);outline-offset:-1px}
+.emo-pick{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:-2px 0 14px}
+.emo-pick button{height:40px;border-radius:10px;border:1px solid var(--line);font-size:19px}
+.emo-pick button.on{border-color:var(--accent);background:rgba(255,255,255,.06);box-shadow:0 0 0 1px var(--accent)}
+.hb-list li{cursor:pointer;padding:10px 2px}
+.hb-list .grow{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb-chk{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,181,71,.55);color:#06080c;font-weight:800;font-size:17px;flex:0 0 36px;transition:all .2s}
+.hb-chk.on{background:var(--warn);border-color:transparent;box-shadow:0 0 12px rgba(255,181,71,.5)}
+
 @media (max-width:370px){
   .index-num{font-size:34px}
   .chan b{font-size:11px}
@@ -511,11 +535,7 @@ details.closed summary::-webkit-details-marker{display:none}
 
     <div id="todayTrain"></div>
 
-    <!-- скоро -->
-    <div class="card" style="padding:14px 16px">
-      <div class="card-t" style="margin-bottom:8px">Скоро в приложении</div>
-      <div class="sub">Привычки появятся на последнем этапе. Аура персонажа уже ждёт их данных.</div>
-    </div>
+    <div id="todayHabits"></div>
   </section>
 
   <!-- ================= ДЕНЬГИ ================= -->
@@ -536,18 +556,7 @@ details.closed summary::-webkit-details-marker{display:none}
 
   <!-- ================= ПРИВЫЧКИ ================= -->
   <section class="screen" data-screen="habits">
-    <div class="card soon">
-      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/></svg></div>
-      <h3>Привычки</h3>
-      <p>Модуль появится на этапе 4.</p>
-      <ul>
-        <li>«Отказ»: дни без срыва, например «не курю 30 дней»</li>
-        <li>«Ежедневное действие»: серия дней подряд</li>
-        <li>Календарь и лучшая серия</li>
-        <li>Аура вокруг персонажа растёт вместе с сериями</li>
-      </ul>
-      <span class="pill">этап 4</span>
-    </div>
+    <div id="habitsBox"></div>
   </section>
 
   <!-- ================= ЕЩЁ ================= -->
@@ -581,7 +590,7 @@ details.closed summary::-webkit-details-marker{display:none}
         <button class="btn danger grow" id="resetBtn">Сбросить всё</button>
       </div>
     </div>
-    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · этап 3 · v0.3.0</p>
+    <p class="sub mono" style="text-align:center;font-size:11px;opacity:.6">Life Tracker · v1.0.0</p>
   </section>
 </div>
 
@@ -687,9 +696,9 @@ function trainingProgress() {
   return { p: clamp(n / (S.profile.weeklyWorkouts || 3)), n };
 }
 function habitsProgress() {
-  if (!S.habits.length) return null;
-  const vals = S.habits.map(h => clamp((h.streak || 0) / 30));
-  return clamp(vals.reduce((a, b) => a + b, 0) / vals.length);
+  const hs = S.habits.filter(h => !h.archived);
+  if (!hs.length) return null;
+  return clamp(hs.reduce((s, h) => s + habitValue(h), 0) / hs.length);
 }
 
 const ICONS = {
@@ -713,7 +722,7 @@ function channels() {
     { k: 'save',   name: 'Накопления', icon: 'save',   on: sp != null, v: sp ?? 0, color: '#ffd166', fx: 'частицы на орбите', soon: 'нет целей' },
     { k: 'weight', name: 'Вес',        icon: 'weight', on: wp != null, v: wp ?? 0, color: '#c58bff', fx: 'комплекция силуэта', soon: 'введите вес' },
     { k: 'train',  name: 'Тренировки', icon: 'train',  on: !!tp, v: tp ? tp.p : 0, color: '#3ee08f', fx: 'осанка · тренировки за 7 дней', soon: 'нет тренировок' },
-    { k: 'habit',  name: 'Привычки',   icon: 'habit',  on: hp != null, v: hp ?? 0, color: '#ffb547', fx: 'аура вокруг', soon: 'этап 4' },
+    { k: 'habit',  name: 'Привычки',   icon: 'habit',  on: hp != null, v: hp ?? 0, color: '#ffb547', fx: 'аура · серии дней', soon: 'нет привычек' },
     { k: 'water',  name: 'Вода',       icon: 'water',  on: true, v: waterPace(), fill: clamp(waterToday() / wg), color: '#38d9ff', fx: 'наполнение · в индекс идёт темп', soon: '' }
   ];
 }
@@ -939,6 +948,7 @@ function go(name) {
 function renderScreen() {
   if (screen === 'today') renderToday();
   if (screen === 'money') renderMoney();
+  if (screen === 'habits') renderHabits();
   if (screen === 'body') renderBody();
   if (screen === 'more') renderMore();
 }
@@ -981,6 +991,7 @@ function renderToday() {
   $('#weighBtn').onclick = openWeigh;
   renderTodayMoney();
   $('#todayTrain').innerHTML = weekCardHtml();
+  renderTodayHabits();
 
   // напоминание о бэкапе
   const hasData = S.weights.length + S.water.length + S.debts.length + S.savings.length + S.workouts.length + S.exercises.length + S.habits.length > 0;
@@ -1671,7 +1682,7 @@ function openExForm(id, after) {
   let type = e ? e.type : 'reps', rest = e ? e.rest || 60 : 60, first = true;
   const locked = !!(e && exSessions(e.id).length);
   const draw = () => {
-    const name = $('#efName') ? $('#efName').value : (e ? e.name : '');
+    const name = !first && $('#efName') ? $('#efName').value : (e ? e.name : '');
     openSheet(`
       <h2>${e ? 'Упражнение' : 'Новое упражнение'}</h2><p class="sub">${locked ? 'Тип нельзя менять, когда есть история' : 'Как считать подходы'}</p>
       <div class="field"><label>Название</label><input id="efName" class="txt" maxlength="40" placeholder="Отжимания" value="${esc(name)}"></div>
@@ -2068,6 +2079,255 @@ function openWoSummary(w, fresh) {
     <button class="btn ${fresh ? 'green' : 'ghost'} block" style="margin-top:14px" data-close>${fresh ? 'Отлично' : 'Закрыть'}</button>`);
 }
 
+/* ======================= привычки ======================= */
+const addDays = (k, n) => { const d = fromKey(k); d.setDate(d.getDate() + n); return dayKey(d); };
+const dayDiff = (a, b) => Math.round((fromKey(b) - fromKey(a)) / 864e5);
+const HB_EMO = ['🚭', '🍺', '🍬', '🍔', '📱', '🎮', '☕', '💪', '📖', '🧘', '🏃', '💤', '🦷', '🥗', '✍️', '🎸'];
+const MS_QUIT = [1, 3, 7, 14, 21, 30, 60, 90, 180, 365, 730];
+const MS_DAILY = [3, 7, 14, 21, 30, 60, 100, 180, 365];
+const findHabit = id => S.habits.find(h => h.id === id);
+const activeHabits = () => S.habits.filter(h => !h.archived);
+
+function quitStats(h) {
+  const today = dayKey();
+  const rel = (h.relapses || []).map(r => r.date).filter(d => d >= h.start).sort();
+  const curStart = rel.length ? rel[rel.length - 1] : h.start;
+  const cur = Math.max(0, dayDiff(curStart, today));
+  let best = cur, prev = h.start;
+  for (const r of rel) { best = Math.max(best, dayDiff(prev, r)); prev = r; }
+  const clean = Math.max(0, dayDiff(h.start, today) - rel.length);
+  return { cur, best, curStart, relapses: rel.length, relSet: new Set(rel), clean, saved: h.cost ? clean * h.cost : 0 };
+}
+function dailyStats(h) {
+  const set = new Set(h.checks || []), today = dayKey();
+  let d = set.has(today) ? today : addDays(today, -1), cur = 0;
+  while (set.has(d)) { cur++; d = addDays(d, -1); }
+  let best = 0, run = 0, last = null;
+  for (const k of [...set].sort()) { run = last && dayDiff(last, k) === 1 ? run + 1 : 1; best = Math.max(best, run); last = k; }
+  return { cur, best, total: set.size, doneToday: set.has(today), set };
+}
+const habitStreak = h => h.type === 'quit' ? quitStats(h).cur : dailyStats(h).cur;
+// вклад в ауру: быстрый рост в начале, насыщение к 30 дням
+const habitValue = h => clamp(Math.sqrt(habitStreak(h) / 30));
+function milestone(cur, list) {
+  const next = list.find(m => m > cur), prev = [...list].reverse().find(m => m <= cur) || 0;
+  return { next, prev, p: next ? (cur - prev) / (next - prev) : 1 };
+}
+
+/* ---------- карточки ---------- */
+function habitCard(h) {
+  if (h.type === 'quit') {
+    const st = quitStats(h), ms = milestone(st.cur, MS_QUIT);
+    return `<div class="card">
+      <div class="card-h"><span class="debt-name"><span class="emo">${h.emoji || '🚭'}</span>${esc(h.name)}</span><span class="tag">отказ</span></div>
+      <div class="big hb-big">${st.cur} <small>${plural(st.cur, 'день', 'дня', 'дней')} без срыва</small></div>
+      <div class="sbar thin"><i class="grn" style="width:${ms.p * 100}%"></i></div>
+      <div class="legend"><span>${ms.next ? `до ${ms.next} ${plural(ms.next, 'дня', 'дней', 'дней')}: ещё ${ms.next - st.cur}` : 'все рубежи пройдены ✦'}</span><span>лучшее: ${st.best}</span></div>
+      <div class="plan">С ${longDate(st.curStart)}${st.relapses ? ` · срывов: ${st.relapses}` : ''}${h.cost ? `<br>Сэкономлено: <b>${money(st.saved)}</b>` : ''}</div>
+      <div class="acts"><button class="btn danger" data-hb="relapse" data-id="${h.id}">Сорвался</button><button class="btn ghost more" data-hb="more" data-id="${h.id}" aria-label="Подробнее">${ico('more')}</button></div>
+    </div>`;
+  }
+  const st = dailyStats(h);
+  const last14 = Array.from({ length: 14 }, (_, i) => addDays(dayKey(), i - 13));
+  return `<div class="card">
+    <div class="card-h"><span class="debt-name"><span class="emo">${h.emoji || '✅'}</span>${esc(h.name)}</span><span class="tag">каждый день</span></div>
+    <div class="big hb-big">${st.cur ? '🔥 ' : ''}${st.cur} <small>${plural(st.cur, 'день', 'дня', 'дней')} подряд</small></div>
+    <div class="days14">${last14.map(k => `<i class="${st.set.has(k) ? 'on' : ''} ${k === dayKey() ? 'today' : ''}" title="${shortDate(k)}"></i>`).join('')}</div>
+    <div class="legend"><span>лучшая серия: ${st.best}</span><span>всего: ${st.total}</span></div>
+    <div class="acts">${st.doneToday
+      ? `<button class="btn ghost" data-hb="check" data-id="${h.id}">✓ Сделано сегодня</button>`
+      : `<button class="btn green" data-hb="check" data-id="${h.id}">Отметить сегодня</button>`}
+      <button class="btn ghost more" data-hb="more" data-id="${h.id}" aria-label="Подробнее">${ico('more')}</button></div>
+  </div>`;
+}
+function renderHabits() {
+  const hs = activeHabits(), arch = S.habits.filter(h => h.archived);
+  let h = '';
+  if (hs.length) {
+    const daily = hs.filter(x => x.type === 'daily'), doneT = daily.filter(x => dailyStats(x).doneToday).length;
+    const bestNow = Math.max(...hs.map(habitStreak));
+    h += `<div class="card"><div class="sum3">
+      <div class="metric"><div class="l">Привычек</div><div class="n">${hs.length}</div></div>
+      <div class="metric"><div class="l">Сегодня</div><div class="n">${daily.length ? `${doneT}/${daily.length}` : '—'}</div></div>
+      <div class="metric"><div class="l">Макс. серия</div><div class="n" style="color:var(--warn)">${bestNow}</div></div>
+    </div></div>`;
+  }
+  h += `<div class="sec-h"><h2>Мои привычки</h2><button class="add-btn" data-hb="add">+ Привычка</button></div>`;
+  h += hs.length ? hs.map(habitCard).join('') : `<div class="card"><p class="sub">Два типа привычек:<br><b style="color:var(--text)">Отказ</b> — считает дни без срыва, например «не курю 30 дней».<br><b style="color:var(--text)">Ежедневное действие</b> — серия дней подряд, например «читаю 20 минут».</p>
+      <button class="btn block" style="margin-top:14px" data-hb="add">Добавить привычку</button></div>`;
+  if (arch.length) h += `<details class="closed"><summary>Архив (${arch.length}) ▾</summary>${arch.map(x => `
+      <div class="card arch-row" data-hb="more" data-id="${x.id}"><span>${x.emoji || ''} ${esc(x.name)}</span><span class="mono sub">${x.type === 'quit' ? 'отказ' : 'ежедневно'}</span></div>`).join('')}</details>`;
+  $('#habitsBox').innerHTML = h;
+}
+function renderTodayHabits() {
+  const hs = activeHabits();
+  $('#todayHabits').innerHTML = `<div class="card">
+    <div class="card-h"><span class="card-t" style="color:#ffb547">${ico('habit')}Привычки</span>${hs.length ? '<button class="sub mono" data-hb="go">все →</button>' : ''}</div>
+    ${hs.length ? `<ul class="list hb-list">${hs.map(h => {
+      if (h.type === 'quit') { const st = quitStats(h); return `<li data-hb="go"><span class="emo">${h.emoji || '🚭'}</span><span class="grow">${esc(h.name)}</span><span class="v" style="color:var(--good)">${st.cur} ${plural(st.cur, 'день', 'дня', 'дней')}</span></li>`; }
+      const st = dailyStats(h);
+      return `<li><span class="emo">${h.emoji || '✅'}</span><span class="grow" data-hb="go">${esc(h.name)}${st.cur ? `<span class="sub mono"> · 🔥${st.cur}</span>` : ''}</span>
+        <button class="hb-chk ${st.doneToday ? 'on' : ''}" data-hb="check" data-id="${h.id}" aria-label="Отметить">${st.doneToday ? '✓' : ''}</button></li>`;
+    }).join('')}</ul>`
+    : `<p class="sub">Отказ от вредного или ежедневная полезная привычка. Длинные серии зажигают ауру вокруг персонажа.</p><button class="btn block" style="margin-top:12px" data-hb="add">Добавить привычку</button>`}
+  </div>`;
+}
+
+/* ---------- действия ---------- */
+function onHabitAct(e) {
+  const a = e.target.closest('[data-hb]'); if (!a) return;
+  const { hb, id } = a.dataset;
+  if (hb === 'add') openHabitForm();
+  if (hb === 'go') go('habits');
+  if (hb === 'more') openHabitDetail(id);
+  if (hb === 'relapse') openRelapse(id);
+  if (hb === 'check') toggleCheck(id, dayKey(), a);
+}
+function toggleCheck(id, k, el) {
+  const h = findHabit(id); if (!h) return;
+  const set = new Set(h.checks || []);
+  const before = dailyStats(h).cur;
+  if (set.has(k)) set.delete(k); else set.add(k);
+  h.checks = [...set].sort();
+  save(); renderAll();
+  const st = dailyStats(h);
+  if (set.has(k)) {
+    vibrate(20);
+    if (el && k === dayKey()) burstAt(el, '#ffb547', 12);
+    const hit = MS_DAILY.find(m => before < m && st.cur >= m);
+    if (hit) { toast(`🔥 ${hit} ${plural(hit, 'день', 'дня', 'дней')} подряд: «${h.name}»!`); bigBurst('#ffb547'); }
+    else if (k === dayKey()) toast(st.cur > 1 ? `Серия: ${st.cur} ${plural(st.cur, 'день', 'дня', 'дней')}` : 'Отмечено');
+  }
+}
+function checkMilestones() {
+  // рубежи отказа наступают сами по себе, просто от времени: празднуем один раз
+  for (const h of activeHabits()) {
+    if (h.type !== 'quit') continue;
+    const cur = quitStats(h).cur, reached = [...MS_QUIT].reverse().find(m => m <= cur) || 0;
+    if (reached > (h.celebrated || 0)) {
+      const first = h.celebrated == null;
+      h.celebrated = reached; save();
+      if (!first) { setTimeout(() => { toast(`✦ ${reached} ${plural(reached, 'день', 'дня', 'дней')} без срыва: «${h.name}»!`); bigBurst('#ffb547'); }, 700); return; }
+    }
+  }
+}
+
+function openHabitForm(id) {
+  const h = id ? findHabit(id) : null;
+  let type = h ? h.type : 'quit', emoji = h ? h.emoji : '🚭', first = true;
+  const draw = () => {
+    const keep = !first && $('#hfName') ? { name: $('#hfName').value, start: $('#hfStart') ? $('#hfStart').value : null, cost: $('#hfCost') ? $('#hfCost').value : '' } : null;
+    const name = keep ? keep.name : h ? h.name : '';
+    const start = keep && keep.start ? keep.start : h && h.start ? h.start : dayKey();
+    const cost = keep ? keep.cost : h && h.cost ? fmt(h.cost) : '';
+    openSheet(`
+      <h2>${h ? 'Привычка' : 'Новая привычка'}</h2><p class="sub">${h ? '' : 'Что отслеживаем'}</p>
+      ${h ? '' : `<div class="stabs"><button data-ht="quit" class="${type === 'quit' ? 'on' : ''}">Отказ</button><button data-ht="daily" class="${type === 'daily' ? 'on' : ''}">Каждый день</button></div>
+      <p class="op-type" style="margin-bottom:14px">${type === 'quit' ? 'Считает дни без срыва: курение, алкоголь, сладкое, соцсети' : 'Серия дней подряд: чтение, растяжка, практика, ранний подъём'}</p>`}
+      <div class="field"><label>Название</label><input id="hfName" class="txt" maxlength="40" placeholder="${type === 'quit' ? 'Не курю' : 'Читаю 20 минут'}" value="${esc(name)}"></div>
+      <div class="emo-pick">${HB_EMO.map(x => `<button data-he="${x}" class="${x === emoji ? 'on' : ''}">${x}</button>`).join('')}</div>
+      ${type === 'quit' ? `
+        <div class="field"><label>Без срыва с</label><input id="hfStart" type="date" value="${start}" max="${dayKey()}"></div>
+        <div class="field"><label>Экономия в день (необязательно)</label><input id="hfCost" inputmode="numeric" data-money placeholder="1 500" value="${cost}"><span class="u">₸</span></div>` : ''}
+      <button class="btn block" id="hfOk">${h ? 'Сохранить' : 'Добавить'}</button>`);
+    if (first && !h) setTimeout(() => $('#hfName').focus(), 250);
+    first = false;
+    sheetHandler = ev => {
+      const t = ev.target.closest('[data-ht]'); if (t) { type = t.dataset.ht; if (!h) emoji = type === 'quit' ? '🚭' : '📖'; draw(); return; }
+      const em = ev.target.closest('[data-he]'); if (em) { emoji = em.dataset.he; $$('.emo-pick button').forEach(b => b.classList.toggle('on', b === em)); }
+    };
+    $('#hfOk').onclick = () => {
+      const nm = $('#hfName').value.trim();
+      if (!nm) return shake($('#hfName'));
+      const st = $('#hfStart') ? ($('#hfStart').value || dayKey()) : null;
+      if (st && st > dayKey()) { toast('Дата не может быть в будущем'); return; }
+      const c = $('#hfCost') ? parseMoney($('#hfCost').value) : null;
+      if (h) {
+        Object.assign(h, { name: nm, emoji });
+        if (h.type === 'quit') { h.start = st; h.cost = c || 0; h.relapses = (h.relapses || []).filter(r => r.date >= st); }
+      } else {
+        const nh = { id: uid(), name: nm, type, emoji, createdAt: new Date().toISOString(), archived: false };
+        if (type === 'quit') Object.assign(nh, { start: st, cost: c || 0, relapses: [] });
+        else nh.checks = [];
+        // уже пройденные рубежи при старте в прошлом не празднуем
+        if (type === 'quit') nh.celebrated = [...MS_QUIT].reverse().find(m => m <= dayDiff(st, dayKey())) || 0;
+        S.habits.push(nh);
+      }
+      save(); closeSheet(); renderAll(); vibrate(15);
+      toast(h ? 'Сохранено' : `«${nm}» добавлено`);
+    };
+  };
+  draw();
+}
+
+function openRelapse(id) {
+  const h = findHabit(id); if (!h) return;
+  const st = quitStats(h);
+  openSheet(`
+    <h2>Срыв: ${esc(h.name)}</h2>
+    <p class="sub">Бывает. Счётчик начнётся заново, а лучший результат (${st.best} ${plural(st.best, 'день', 'дня', 'дней')}) останется в истории. Главное — продолжить.</p>
+    <div class="field"><label>Когда</label><input id="rlDate" type="date" value="${dayKey()}" min="${st.curStart}" max="${dayKey()}"></div>
+    <div class="field"><label>Что случилось (необязательно)</label><input id="rlNote" class="txt" maxlength="80" placeholder="стресс, компания, усталость…"></div>
+    <button class="btn danger block" id="rlOk">Записать срыв</button>
+    <button class="btn ghost block" style="margin-top:8px" data-close>Отмена</button>`);
+  $('#rlOk').onclick = () => {
+    const d = $('#rlDate').value || dayKey();
+    h.relapses = (h.relapses || []).concat({ date: d, note: $('#rlNote').value.trim() });
+    h.celebrated = 0;
+    save(); closeSheet(); renderAll(); vibrate(40);
+    toast('Записано. Новый отсчёт начался — ты справишься');
+  };
+}
+
+function heatmap(h) {
+  const today = dayKey(), weeks = 16;
+  const t = fromKey(today), dow = (t.getDay() + 6) % 7;          // пн = 0
+  const start = addDays(today, -dow - (weeks - 1) * 7);
+  const qs = h.type === 'quit' ? quitStats(h) : null, ds = h.type === 'daily' ? dailyStats(h) : null;
+  let cells = '';
+  for (let i = 0; i < weeks * 7; i++) {
+    const k = addDays(start, i);
+    let cls = '';
+    if (k > today) cls = 'fut';
+    else if (qs) cls = k < h.start ? '' : qs.relSet.has(k) ? 'bad' : 'on';
+    else if (ds.set.has(k)) cls = 'on';
+    cells += `<i class="${cls} ${k === today ? 'today' : ''}" ${h.type === 'daily' && k <= today ? `data-day="${k}"` : ''} title="${shortDate(k)}"></i>`;
+  }
+  return `<div class="heat">${cells}</div>`;
+}
+function openHabitDetail(id) {
+  const h = findHabit(id); if (!h) return;
+  const quit = h.type === 'quit', st = quit ? quitStats(h) : dailyStats(h);
+  const rel = quit ? [...(h.relapses || [])].sort((a, b) => a.date < b.date ? 1 : -1) : [];
+  openSheet(`
+    <h2>${h.emoji || ''} ${esc(h.name)}</h2>
+    <p class="sub">${quit ? `Отказ · с ${longDate(h.start)}` : `Каждый день · с ${longDate(dayKey(new Date(h.createdAt)))}`}</p>
+    <div class="sum3">
+      <div class="metric"><div class="l">Сейчас</div><div class="n">${st.cur}</div></div>
+      <div class="metric"><div class="l">Лучшее</div><div class="n" style="color:var(--warn)">${st.best}</div></div>
+      <div class="metric"><div class="l">${quit ? 'Срывов' : 'Всего'}</div><div class="n">${quit ? st.relapses : st.total}</div></div>
+    </div>
+    <div class="card-t" style="margin:16px 0 8px">16 недель${quit ? '' : ' · тап по дню отмечает его'}</div>
+    ${heatmap(h)}
+    ${quit && h.cost ? `<p class="sub" style="margin-top:10px">Сэкономлено за чистые дни: <b class="mono" style="color:var(--text)">${money(st.saved)}</b></p>` : ''}
+    ${rel.length ? `<div class="card-t" style="margin:16px 0 2px">Срывы</div><ul class="list">${rel.map(r => `<li><div><div style="font-size:14px">${longDate(r.date)}</div>${r.note ? `<div class="d">${esc(r.note)}</div>` : ''}</div><span class="grow"></span><button class="x" data-delrel="${r.date}" aria-label="Удалить">×</button></li>`).join('')}</ul>` : ''}
+    <div class="row" style="margin-top:16px"><button class="btn ghost" data-hd="edit">Изменить</button><button class="btn ghost" data-hd="arch">${h.archived ? 'Из архива' : 'В архив'}</button></div>
+    <button class="btn danger block" style="margin-top:8px" data-hd="del">Удалить привычку</button>`);
+  sheetHandler = ev => {
+    const day = ev.target.closest('[data-day]');
+    if (day) { toggleCheck(id, day.dataset.day); openHabitDetail(id); return; }
+    const dr = ev.target.closest('[data-delrel]');
+    if (dr && confirm('Удалить этот срыв из истории?')) {
+      const i = h.relapses.findIndex(r => r.date === dr.dataset.delrel); if (i >= 0) h.relapses.splice(i, 1);
+      save(); renderAll(); openHabitDetail(id); return;
+    }
+    const a = ev.target.closest('[data-hd]'); if (!a) return;
+    if (a.dataset.hd === 'edit') openHabitForm(id);
+    if (a.dataset.hd === 'arch') { h.archived = !h.archived; save(); closeSheet(); renderAll(); toast(h.archived ? 'Убрано в архив' : 'Возвращено'); }
+    if (a.dataset.hd === 'del' && confirm(`Удалить «${h.name}» со всей историей?`)) { S.habits = S.habits.filter(x => x.id !== id); save(); closeSheet(); renderAll(); toast('Привычка удалена'); }
+  };
+}
+
 /* ---------- экспорт / импорт ---------- */
 function exportData() {
   S.meta.lastBackup = new Date().toISOString();
@@ -2092,7 +2352,7 @@ function importData(file) {
       const d = raw.app === 'life-tracker' && raw.data ? raw.data : raw;
       if (!d.profile && !d.weights && !d.water && !d.debts) throw new Error('bad');
       const n = normalize(d);
-      const summary = `долгов: ${n.debts.length}, целей: ${n.savings.length}, тренировок: ${n.workouts.length}, упражнений: ${n.exercises.length}, взвешиваний: ${n.weights.length}`;
+      const summary = `долгов: ${n.debts.length}, целей: ${n.savings.length}, тренировок: ${n.workouts.length}, привычек: ${n.habits.length}, взвешиваний: ${n.weights.length}`;
       if (!confirm(`Загрузить бэкап?\n${summary}\n\nТекущие данные будут заменены.`)) return;
       n.profile.onboarded = true;
       S = n; save(); renderAll(); toast('Данные восстановлены');
@@ -2226,6 +2486,8 @@ $('#sheetBg').onclick = closeSheet;
 $('#sheetBody').addEventListener('click', e => sheetHandler && sheetHandler(e));
 $('#sheetBody').addEventListener('input', e => sheetInput && sheetInput(e));
 $('#bodyTrain').addEventListener('click', onTrainAct);
+$('#habitsBox').addEventListener('click', onHabitAct);
+$('#todayHabits').addEventListener('click', onHabitAct);
 $('#todayTrain').addEventListener('click', onTrainAct);
 $('#bodyTabs').addEventListener('click', e => { const b = e.target.closest('[data-bt]'); if (b) setBodyTab(b.dataset.bt); });
 $('#wo').addEventListener('click', onWoAct);
@@ -2267,7 +2529,7 @@ document.addEventListener('visibilitychange', () => {
     // не перерисовываем поле, в котором сейчас идёт ввод
     keepAwake(true); if (!$('#wo').contains(document.activeElement) || document.activeElement.tagName !== 'INPUT') renderWo();
   }
-  renderAll();
+  renderAll(); checkMilestones();
 });
 // синхронизация между вкладками
 window.addEventListener('storage', e => { if (e.key === KEY) { S = load(); renderAll(); if ($('#wo').classList.contains('open')) renderWo(); } });
@@ -2278,6 +2540,7 @@ window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferr
 makeOrbit();
 renderDate();
 renderAll();
+checkMilestones();
 if (!S.profile.onboarded) openOnboarding();
 
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
